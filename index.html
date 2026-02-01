@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#667eea">
+    <title>나의 가계부</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --txt: #1e293b;
+            --txt2: #64748b;
+            --bdr: #e2e8f0;
+            --inc: #3b82f6;
+            --exp: #ef4444;
+            --inc-bg: #dbeafe;
+            --exp-bg: #fee2e2;
+            --success: #10b981;
+        }
+        .dark {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --txt: #f1f5f9;
+            --txt2: #94a3b8;
+            --bdr: #334155;
+            --inc: #60a5fa;
+            --exp: #f87171;
+            --inc-bg: #1e3a5f;
+            --exp-bg: #5f1e1e;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--txt);
+            min-height: 100vh;
+            line-height: 1.5;
+            -webkit-tap-highlight-color: transparent;
+        }
+        input, select, button, textarea {
+            font-family: inherit;
+            outline: none;
+            border: none;
+        }
+        input:focus, select:focus { border-color: var(--inc) !important; }
+
+        /* Device Selection */
+        .device-select {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .device-box {
+            background: #fff;
+            border-radius: 24px;
+            padding: 40px 28px;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+        }
+        .device-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .device-header .icon { font-size: 56px; margin-bottom: 12px; }
+        .device-header h1 { font-size: 26px; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
+        .device-header p { color: #64748b; font-size: 14px; }
+        .device-header small { color: #94a3b8; font-size: 12px; }
+        .device-list { display: flex; flex-direction: column; gap: 10px; }
+        .device-btn {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            text-align: left;
+        }
+        .device-btn:hover, .device-btn:focus {
+            border-color: #667eea;
+            background: #f1f5f9;
+        }
+        .device-btn .icon { font-size: 28px; }
+        .device-btn .name { font-size: 15px; font-weight: 600; color: #334155; }
+
+        /* App Container */
+        .app { display: none; min-height: 100vh; padding-bottom: 70px; }
+        .app.active { display: block; }
+
+        /* Header */
+        header {
+            background: var(--card);
+            border-bottom: 1px solid var(--bdr);
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo .icon { font-size: 24px; }
+        .logo h1 {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo .device-info { font-size: 11px; color: var(--txt2); display: flex; align-items: center; gap: 4px; }
+        .header-actions { display: flex; gap: 8px; align-items: center; }
+        .header-actions .saving { font-size: 11px; color: var(--txt2); }
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--bdr);
+            background: var(--card);
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .text-btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--bdr);
+            background: var(--card);
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--txt);
+        }
+
+        /* Tab Nav */
+        .tab-nav {
+            background: var(--card);
+            border-bottom: 1px solid var(--bdr);
+            padding: 0 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .tab-nav::-webkit-scrollbar { display: none; }
+        .tab-nav-inner { max-width: 800px; margin: 0 auto; display: flex; gap: 4px; }
+        .tab-btn {
+            padding: 12px 16px;
+            background: transparent;
+            color: var(--txt2);
+            font-weight: 400;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-size: 13px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: var(--inc-bg);
+            color: var(--inc);
+            font-weight: 600;
+            border-bottom-color: var(--inc);
+        }
+
+        /* Main */
+        main { max-width: 800px; margin: 0 auto; padding: 16px; }
+        .section { display: none; }
+        .section.active { display: block; }
+
+        /* Cards */
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .card-title { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
+
+        /* Summary */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .summary-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 18px;
+            border-left: 4px solid var(--bdr);
+        }
+        .summary-card.income { border-left-color: var(--inc); }
+        .summary-card.expense { border-left-color: var(--exp); }
+        .summary-card.balance { border-left-color: var(--success); }
+        .summary-card.negative { border-left-color: var(--exp); }
+        .summary-label { font-size: 12px; color: var(--txt2); margin-bottom: 6px; }
+        .summary-amount { font-size: 20px; font-weight: 700; }
+        .summary-card.income .summary-amount { color: var(--inc); }
+        .summary-card.expense .summary-amount { color: var(--exp); }
+        .summary-card.balance .summary-amount { color: var(--success); }
+        .summary-card.negative .summary-amount { color: var(--exp); }
+
+        /* Category Chart */
+        .cat-item { margin-bottom: 12px; }
+        .cat-header { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 13px; }
+        .cat-header .amount { font-weight: 600; }
+        .cat-bar { height: 8px; background: var(--bdr); border-radius: 4px; overflow: hidden; }
+        .cat-bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+
+        /* Transaction List */
+        .tx-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: var(--bg);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border-left: 4px solid var(--bdr);
+            gap: 10px;
+        }
+        .tx-item.income { border-left-color: var(--inc); }
+        .tx-item.expense { border-left-color: var(--exp); }
+        .tx-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .tx-item.income .tx-icon { background: var(--inc-bg); }
+        .tx-item.expense .tx-icon { background: var(--exp-bg); }
+        .tx-details { flex: 1; min-width: 0; }
+        .tx-category { font-weight: 600; font-size: 14px; }
+        .tx-meta { font-size: 11px; color: var(--txt2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .tx-amount { font-weight: 700; font-size: 15px; white-space: nowrap; }
+        .tx-item.income .tx-amount { color: var(--inc); }
+        .tx-item.expense .tx-amount { color: var(--exp); }
+        .tx-actions { display: flex; gap: 4px; flex-shrink: 0; }
+        .tx-actions button {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            background: var(--card);
+        }
+        .tx-actions .delete-btn { background: var(--exp-bg); }
+
+        /* Form */
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--txt2); }
+        .form-input, .form-select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--bdr);
+            border-radius: 10px;
+            font-size: 15px;
+            background: var(--bg);
+            color: var(--txt);
+        }
+        .type-toggle {
+            display: flex;
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 4px;
+            gap: 4px;
+        }
+        .type-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--txt2);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .type-btn.income.active { background: var(--inc-bg); color: var(--inc); }
+        .type-btn.expense.active { background: var(--exp-bg); color: var(--exp); }
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .filter-group {
+            display: flex;
+            background: var(--bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--bdr);
+        }
+        .filter-btn {
+            padding: 8px 14px;
+            background: transparent;
+            color: var(--txt2);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .filter-btn.active { background: var(--inc); color: #fff; }
+        .search-input {
+            flex: 1;
+            min-width: 120px;
+            padding: 8px 12px;
+            border: 1px solid var(--bdr);
+            border-radius: 8px;
+            font-size: 13px;
+            background: var(--bg);
+            color: var(--txt);
+        }
+        .sort-select {
+            padding: 8px 12px;
+            border: 1px solid var(--bdr);
+            border-radius: 8px;
+            font-size: 13px;
+            background: var(--bg);
+            color: var(--txt);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--bdr);
+        }
+        .page-btn {
+            padding: 8px 14px;
+            border: 1px solid var(--bdr);
+            border-radius: 8px;
+            background: var(--card);
+            cursor: pointer;
+            color: var(--txt);
+            font-size: 13px;
+        }
+        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .page-info { padding: 8px 16px; font-size: 13px; }
+
+        /* Empty State */
+        .empty { text-align: center; padding: 40px 20px; color: var(--txt2); }
+        .empty .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+        .empty p { font-size: 14px; }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            border-top: 1px solid var(--bdr);
+            padding: 8px 0;
+            z-index: 100;
+        }
+        .bottom-nav-inner {
+            display: flex;
+            justify-content: space-around;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 6px 16px;
+            background: transparent;
+            cursor: pointer;
+            color: var(--txt2);
+        }
+        .nav-btn.active { color: var(--inc); }
+        .nav-btn .icon { font-size: 20px; }
+        .nav-btn .label { font-size: 10px; font-weight: 400; }
+        .nav-btn.active .label { font-weight: 600; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--card);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 380px;
+            max-height: 85vh;
+            overflow: auto;
+        }
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--bdr);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title { font-size: 17px; font-weight: 600; }
+        .modal-close { background: none; font-size: 20px; cursor: pointer; color: var(--txt2); }
+        .modal-body { padding: 20px; }
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--bdr);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .modal-btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .modal-btn.cancel { border: 1px solid var(--bdr); background: var(--card); color: var(--txt); }
+        .modal-btn.primary { background: var(--inc); color: #fff; font-weight: 600; }
+        .modal-btn.danger { background: var(--exp); color: #fff; font-weight: 600; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card);
+            border: 1px solid var(--bdr);
+            border-radius: 12px;
+            padding: 12px 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 2000;
+        }
+        .toast.active { display: flex; }
+        .toast .icon { font-size: 18px; }
+        .toast .msg { font-size: 14px; }
+
+        /* Animations */
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--bdr);
+            border-top-color: var(--inc);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Device Selection -->
+    <div id="deviceSelect" class="device-select">
+        <div class="device-box">
+            <div class="device-header">
+                <div class="icon">💰</div>
+                <h1>나의 가계부</h1>
+                <p>사용 중인 기기를 선택하세요</p>
+                <small>기기별로 독립적인 데이터가 저장됩니다</small>
+            </div>
+            <div class="device-list" id="deviceList"></div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="app">
+        <!-- Header -->
+        <header>
+            <div class="header-inner">
+                <div class="logo">
+                    <span class="icon">💰</span>
+                    <div>
+                        <h1>나의 가계부</h1>
+                        <div class="device-info" id="deviceInfo"></div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <span class="saving" id="savingIndicator" style="display:none;">저장중...</span>
+                    <button class="icon-btn" id="darkModeBtn" title="다크모드">🌙</button>
+                    <button class="text-btn" id="changeDeviceBtn">기기변경</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tab Nav -->
+        <nav class="tab-nav">
+            <div class="tab-nav-inner">
+                <button class="tab-btn active" data-tab="dashboard">📊 대시보드</button>
+                <button class="tab-btn" data-tab="add">➕ 추가</button>
+                <button class="tab-btn" data-tab="list">📋 내역</button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="summary-grid" id="summaryCards"></div>
+                <div class="card">
+                    <h3 class="card-title">카테고리별 지출</h3>
+                    <div id="categoryChart"></div>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">최근 거래</h3>
+                    <div id="recentTransactions"></div>
+                </div>
+            </section>
+
+            <!-- Add Section -->
+            <section id="add" class="section">
+                <div class="card" style="max-width:440px;margin:0 auto;">
+                    <h3 class="card-title">새 거래 추가</h3>
+                    <form id="addForm">
+                        <div class="form-group">
+                            <label class="form-label">유형</label>
+                            <div class="type-toggle">
+                                <button type="button" class="type-btn income" data-type="income">수입</button>
+                                <button type="button" class="type-btn expense active" data-type="expense">지출</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">날짜</label>
+                            <input type="date" id="formDate" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">카테고리</label>
+                            <select id="formCategory" class="form-select" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">금액</label>
+                            <input type="text" id="formAmount" class="form-input" inputmode="numeric" placeholder="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">메모 (선택)</label>
+                            <input type="text" id="formMemo" class="form-input" placeholder="메모 입력" maxlength="100">
+                        </div>
+                        <button type="submit" class="submit-btn">추가하기</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- List Section -->
+            <section id="list" class="section">
+                <div class="card">
+                    <div class="filters">
+                        <div class="filter-group">
+                            <button class="filter-btn active" data-filter="all">전체</button>
+                            <button class="filter-btn" data-filter="income">수입</button>
+                            <button class="filter-btn" data-filter="expense">지출</button>
+                        </div>
+                        <input type="text" class="search-input" id="searchInput" placeholder="메모 검색">
+                        <select class="sort-select" id="sortSelect">
+                            <option value="dateDesc">최신순</option>
+                            <option value="dateAsc">오래된순</option>
+                            <option value="amountDesc">금액↓</option>
+                            <option value="amountAsc">금액↑</option>
+                        </select>
+                    </div>
+                    <div id="transactionList"></div>
+                    <div class="pagination" id="pagination"></div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Nav -->
+        <nav class="bottom-nav">
+            <div class="bottom-nav-inner">
+                <button class="nav-btn active" data-tab="dashboard">
+                    <span class="icon">📊</span>
+                    <span class="label">대시보드</span>
+                </button>
+                <button class="nav-btn" data-tab="add">
+                    <span class="icon">➕</span>
+                    <span class="label">추가</span>
+                </button>
+                <button class="nav-btn" data-tab="list">
+                    <span class="icon">📋</span>
+                    <span class="label">내역</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">거래 수정</h3>
+                <button class="modal-close" onclick="closeModal('editModal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">유형</label>
+                    <div class="type-toggle" id="editTypeToggle">
+                        <button type="button" class="type-btn income" data-type="income">수입</button>
+                        <button type="button" class="type-btn expense" data-type="expense">지출</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">날짜</label>
+                    <input type="date" id="editDate" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">카테고리</label>
+                    <select id="editCategory" class="form-select"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">금액</label>
+                    <input type="text" id="editAmount" class="form-input" inputmode="numeric">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">메모</label>
+                    <input type="text" id="editMemo" class="form-input" maxlength="100">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn cancel" onclick="closeModal('editModal')">취소</button>
+                <button class="modal-btn primary" onclick="saveEdit()">저장</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal" style="max-width:340px;">
+            <div class="modal-header">
+                <h3 class="modal-title">거래 삭제</h3>
+                <button class="modal-close" onclick="closeModal('deleteModal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <p>이 거래를 삭제할까요?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn cancel" onclick="closeModal('deleteModal')">취소</button>
+                <button class="modal-btn danger" onclick="confirmDelete()">삭제</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span class="icon" id="toastIcon">✅</span>
+        <span class="msg" id="toastMsg"></span>
+    </div>
+
+    <script>
+        // Categories
+        const CATEGORIES = {
+            income: [
+                { id: 'salary', name: '급여', icon: '💼' },
+                { id: 'sideIncome', name: '부수입', icon: '💰' },
+                { id: 'allowance', name: '용돈', icon: '🎁' },
+                { id: 'investment', name: '투자수익', icon: '📈' },
+                { id: 'other', name: '기타', icon: '➕' }
+            ],
+            expense: [
+                { id: 'food', name: '식비', icon: '🍔' },
+                { id: 'transport', name: '교통비', icon: '🚌' },
+                { id: 'phone', name: '통신비', icon: '📱' },
+                { id: 'housing', name: '주거비', icon: '🏠' },
+                { id: 'medical', name: '의료비', icon: '💊' },
+                { id: 'shopping', name: '쇼핑', icon: '🛍️' },
+                { id: 'culture', name: '문화생활', icon: '🎬' },
+                { id: 'education', name: '교육', icon: '📚' },
+                { id: 'other', name: '기타', icon: '➕' }
+            ]
+        };
+
+        const DEVICES = [
+            { id: 'pc', name: 'PC / 노트북', icon: '💻' },
+            { id: 'android', name: '안드로이드', icon: '📱' },
+            { id: 'ios', name: 'iOS (아이폰/아이패드)', icon: '🍎' },
+            { id: 'tablet', name: '태블릿', icon: '📟' },
+            { id: 'other', name: '기타 기기', icon: '🖥️' }
+        ];
+
+        const COLORS = ['#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899', '#6366F1', '#14B8A6', '#F97316'];
+
+        // State
+        let state = {
+            deviceId: null,
+            transactions: [],
+            darkMode: false,
+            currentTab: 'dashboard',
+            formType: 'expense',
+            typeFilter: 'all',
+            searchTerm: '',
+            sortBy: 'dateDesc',
+            currentPage: 1,
+            editingId: null,
+            deletingId: null
+        };
+
+        const ITEMS_PER_PAGE = 10;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', init);
+
+        function init() {
+            renderDeviceList();
+            setupEventListeners();
+            document.getElementById('formDate').value = new Date().toISOString().split('T')[0];
+            updateCategoryOptions('expense', 'formCategory');
+        }
+
+        function renderDeviceList() {
+            const list = document.getElementById('deviceList');
+            list.innerHTML = DEVICES.map(d => `
+                <button class="device-btn" onclick="selectDevice('${d.id}')">
+                    <span class="icon">${d.icon}</span>
+                    <span class="name">${d.name}</span>
+                </button>
+            `).join('');
+        }
+
+        function selectDevice(id) {
+            state.deviceId = id;
+            loadData();
+            
+            const device = DEVICES.find(d => d.id === id);
+            document.getElementById('deviceInfo').innerHTML = `${device.icon} ${device.name}`;
+            
+            document.getElementById('deviceSelect').style.display = 'none';
+            document.getElementById('app').classList.add('active');
+            
+            renderAll();
+        }
+
+        function changeDevice() {
+            document.getElementById('app').classList.remove('active');
+            document.getElementById('deviceSelect').style.display = 'flex';
+            state.deviceId = null;
+        }
+
+        // Data Management
+        function loadData() {
+            try {
+                const data = localStorage.getItem(`budget_${state.deviceId}`);
+                if (data) {
+                    const parsed = JSON.parse(data);
+                    state.transactions = parsed.transactions || [];
+                    state.darkMode = parsed.darkMode || false;
+                    applyDarkMode();
+                }
+            } catch (e) {
+                console.error('Load error:', e);
+            }
+        }
+
+        function saveData() {
+            document.getElementById('savingIndicator').style.display = 'inline';
+            try {
+                localStorage.setItem(`budget_${state.deviceId}`, JSON.stringify({
+                    transactions: state.transactions,
+                    darkMode: state.darkMode,
+                    lastUpdated: new Date().toISOString()
+                }));
+            } catch (e) {
+                showToast('저장 오류', 'error');
+            }
+            setTimeout(() => {
+                document.getElementById('savingIndicator').style.display = 'none';
+            }, 500);
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            // Tab navigation
+            document.querySelectorAll('.tab-btn, .nav-btn').forEach(btn => {
+                btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+            });
+
+            // Dark mode
+            document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
+            
+            // Change device
+            document.getElementById('changeDeviceBtn').addEventListener('click', changeDevice);
+
+            // Form type toggle
+            document.querySelectorAll('#addForm .type-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    state.formType = btn.dataset.type;
+                    document.querySelectorAll('#addForm .type-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateCategoryOptions(state.formType, 'formCategory');
+                });
+            });
+
+            // Form submit
+            document.getElementById('addForm').addEventListener('submit', handleSubmit);
+
+            // Amount formatting
+            document.getElementById('formAmount').addEventListener('input', e => {
+                e.target.value = formatAmountInput(e.target.value);
+            });
+            document.getElementById('editAmount').addEventListener('input', e => {
+                e.target.value = formatAmountInput(e.target.value);
+            });
+
+            // Filters
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    state.typeFilter = btn.dataset.filter;
+                    state.currentPage = 1;
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderTransactionList();
+                });
+            });
+
+            document.getElementById('searchInput').addEventListener('input', e => {
+                state.searchTerm = e.target.value;
+                state.currentPage = 1;
+                renderTransactionList();
+            });
+
+            document.getElementById('sortSelect').addEventListener('change', e => {
+                state.sortBy = e.target.value;
+                renderTransactionList();
+            });
+
+            // Edit modal type toggle
+            document.querySelectorAll('#editTypeToggle .type-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('#editTypeToggle .type-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateCategoryOptions(btn.dataset.type, 'editCategory');
+                });
+            });
+        }
+
+        // Tab Switching
+        function switchTab(tab) {
+            state.currentTab = tab;
+            state.currentPage = 1;
+            
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            
+            document.querySelectorAll('.tab-btn, .nav-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tab);
+            });
+
+            if (tab === 'dashboard') renderDashboard();
+            if (tab === 'list') renderTransactionList();
+        }
+
+        // Dark Mode
+        function toggleDarkMode() {
+            state.darkMode = !state.darkMode;
+            applyDarkMode();
+            saveData();
+        }
+
+        function applyDarkMode() {
+            document.body.classList.toggle('dark', state.darkMode);
+            document.getElementById('darkModeBtn').textContent = state.darkMode ? '☀️' : '🌙';
+        }
+
+        // Helpers
+        function formatCurrency(amount) {
+            return Math.abs(amount).toLocaleString('ko-KR') + '원';
+        }
+
+        function formatAmountInput(value) {
+            const num = value.replace(/\D/g, '');
+            return num ? parseInt(num).toLocaleString('ko-KR') : '';
+        }
+
+        function parseAmount(value) {
+            return parseInt(value.replace(/\D/g, '')) || 0;
+        }
+
+        function getCategoryInfo(type, id) {
+            const cats = CATEGORIES[type];
+            return cats.find(c => c.id === id) || cats[cats.length - 1];
+        }
+
+        function updateCategoryOptions(type, selectId) {
+            const select = document.getElementById(selectId);
+            select.innerHTML = CATEGORIES[type].map(c => 
+                `<option value="${c.id}">${c.icon} ${c.name}</option>`
+            ).join('');
+        }
+
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastIcon').textContent = type === 'error' ? '❌' : '✅';
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.add('active');
+            setTimeout(() => toast.classList.remove('active'), 2500);
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // Form Submit
+        function handleSubmit(e) {
+            e.preventDefault();
+            const amount = parseAmount(document.getElementById('formAmount').value);
+            if (!amount) {
+                showToast('금액을 입력하세요', 'error');
+                return;
+            }
+
+            const tx = {
+                id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+                type: state.formType,
+                date: document.getElementById('formDate').value,
+                category: document.getElementById('formCategory').value,
+                amount,
+                memo: document.getElementById('formMemo').value.trim()
+            };
+
+            state.transactions.push(tx);
+            saveData();
+            
+            document.getElementById('formAmount').value = '';
+            document.getElementById('formMemo').value = '';
+            
+            showToast('추가되었습니다');
+            renderAll();
+        }
+
+        // Edit
+        function openEdit(id) {
+            const tx = state.transactions.find(t => t.id === id);
+            if (!tx) return;
+
+            state.editingId = id;
+            
+            document.querySelectorAll('#editTypeToggle .type-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.type === tx.type);
+            });
+            
+            updateCategoryOptions(tx.type, 'editCategory');
+            document.getElementById('editDate').value = tx.date;
+            document.getElementById('editCategory').value = tx.category;
+            document.getElementById('editAmount').value = tx.amount.toLocaleString('ko-KR');
+            document.getElementById('editMemo').value = tx.memo || '';
+            
+            openModal('editModal');
+        }
+
+        function saveEdit() {
+            const amount = parseAmount(document.getElementById('editAmount').value);
+            if (!amount) {
+                showToast('금액을 입력하세요', 'error');
+                return;
+            }
+
+            const type = document.querySelector('#editTypeToggle .type-btn.active').dataset.type;
+            
+            state.transactions = state.transactions.map(t => 
+                t.id === state.editingId ? {
+                    ...t,
+                    type,
+                    date: document.getElementById('editDate').value,
+                    category: document.getElementById('editCategory').value,
+                    amount,
+                    memo: document.getElementById('editMemo').value.trim()
+                } : t
+            );
+
+            saveData();
+            closeModal('editModal');
+            showToast('수정되었습니다');
+            renderAll();
+        }
+
+        // Delete
+        function openDelete(id) {
+            state.deletingId = id;
+            openModal('deleteModal');
+        }
+
+        function confirmDelete() {
+            state.transactions = state.transactions.filter(t => t.id !== state.deletingId);
+            saveData();
+            closeModal('deleteModal');
+            showToast('삭제되었습니다');
+            renderAll();
+        }
+
+        // Rendering
+        function renderAll() {
+            renderDashboard();
+            renderTransactionList();
+        }
+
+        function renderDashboard() {
+            const now = new Date();
+            const monthTx = state.transactions.filter(t => {
+                const d = new Date(t.date);
+                return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+            });
+
+            const income = monthTx.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+            const expense = monthTx.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+            const balance = income - expense;
+
+            // Summary cards
+            document.getElementById('summaryCards').innerHTML = `
+                <div class="summary-card income">
+                    <div class="summary-label">이번 달 수입</div>
+                    <div class="summary-amount">+${formatCurrency(income)}</div>
+                </div>
+                <div class="summary-card expense">
+                    <div class="summary-label">이번 달 지출</div>
+                    <div class="summary-amount">-${formatCurrency(expense)}</div>
+                </div>
+                <div class="summary-card balance ${balance < 0 ? 'negative' : ''}">
+                    <div class="summary-label">잔액</div>
+                    <div class="summary-amount">${balance >= 0 ? '+' : ''}${formatCurrency(balance)}</div>
+                </div>
+            `;
+
+            // Category chart
+            const catData = {};
+            monthTx.filter(t => t.type === 'expense').forEach(t => {
+                const cat = getCategoryInfo('expense', t.category);
+                const key = `${cat.icon} ${cat.name}`;
+                catData[key] = (catData[key] || 0) + t.amount;
+            });
+
+            const catChart = document.getElementById('categoryChart');
+            if (Object.keys(catData).length === 0) {
+                catChart.innerHTML = '<div class="empty"><div class="icon">📊</div><p>이번 달 지출이 없습니다</p></div>';
+            } else {
+                const total = Object.values(catData).reduce((s, v) => s + v, 0);
+                catChart.innerHTML = Object.entries(catData)
+                    .sort((a, b) => b[1] - a[1])
+                    .map(([cat, amount], i) => {
+                        const pct = ((amount / total) * 100).toFixed(1);
+                        return `
+                            <div class="cat-item">
+                                <div class="cat-header">
+                                    <span>${cat}</span>
+                                    <span class="amount">${formatCurrency(amount)} (${pct}%)</span>
+                                </div>
+                                <div class="cat-bar">
+                                    <div class="cat-bar-fill" style="width:${pct}%;background:${COLORS[i % COLORS.length]}"></div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+            }
+
+            // Recent transactions
+            const recent = document.getElementById('recentTransactions');
+            if (state.transactions.length === 0) {
+                recent.innerHTML = '<div class="empty"><div class="icon">📝</div><p>거래 내역이 없습니다</p></div>';
+            } else {
+                recent.innerHTML = [...state.transactions]
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .slice(0, 5)
+                    .map(t => {
+                        const cat = getCategoryInfo(t.type, t.category);
+                        return `
+                            <div class="tx-item ${t.type}">
+                                <div class="tx-icon">${cat.icon}</div>
+                                <div class="tx-details">
+                                    <div class="tx-category">${cat.name}</div>
+                                    <div class="tx-meta">${new Date(t.date).toLocaleDateString('ko-KR')}</div>
+                                </div>
+                                <div class="tx-amount">${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}</div>
+                            </div>
+                        `;
+                    }).join('');
+            }
+        }
+
+        function renderTransactionList() {
+            let filtered = [...state.transactions];
+            
+            if (state.typeFilter !== 'all') {
+                filtered = filtered.filter(t => t.type === state.typeFilter);
+            }
+            
+            if (state.searchTerm) {
+                filtered = filtered.filter(t => t.memo?.toLowerCase().includes(state.searchTerm.toLowerCase()));
+            }
+
+            filtered.sort((a, b) => {
+                switch (state.sortBy) {
+                    case 'dateAsc': return new Date(a.date) - new Date(b.date);
+                    case 'amountDesc': return b.amount - a.amount;
+                    case 'amountAsc': return a.amount - b.amount;
+                    default: return new Date(b.date) - new Date(a.date);
+                }
+            });
+
+            const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+            const paginated = filtered.slice((state.currentPage - 1) * ITEMS_PER_PAGE, state.currentPage * ITEMS_PER_PAGE);
+
+            const list = document.getElementById('transactionList');
+            if (filtered.length === 0) {
+                list.innerHTML = '<div class="empty"><div class="icon">📝</div><p>거래 내역이 없습니다</p></div>';
+            } else {
+                list.innerHTML = paginated.map(t => {
+                    const cat = getCategoryInfo(t.type, t.category);
+                    return `
+                        <div class="tx-item ${t.type}">
+                            <div class="tx-icon">${cat.icon}</div>
+                            <div class="tx-details">
+                                <div class="tx-category">${cat.name}</div>
+                                <div class="tx-meta">${new Date(t.date).toLocaleDateString('ko-KR')} ${t.memo ? '• ' + t.memo : ''}</div>
+                            </div>
+                            <div class="tx-amount">${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}</div>
+                            <div class="tx-actions">
+                                <button onclick="openEdit('${t.id}')">✏️</button>
+                                <button class="delete-btn" onclick="openDelete('${t.id}')">🗑️</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Pagination
+            const pagination = document.getElementById('pagination');
+            if (totalPages > 1) {
+                pagination.innerHTML = `
+                    <button class="page-btn" onclick="goToPage(${state.currentPage - 1})" ${state.currentPage === 1 ? 'disabled' : ''}>◀</button>
+                    <span class="page-info">${state.currentPage} / ${totalPages}</span>
+                    <button class="page-btn" onclick="goToPage(${state.currentPage + 1})" ${state.currentPage === totalPages ? 'disabled' : ''}>▶</button>
+                `;
+            } else {
+                pagination.innerHTML = '';
+            }
+        }
+
+        function goToPage(page) {
+            state.currentPage = page;
+            renderTransactionList();
+        }
+    </script>
+</body>
+</html>
