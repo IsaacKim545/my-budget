@@ -224,6 +224,23 @@
         .cat-bar { height: 8px; background: var(--bdr); border-radius: 4px; overflow: hidden; }
         .cat-bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
 
+        /* Daily Summary */
+        .daily-group { margin-bottom: 16px; }
+        .daily-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #667eea22, #764ba222);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .daily-date { font-weight: 700; font-size: 14px; color: var(--txt); }
+        .daily-totals { display: flex; gap: 12px; font-size: 13px; font-weight: 600; }
+        .daily-totals .income { color: var(--inc); }
+        .daily-totals .expense { color: var(--exp); }
+
         /* Transaction List */
         .tx-item {
             display: flex;
@@ -476,18 +493,6 @@
         .toast.active { display: flex; }
         .toast .icon { font-size: 18px; }
         .toast .msg { font-size: 14px; }
-
-        /* Animations */
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--bdr);
-            border-top-color: var(--inc);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
-        }
     </style>
 </head>
 <body>
@@ -506,7 +511,6 @@
 
     <!-- Main App -->
     <div id="app" class="app">
-        <!-- Header -->
         <header>
             <div class="header-inner">
                 <div class="logo">
@@ -524,7 +528,6 @@
             </div>
         </header>
 
-        <!-- Tab Nav -->
         <nav class="tab-nav">
             <div class="tab-nav-inner">
                 <button class="tab-btn active" data-tab="dashboard">📊 대시보드</button>
@@ -533,9 +536,7 @@
             </div>
         </nav>
 
-        <!-- Main Content -->
         <main>
-            <!-- Dashboard Section -->
             <section id="dashboard" class="section active">
                 <div class="summary-grid" id="summaryCards"></div>
                 <div class="card">
@@ -548,7 +549,6 @@
                 </div>
             </section>
 
-            <!-- Add Section -->
             <section id="add" class="section">
                 <div class="card" style="max-width:440px;margin:0 auto;">
                     <h3 class="card-title">새 거래 추가</h3>
@@ -581,7 +581,6 @@
                 </div>
             </section>
 
-            <!-- List Section -->
             <section id="list" class="section">
                 <div class="card">
                     <div class="filters">
@@ -604,7 +603,6 @@
             </section>
         </main>
 
-        <!-- Bottom Nav -->
         <nav class="bottom-nav">
             <div class="bottom-nav-inner">
                 <button class="nav-btn active" data-tab="dashboard">
@@ -686,7 +684,6 @@
     </div>
 
     <script>
-        // Categories
         const CATEGORIES = {
             income: [
                 { id: 'salary', name: '급여', icon: '💼' },
@@ -703,7 +700,12 @@
                 { id: 'medical', name: '의료비', icon: '💊' },
                 { id: 'shopping', name: '쇼핑', icon: '🛍️' },
                 { id: 'culture', name: '문화생활', icon: '🎬' },
-                { id: 'education', name: '교육', icon: '📚' },
+                { id: 'education', name: '교육비', icon: '📚' },
+                { id: 'living', name: '생활용품', icon: '🧴' },
+                { id: 'events', name: '경조사비', icon: '💐' },
+                { id: 'clothing', name: '의류비', icon: '👕' },
+                { id: 'mother', name: '어머니', icon: '👩‍🦳' },
+                { id: 'tax', name: '세금공과금', icon: '🏛️' },
                 { id: 'other', name: '기타', icon: '➕' }
             ]
         };
@@ -716,9 +718,8 @@
             { id: 'other', name: '기타 기기', icon: '🖥️' }
         ];
 
-        const COLORS = ['#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899', '#6366F1', '#14B8A6', '#F97316'];
+        const COLORS = ['#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899', '#6366F1', '#14B8A6', '#F97316', '#84CC16', '#06B6D4', '#A855F7', '#F43F5E', '#22C55E'];
 
-        // State
         let state = {
             deviceId: null,
             transactions: [],
@@ -735,7 +736,6 @@
 
         const ITEMS_PER_PAGE = 10;
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', init);
 
         function init() {
@@ -746,8 +746,7 @@
         }
 
         function renderDeviceList() {
-            const list = document.getElementById('deviceList');
-            list.innerHTML = DEVICES.map(d => `
+            document.getElementById('deviceList').innerHTML = DEVICES.map(d => `
                 <button class="device-btn" onclick="selectDevice('${d.id}')">
                     <span class="icon">${d.icon}</span>
                     <span class="name">${d.name}</span>
@@ -758,13 +757,10 @@
         function selectDevice(id) {
             state.deviceId = id;
             loadData();
-            
             const device = DEVICES.find(d => d.id === id);
             document.getElementById('deviceInfo').innerHTML = `${device.icon} ${device.name}`;
-            
             document.getElementById('deviceSelect').style.display = 'none';
             document.getElementById('app').classList.add('active');
-            
             renderAll();
         }
 
@@ -774,7 +770,6 @@
             state.deviceId = null;
         }
 
-        // Data Management
         function loadData() {
             try {
                 const data = localStorage.getItem(`budget_${state.deviceId}`);
@@ -784,9 +779,7 @@
                     state.darkMode = parsed.darkMode || false;
                     applyDarkMode();
                 }
-            } catch (e) {
-                console.error('Load error:', e);
-            }
+            } catch (e) { console.error('Load error:', e); }
         }
 
         function saveData() {
@@ -797,28 +790,16 @@
                     darkMode: state.darkMode,
                     lastUpdated: new Date().toISOString()
                 }));
-            } catch (e) {
-                showToast('저장 오류', 'error');
-            }
-            setTimeout(() => {
-                document.getElementById('savingIndicator').style.display = 'none';
-            }, 500);
+            } catch (e) { showToast('저장 오류', 'error'); }
+            setTimeout(() => { document.getElementById('savingIndicator').style.display = 'none'; }, 500);
         }
 
-        // Event Listeners
         function setupEventListeners() {
-            // Tab navigation
             document.querySelectorAll('.tab-btn, .nav-btn').forEach(btn => {
                 btn.addEventListener('click', () => switchTab(btn.dataset.tab));
             });
-
-            // Dark mode
             document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
-            
-            // Change device
             document.getElementById('changeDeviceBtn').addEventListener('click', changeDevice);
-
-            // Form type toggle
             document.querySelectorAll('#addForm .type-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     state.formType = btn.dataset.type;
@@ -827,19 +808,9 @@
                     updateCategoryOptions(state.formType, 'formCategory');
                 });
             });
-
-            // Form submit
             document.getElementById('addForm').addEventListener('submit', handleSubmit);
-
-            // Amount formatting
-            document.getElementById('formAmount').addEventListener('input', e => {
-                e.target.value = formatAmountInput(e.target.value);
-            });
-            document.getElementById('editAmount').addEventListener('input', e => {
-                e.target.value = formatAmountInput(e.target.value);
-            });
-
-            // Filters
+            document.getElementById('formAmount').addEventListener('input', e => { e.target.value = formatAmountInput(e.target.value); });
+            document.getElementById('editAmount').addEventListener('input', e => { e.target.value = formatAmountInput(e.target.value); });
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     state.typeFilter = btn.dataset.filter;
@@ -849,19 +820,15 @@
                     renderTransactionList();
                 });
             });
-
             document.getElementById('searchInput').addEventListener('input', e => {
                 state.searchTerm = e.target.value;
                 state.currentPage = 1;
                 renderTransactionList();
             });
-
             document.getElementById('sortSelect').addEventListener('change', e => {
                 state.sortBy = e.target.value;
                 renderTransactionList();
             });
-
-            // Edit modal type toggle
             document.querySelectorAll('#editTypeToggle .type-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     document.querySelectorAll('#editTypeToggle .type-btn').forEach(b => b.classList.remove('active'));
@@ -871,23 +838,18 @@
             });
         }
 
-        // Tab Switching
         function switchTab(tab) {
             state.currentTab = tab;
             state.currentPage = 1;
-            
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById(tab).classList.add('active');
-            
             document.querySelectorAll('.tab-btn, .nav-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.tab === tab);
             });
-
             if (tab === 'dashboard') renderDashboard();
             if (tab === 'list') renderTransactionList();
         }
 
-        // Dark Mode
         function toggleDarkMode() {
             state.darkMode = !state.darkMode;
             applyDarkMode();
@@ -899,32 +861,13 @@
             document.getElementById('darkModeBtn').textContent = state.darkMode ? '☀️' : '🌙';
         }
 
-        // Helpers
-        function formatCurrency(amount) {
-            return Math.abs(amount).toLocaleString('ko-KR') + '원';
-        }
-
-        function formatAmountInput(value) {
-            const num = value.replace(/\D/g, '');
-            return num ? parseInt(num).toLocaleString('ko-KR') : '';
-        }
-
-        function parseAmount(value) {
-            return parseInt(value.replace(/\D/g, '')) || 0;
-        }
-
-        function getCategoryInfo(type, id) {
-            const cats = CATEGORIES[type];
-            return cats.find(c => c.id === id) || cats[cats.length - 1];
-        }
-
+        function formatCurrency(amount) { return Math.abs(amount).toLocaleString('ko-KR') + '원'; }
+        function formatAmountInput(value) { const num = value.replace(/\D/g, ''); return num ? parseInt(num).toLocaleString('ko-KR') : ''; }
+        function parseAmount(value) { return parseInt(value.replace(/\D/g, '')) || 0; }
+        function getCategoryInfo(type, id) { const cats = CATEGORIES[type]; return cats.find(c => c.id === id) || cats[cats.length - 1]; }
         function updateCategoryOptions(type, selectId) {
-            const select = document.getElementById(selectId);
-            select.innerHTML = CATEGORIES[type].map(c => 
-                `<option value="${c.id}">${c.icon} ${c.name}</option>`
-            ).join('');
+            document.getElementById(selectId).innerHTML = CATEGORIES[type].map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`).join('');
         }
-
         function showToast(msg, type = 'success') {
             const toast = document.getElementById('toast');
             document.getElementById('toastIcon').textContent = type === 'error' ? '❌' : '✅';
@@ -932,95 +875,66 @@
             toast.classList.add('active');
             setTimeout(() => toast.classList.remove('active'), 2500);
         }
-
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        function formatDateKR(dateStr) {
+            const date = new Date(dateStr);
+            const days = ['일', '월', '화', '수', '목', '금', '토'];
+            return `${date.getMonth() + 1}월 ${date.getDate()}일 (${days[date.getDay()]})`;
         }
 
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
-
-        // Form Submit
         function handleSubmit(e) {
             e.preventDefault();
             const amount = parseAmount(document.getElementById('formAmount').value);
-            if (!amount) {
-                showToast('금액을 입력하세요', 'error');
-                return;
-            }
-
-            const tx = {
+            if (!amount) { showToast('금액을 입력하세요', 'error'); return; }
+            state.transactions.push({
                 id: Date.now().toString(36) + Math.random().toString(36).substr(2),
                 type: state.formType,
                 date: document.getElementById('formDate').value,
                 category: document.getElementById('formCategory').value,
                 amount,
                 memo: document.getElementById('formMemo').value.trim()
-            };
-
-            state.transactions.push(tx);
+            });
             saveData();
-            
             document.getElementById('formAmount').value = '';
             document.getElementById('formMemo').value = '';
-            
             showToast('추가되었습니다');
             renderAll();
         }
 
-        // Edit
         function openEdit(id) {
             const tx = state.transactions.find(t => t.id === id);
             if (!tx) return;
-
             state.editingId = id;
-            
             document.querySelectorAll('#editTypeToggle .type-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.type === tx.type);
             });
-            
             updateCategoryOptions(tx.type, 'editCategory');
             document.getElementById('editDate').value = tx.date;
             document.getElementById('editCategory').value = tx.category;
             document.getElementById('editAmount').value = tx.amount.toLocaleString('ko-KR');
             document.getElementById('editMemo').value = tx.memo || '';
-            
             openModal('editModal');
         }
 
         function saveEdit() {
             const amount = parseAmount(document.getElementById('editAmount').value);
-            if (!amount) {
-                showToast('금액을 입력하세요', 'error');
-                return;
-            }
-
+            if (!amount) { showToast('금액을 입력하세요', 'error'); return; }
             const type = document.querySelector('#editTypeToggle .type-btn.active').dataset.type;
-            
-            state.transactions = state.transactions.map(t => 
-                t.id === state.editingId ? {
-                    ...t,
-                    type,
-                    date: document.getElementById('editDate').value,
-                    category: document.getElementById('editCategory').value,
-                    amount,
-                    memo: document.getElementById('editMemo').value.trim()
-                } : t
-            );
-
+            state.transactions = state.transactions.map(t => t.id === state.editingId ? {
+                ...t, type,
+                date: document.getElementById('editDate').value,
+                category: document.getElementById('editCategory').value,
+                amount,
+                memo: document.getElementById('editMemo').value.trim()
+            } : t);
             saveData();
             closeModal('editModal');
             showToast('수정되었습니다');
             renderAll();
         }
 
-        // Delete
-        function openDelete(id) {
-            state.deletingId = id;
-            openModal('deleteModal');
-        }
-
+        function openDelete(id) { state.deletingId = id; openModal('deleteModal'); }
         function confirmDelete() {
             state.transactions = state.transactions.filter(t => t.id !== state.deletingId);
             saveData();
@@ -1029,11 +943,7 @@
             renderAll();
         }
 
-        // Rendering
-        function renderAll() {
-            renderDashboard();
-            renderTransactionList();
-        }
+        function renderAll() { renderDashboard(); renderTransactionList(); }
 
         function renderDashboard() {
             const now = new Date();
@@ -1041,28 +951,16 @@
                 const d = new Date(t.date);
                 return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
             });
-
             const income = monthTx.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
             const expense = monthTx.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
             const balance = income - expense;
 
-            // Summary cards
             document.getElementById('summaryCards').innerHTML = `
-                <div class="summary-card income">
-                    <div class="summary-label">이번 달 수입</div>
-                    <div class="summary-amount">+${formatCurrency(income)}</div>
-                </div>
-                <div class="summary-card expense">
-                    <div class="summary-label">이번 달 지출</div>
-                    <div class="summary-amount">-${formatCurrency(expense)}</div>
-                </div>
-                <div class="summary-card balance ${balance < 0 ? 'negative' : ''}">
-                    <div class="summary-label">잔액</div>
-                    <div class="summary-amount">${balance >= 0 ? '+' : ''}${formatCurrency(balance)}</div>
-                </div>
+                <div class="summary-card income"><div class="summary-label">이번 달 수입</div><div class="summary-amount">+${formatCurrency(income)}</div></div>
+                <div class="summary-card expense"><div class="summary-label">이번 달 지출</div><div class="summary-amount">-${formatCurrency(expense)}</div></div>
+                <div class="summary-card balance ${balance < 0 ? 'negative' : ''}"><div class="summary-label">잔액</div><div class="summary-amount">${balance >= 0 ? '+' : ''}${formatCurrency(balance)}</div></div>
             `;
 
-            // Category chart
             const catData = {};
             monthTx.filter(t => t.type === 'expense').forEach(t => {
                 const cat = getCategoryInfo('expense', t.category);
@@ -1075,58 +973,27 @@
                 catChart.innerHTML = '<div class="empty"><div class="icon">📊</div><p>이번 달 지출이 없습니다</p></div>';
             } else {
                 const total = Object.values(catData).reduce((s, v) => s + v, 0);
-                catChart.innerHTML = Object.entries(catData)
-                    .sort((a, b) => b[1] - a[1])
-                    .map(([cat, amount], i) => {
-                        const pct = ((amount / total) * 100).toFixed(1);
-                        return `
-                            <div class="cat-item">
-                                <div class="cat-header">
-                                    <span>${cat}</span>
-                                    <span class="amount">${formatCurrency(amount)} (${pct}%)</span>
-                                </div>
-                                <div class="cat-bar">
-                                    <div class="cat-bar-fill" style="width:${pct}%;background:${COLORS[i % COLORS.length]}"></div>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
+                catChart.innerHTML = Object.entries(catData).sort((a, b) => b[1] - a[1]).map(([cat, amount], i) => {
+                    const pct = ((amount / total) * 100).toFixed(1);
+                    return `<div class="cat-item"><div class="cat-header"><span>${cat}</span><span class="amount">${formatCurrency(amount)} (${pct}%)</span></div><div class="cat-bar"><div class="cat-bar-fill" style="width:${pct}%;background:${COLORS[i % COLORS.length]}"></div></div></div>`;
+                }).join('');
             }
 
-            // Recent transactions
             const recent = document.getElementById('recentTransactions');
             if (state.transactions.length === 0) {
                 recent.innerHTML = '<div class="empty"><div class="icon">📝</div><p>거래 내역이 없습니다</p></div>';
             } else {
-                recent.innerHTML = [...state.transactions]
-                    .sort((a, b) => new Date(b.date) - new Date(a.date))
-                    .slice(0, 5)
-                    .map(t => {
-                        const cat = getCategoryInfo(t.type, t.category);
-                        return `
-                            <div class="tx-item ${t.type}">
-                                <div class="tx-icon">${cat.icon}</div>
-                                <div class="tx-details">
-                                    <div class="tx-category">${cat.name}</div>
-                                    <div class="tx-meta">${new Date(t.date).toLocaleDateString('ko-KR')}</div>
-                                </div>
-                                <div class="tx-amount">${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}</div>
-                            </div>
-                        `;
-                    }).join('');
+                recent.innerHTML = [...state.transactions].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5).map(t => {
+                    const cat = getCategoryInfo(t.type, t.category);
+                    return `<div class="tx-item ${t.type}"><div class="tx-icon">${cat.icon}</div><div class="tx-details"><div class="tx-category">${cat.name}</div><div class="tx-meta">${new Date(t.date).toLocaleDateString('ko-KR')}</div></div><div class="tx-amount">${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}</div></div>`;
+                }).join('');
             }
         }
 
         function renderTransactionList() {
             let filtered = [...state.transactions];
-            
-            if (state.typeFilter !== 'all') {
-                filtered = filtered.filter(t => t.type === state.typeFilter);
-            }
-            
-            if (state.searchTerm) {
-                filtered = filtered.filter(t => t.memo?.toLowerCase().includes(state.searchTerm.toLowerCase()));
-            }
+            if (state.typeFilter !== 'all') filtered = filtered.filter(t => t.type === state.typeFilter);
+            if (state.searchTerm) filtered = filtered.filter(t => t.memo?.toLowerCase().includes(state.searchTerm.toLowerCase()));
 
             filtered.sort((a, b) => {
                 switch (state.sortBy) {
@@ -1137,49 +1004,49 @@
                 }
             });
 
-            const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-            const paginated = filtered.slice((state.currentPage - 1) * ITEMS_PER_PAGE, state.currentPage * ITEMS_PER_PAGE);
-
             const list = document.getElementById('transactionList');
             if (filtered.length === 0) {
                 list.innerHTML = '<div class="empty"><div class="icon">📝</div><p>거래 내역이 없습니다</p></div>';
-            } else {
-                list.innerHTML = paginated.map(t => {
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+
+            // 날짜별 그룹화
+            const grouped = {};
+            filtered.forEach(t => { if (!grouped[t.date]) grouped[t.date] = []; grouped[t.date].push(t); });
+
+            const sortedDates = Object.keys(grouped).sort((a, b) => state.sortBy === 'dateAsc' ? new Date(a) - new Date(b) : new Date(b) - new Date(a));
+            const totalPages = Math.ceil(sortedDates.length / ITEMS_PER_PAGE);
+            const paginatedDates = sortedDates.slice((state.currentPage - 1) * ITEMS_PER_PAGE, state.currentPage * ITEMS_PER_PAGE);
+
+            let html = '';
+            paginatedDates.forEach(date => {
+                const dayTx = grouped[date];
+                const dayIncome = dayTx.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
+                const dayExpense = dayTx.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+
+                html += `<div class="daily-group"><div class="daily-header"><div class="daily-date">📅 ${formatDateKR(date)}</div><div class="daily-totals">`;
+                if (dayIncome > 0) html += `<span class="income">+${formatCurrency(dayIncome)}</span>`;
+                if (dayExpense > 0) html += `<span class="expense">-${formatCurrency(dayExpense)}</span>`;
+                html += `</div></div>`;
+
+                dayTx.forEach(t => {
                     const cat = getCategoryInfo(t.type, t.category);
-                    return `
-                        <div class="tx-item ${t.type}">
-                            <div class="tx-icon">${cat.icon}</div>
-                            <div class="tx-details">
-                                <div class="tx-category">${cat.name}</div>
-                                <div class="tx-meta">${new Date(t.date).toLocaleDateString('ko-KR')} ${t.memo ? '• ' + t.memo : ''}</div>
-                            </div>
-                            <div class="tx-amount">${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}</div>
-                            <div class="tx-actions">
-                                <button onclick="openEdit('${t.id}')">✏️</button>
-                                <button class="delete-btn" onclick="openDelete('${t.id}')">🗑️</button>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            }
+                    html += `<div class="tx-item ${t.type}"><div class="tx-icon">${cat.icon}</div><div class="tx-details"><div class="tx-category">${cat.name}</div><div class="tx-meta">${t.memo || ''}</div></div><div class="tx-amount">${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}</div><div class="tx-actions"><button onclick="openEdit('${t.id}')">✏️</button><button class="delete-btn" onclick="openDelete('${t.id}')">🗑️</button></div></div>`;
+                });
+                html += '</div>';
+            });
+            list.innerHTML = html;
 
-            // Pagination
             const pagination = document.getElementById('pagination');
-            if (totalPages > 1) {
-                pagination.innerHTML = `
-                    <button class="page-btn" onclick="goToPage(${state.currentPage - 1})" ${state.currentPage === 1 ? 'disabled' : ''}>◀</button>
-                    <span class="page-info">${state.currentPage} / ${totalPages}</span>
-                    <button class="page-btn" onclick="goToPage(${state.currentPage + 1})" ${state.currentPage === totalPages ? 'disabled' : ''}>▶</button>
-                `;
-            } else {
-                pagination.innerHTML = '';
-            }
+            pagination.innerHTML = totalPages > 1 ? `
+                <button class="page-btn" onclick="goToPage(${state.currentPage - 1})" ${state.currentPage === 1 ? 'disabled' : ''}>◀</button>
+                <span class="page-info">${state.currentPage} / ${totalPages}</span>
+                <button class="page-btn" onclick="goToPage(${state.currentPage + 1})" ${state.currentPage === totalPages ? 'disabled' : ''}>▶</button>
+            ` : '';
         }
 
-        function goToPage(page) {
-            state.currentPage = page;
-            renderTransactionList();
-        }
+        function goToPage(page) { state.currentPage = page; renderTransactionList(); }
     </script>
 </body>
 </html>
