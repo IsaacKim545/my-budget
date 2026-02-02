@@ -559,7 +559,7 @@
             document.getElementById('summaryCards').innerHTML = `
                 <div class="summary-card income"><div class="summary-label">이번 달 수입</div><div class="summary-amount">+${formatCurrency(income)}</div></div>
                 <div class="summary-card expense"><div class="summary-label">이번 달 지출</div><div class="summary-amount">-${formatCurrency(expense)}</div></div>
-                <div class="summary-card balance ${balance<0?'negative':''}"><div class="summary-label">잔액</div><div class="summary-amount">${balance>=0?'+':''}${formatCurrency(balance)}</div></div>`;
+                <div class="summary-card balance ${balance<0?'negative':''}"><div class="summary-label">잔액</div><div class="summary-amount">${balance>=0?'+':'-'}${formatCurrency(balance)}</div></div>`;
 
             const catData = {};
             monthTx.filter(t => t.type === 'expense').forEach(t => { const c = getCategoryInfo('expense', t.category); catData[`${c.icon} ${c.name}`] = (catData[`${c.icon} ${c.name}`]||0) + t.amount; });
