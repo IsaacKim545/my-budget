@@ -11,201 +11,59 @@
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg: #f1f5f9;
-            --card: #ffffff;
-            --txt: #1e293b;
-            --txt2: #64748b;
-            --bdr: #e2e8f0;
-            --inc: #3b82f6;
-            --exp: #ef4444;
-            --inc-bg: #dbeafe;
-            --exp-bg: #fee2e2;
-            --success: #10b981;
+            --bg: #f1f5f9; --card: #ffffff; --txt: #1e293b; --txt2: #64748b; --bdr: #e2e8f0;
+            --inc: #3b82f6; --exp: #ef4444; --inc-bg: #dbeafe; --exp-bg: #fee2e2; --success: #10b981;
         }
         .dark {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --txt: #f1f5f9;
-            --txt2: #94a3b8;
-            --bdr: #334155;
-            --inc: #60a5fa;
-            --exp: #f87171;
-            --inc-bg: #1e3a5f;
-            --exp-bg: #5f1e1e;
+            --bg: #0f172a; --card: #1e293b; --txt: #f1f5f9; --txt2: #94a3b8; --bdr: #334155;
+            --inc: #60a5fa; --exp: #f87171; --inc-bg: #1e3a5f; --exp-bg: #5f1e1e;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--txt);
-            min-height: 100vh;
-            line-height: 1.5;
-            -webkit-tap-highlight-color: transparent;
-        }
-        input, select, button, textarea {
-            font-family: inherit;
-            outline: none;
-            border: none;
-        }
-        input:focus, select:focus { border-color: var(--inc) !important; }
+        body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--bg); color: var(--txt); min-height: 100vh; line-height: 1.5; -webkit-tap-highlight-color: transparent; }
+        input, select, button { font-family: inherit; outline: none; border: none; }
 
-        /* Device Selection */
-        .device-select {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .device-box {
-            background: #fff;
-            border-radius: 24px;
-            padding: 40px 28px;
-            max-width: 380px;
-            width: 100%;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-        }
-        .device-header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
+        .device-select { min-height: 100vh; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .device-box { background: #fff; border-radius: 24px; padding: 40px 28px; max-width: 380px; width: 100%; box-shadow: 0 25px 50px rgba(0,0,0,0.25); }
+        .device-header { text-align: center; margin-bottom: 28px; }
         .device-header .icon { font-size: 56px; margin-bottom: 12px; }
         .device-header h1 { font-size: 26px; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
         .device-header p { color: #64748b; font-size: 14px; }
         .device-header small { color: #94a3b8; font-size: 12px; }
         .device-list { display: flex; flex-direction: column; gap: 10px; }
-        .device-btn {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 18px;
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
-            text-align: left;
-        }
-        .device-btn:hover, .device-btn:focus {
-            border-color: #667eea;
-            background: #f1f5f9;
-        }
+        .device-btn { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 14px; cursor: pointer; transition: all 0.2s; width: 100%; }
+        .device-btn:hover { border-color: #667eea; background: #f1f5f9; }
         .device-btn .icon { font-size: 28px; }
         .device-btn .name { font-size: 15px; font-weight: 600; color: #334155; }
 
-        /* App Container */
         .app { display: none; min-height: 100vh; padding-bottom: 70px; }
         .app.active { display: block; }
 
-        /* Header */
-        header {
-            background: var(--card);
-            border-bottom: 1px solid var(--bdr);
-            padding: 12px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .header-inner {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        header { background: var(--card); border-bottom: 1px solid var(--bdr); padding: 12px 16px; position: sticky; top: 0; z-index: 100; }
+        .header-inner { max-width: 800px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; align-items: center; gap: 10px; }
         .logo .icon { font-size: 24px; }
-        .logo h1 {
-            font-size: 18px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .logo .device-info { font-size: 11px; color: var(--txt2); display: flex; align-items: center; gap: 4px; }
+        .logo h1 { font-size: 18px; font-weight: 700; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo .device-info { font-size: 11px; color: var(--txt2); }
         .header-actions { display: flex; gap: 8px; align-items: center; }
         .header-actions .saving { font-size: 11px; color: var(--txt2); }
-        .icon-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 1px solid var(--bdr);
-            background: var(--card);
-            cursor: pointer;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .text-btn {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--bdr);
-            background: var(--card);
-            cursor: pointer;
-            font-size: 12px;
-            color: var(--txt);
-        }
+        .icon-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--bdr); background: var(--card); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+        .text-btn { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--bdr); background: var(--card); cursor: pointer; font-size: 12px; color: var(--txt); }
 
-        /* Tab Nav */
-        .tab-nav {
-            background: var(--card);
-            border-bottom: 1px solid var(--bdr);
-            padding: 0 16px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
+        .tab-nav { background: var(--card); border-bottom: 1px solid var(--bdr); padding: 0 16px; overflow-x: auto; }
         .tab-nav::-webkit-scrollbar { display: none; }
         .tab-nav-inner { max-width: 800px; margin: 0 auto; display: flex; gap: 4px; }
-        .tab-btn {
-            padding: 12px 16px;
-            background: transparent;
-            color: var(--txt2);
-            font-weight: 400;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            font-size: 13px;
-            white-space: nowrap;
-            transition: all 0.2s;
-        }
-        .tab-btn.active {
-            background: var(--inc-bg);
-            color: var(--inc);
-            font-weight: 600;
-            border-bottom-color: var(--inc);
-        }
+        .tab-btn { padding: 12px 16px; background: transparent; color: var(--txt2); font-weight: 400; cursor: pointer; border-bottom: 2px solid transparent; font-size: 13px; white-space: nowrap; }
+        .tab-btn.active { background: var(--inc-bg); color: var(--inc); font-weight: 600; border-bottom-color: var(--inc); }
 
-        /* Main */
         main { max-width: 800px; margin: 0 auto; padding: 16px; }
         .section { display: none; }
         .section.active { display: block; }
 
-        /* Cards */
-        .card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
+        .card { background: var(--card); border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .card-title { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
 
-        /* Summary */
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .summary-card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 18px;
-            border-left: 4px solid var(--bdr);
-        }
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .summary-card { background: var(--card); border-radius: 16px; padding: 18px; border-left: 4px solid var(--bdr); }
         .summary-card.income { border-left-color: var(--inc); }
         .summary-card.expense { border-left-color: var(--exp); }
         .summary-card.balance { border-left-color: var(--success); }
@@ -217,286 +75,181 @@
         .summary-card.balance .summary-amount { color: var(--success); }
         .summary-card.negative .summary-amount { color: var(--exp); }
 
-        /* Category Chart */
         .cat-item { margin-bottom: 12px; }
         .cat-header { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 13px; }
         .cat-header .amount { font-weight: 600; }
         .cat-bar { height: 8px; background: var(--bdr); border-radius: 4px; overflow: hidden; }
-        .cat-bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+        .cat-bar-fill { height: 100%; border-radius: 4px; }
 
-        /* Daily Summary */
-        .daily-group { margin-bottom: 16px; }
+        /* ========== 날짜별 일일 합계 - 크고 명확하게 ========== */
+        .daily-group { margin-bottom: 28px; }
+        
         .daily-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.35);
+            color: white;
+        }
+        
+        .daily-date-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background: linear-gradient(135deg, #667eea22, #764ba222);
-            border-radius: 12px;
-            margin-bottom: 8px;
-            border-left: 4px solid #667eea;
-        }
-        .daily-date { font-weight: 700; font-size: 14px; color: var(--txt); }
-        .daily-totals { display: flex; gap: 12px; font-size: 13px; font-weight: 600; }
-        .daily-totals .income { color: var(--inc); }
-        .daily-totals .expense { color: var(--exp); }
-
-        /* Transaction List */
-        .tx-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            background: var(--bg);
-            border-radius: 12px;
-            margin-bottom: 8px;
-            border-left: 4px solid var(--bdr);
-            gap: 10px;
-        }
-        .tx-item.income { border-left-color: var(--inc); }
-        .tx-item.expense { border-left-color: var(--exp); }
-        .tx-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-        .tx-item.income .tx-icon { background: var(--inc-bg); }
-        .tx-item.expense .tx-icon { background: var(--exp-bg); }
-        .tx-details { flex: 1; min-width: 0; }
-        .tx-category { font-weight: 600; font-size: 14px; }
-        .tx-meta { font-size: 11px; color: var(--txt2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .tx-amount { font-weight: 700; font-size: 15px; white-space: nowrap; }
-        .tx-item.income .tx-amount { color: var(--inc); }
-        .tx-item.expense .tx-amount { color: var(--exp); }
-        .tx-actions { display: flex; gap: 4px; flex-shrink: 0; }
-        .tx-actions button {
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            background: var(--card);
-        }
-        .tx-actions .delete-btn { background: var(--exp-bg); }
-
-        /* Form */
-        .form-group { margin-bottom: 16px; }
-        .form-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--txt2); }
-        .form-input, .form-select {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid var(--bdr);
-            border-radius: 10px;
-            font-size: 15px;
-            background: var(--bg);
-            color: var(--txt);
-        }
-        .type-toggle {
-            display: flex;
-            background: var(--bg);
-            border-radius: 10px;
-            padding: 4px;
-            gap: 4px;
-        }
-        .type-btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 8px;
-            background: transparent;
-            color: var(--txt2);
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-        .type-btn.income.active { background: var(--inc-bg); color: var(--inc); }
-        .type-btn.expense.active { background: var(--exp-bg); color: var(--exp); }
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #fff;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* Filters */
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
             align-items: center;
             margin-bottom: 16px;
         }
-        .filter-group {
+        
+        .daily-date {
             display: flex;
-            background: var(--bg);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--bdr);
+            align-items: center;
+            gap: 12px;
         }
-        .filter-btn {
-            padding: 8px 14px;
-            background: transparent;
-            color: var(--txt2);
+        
+        .daily-date .day-number {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+        }
+        
+        .daily-date .day-text {
+            font-size: 15px;
+            font-weight: 600;
+            opacity: 0.95;
+        }
+        
+        .daily-date .day-text small {
+            display: block;
+            font-size: 12px;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        
+        .daily-count {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .daily-totals {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .daily-total-box {
+            background: rgba(255,255,255,0.15);
+            border-radius: 14px;
+            padding: 14px 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .daily-total-box.income { background: rgba(59, 130, 246, 0.35); }
+        .daily-total-box.expense { background: rgba(239, 68, 68, 0.35); }
+        .daily-total-box.balance { background: rgba(16, 185, 129, 0.35); }
+        .daily-total-box.balance.negative { background: rgba(239, 68, 68, 0.35); }
+        
+        .daily-total-label {
             font-size: 12px;
             font-weight: 500;
-            cursor: pointer;
+            opacity: 0.9;
+            margin-bottom: 6px;
         }
-        .filter-btn.active { background: var(--inc); color: #fff; }
-        .search-input {
-            flex: 1;
-            min-width: 120px;
-            padding: 8px 12px;
-            border: 1px solid var(--bdr);
-            border-radius: 8px;
-            font-size: 13px;
-            background: var(--bg);
-            color: var(--txt);
+        
+        .daily-total-amount {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
-        .sort-select {
-            padding: 8px 12px;
-            border: 1px solid var(--bdr);
-            border-radius: 8px;
-            font-size: 13px;
-            background: var(--bg);
-            color: var(--txt);
+        
+        @media (max-width: 400px) {
+            .daily-total-amount { font-size: 16px; }
+            .daily-date .day-number { width: 42px; height: 42px; font-size: 20px; }
         }
 
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--bdr);
+        /* ========== 거래 내역 아이템 ========== */
+        .tx-item {
+            display: flex; align-items: center; padding: 14px;
+            background: var(--card); border-radius: 14px; margin-bottom: 10px;
+            border-left: 5px solid var(--bdr); gap: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
-        .page-btn {
-            padding: 8px 14px;
-            border: 1px solid var(--bdr);
-            border-radius: 8px;
-            background: var(--card);
-            cursor: pointer;
-            color: var(--txt);
-            font-size: 13px;
-        }
+        .tx-item.income { border-left-color: var(--inc); }
+        .tx-item.expense { border-left-color: var(--exp); }
+        .tx-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+        .tx-item.income .tx-icon { background: var(--inc-bg); }
+        .tx-item.expense .tx-icon { background: var(--exp-bg); }
+        .tx-details { flex: 1; min-width: 0; }
+        .tx-category { font-weight: 600; font-size: 15px; }
+        .tx-meta { font-size: 12px; color: var(--txt2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .tx-amount { font-weight: 700; font-size: 16px; white-space: nowrap; }
+        .tx-item.income .tx-amount { color: var(--inc); }
+        .tx-item.expense .tx-amount { color: var(--exp); }
+        .tx-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .tx-actions button { width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 14px; background: var(--bg); }
+        .tx-actions .delete-btn { background: var(--exp-bg); }
+
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--txt2); }
+        .form-input, .form-select { width: 100%; padding: 14px; border: 1px solid var(--bdr); border-radius: 10px; font-size: 15px; background: var(--bg); color: var(--txt); }
+        .type-toggle { display: flex; background: var(--bg); border-radius: 10px; padding: 4px; gap: 4px; }
+        .type-btn { flex: 1; padding: 12px; border-radius: 8px; background: transparent; color: var(--txt2); font-weight: 600; cursor: pointer; font-size: 14px; }
+        .type-btn.income.active { background: var(--inc-bg); color: var(--inc); }
+        .type-btn.expense.active { background: var(--exp-bg); color: var(--exp); }
+        .submit-btn { width: 100%; padding: 16px; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; }
+
+        .filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+        .filter-group { display: flex; background: var(--bg); border-radius: 8px; overflow: hidden; border: 1px solid var(--bdr); }
+        .filter-btn { padding: 8px 14px; background: transparent; color: var(--txt2); font-size: 12px; font-weight: 500; cursor: pointer; }
+        .filter-btn.active { background: var(--inc); color: #fff; }
+        .search-input { flex: 1; min-width: 120px; padding: 8px 12px; border: 1px solid var(--bdr); border-radius: 8px; font-size: 13px; background: var(--bg); color: var(--txt); }
+        .sort-select { padding: 8px 12px; border: 1px solid var(--bdr); border-radius: 8px; font-size: 13px; background: var(--bg); color: var(--txt); }
+
+        .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--bdr); }
+        .page-btn { padding: 8px 14px; border: 1px solid var(--bdr); border-radius: 8px; background: var(--card); cursor: pointer; color: var(--txt); font-size: 13px; }
         .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .page-info { padding: 8px 16px; font-size: 13px; }
 
-        /* Empty State */
         .empty { text-align: center; padding: 40px 20px; color: var(--txt2); }
         .empty .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
-        .empty p { font-size: 14px; }
 
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--card);
-            border-top: 1px solid var(--bdr);
-            padding: 8px 0;
-            z-index: 100;
-        }
-        .bottom-nav-inner {
-            display: flex;
-            justify-content: space-around;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        .nav-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-            padding: 6px 16px;
-            background: transparent;
-            cursor: pointer;
-            color: var(--txt2);
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1px solid var(--bdr); padding: 8px 0; z-index: 100; }
+        .bottom-nav-inner { display: flex; justify-content: space-around; max-width: 400px; margin: 0 auto; }
+        .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 16px; background: transparent; cursor: pointer; color: var(--txt2); }
         .nav-btn.active { color: var(--inc); }
         .nav-btn .icon { font-size: 20px; }
-        .nav-btn .label { font-size: 10px; font-weight: 400; }
+        .nav-btn .label { font-size: 10px; }
         .nav-btn.active .label { font-weight: 600; }
 
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 16px;
-        }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
         .modal-overlay.active { display: flex; }
-        .modal {
-            background: var(--card);
-            border-radius: 20px;
-            width: 100%;
-            max-width: 380px;
-            max-height: 85vh;
-            overflow: auto;
-        }
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--bdr);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .modal { background: var(--card); border-radius: 20px; width: 100%; max-width: 380px; max-height: 85vh; overflow: auto; }
+        .modal-header { padding: 20px; border-bottom: 1px solid var(--bdr); display: flex; justify-content: space-between; align-items: center; }
         .modal-title { font-size: 17px; font-weight: 600; }
         .modal-close { background: none; font-size: 20px; cursor: pointer; color: var(--txt2); }
         .modal-body { padding: 20px; }
-        .modal-footer {
-            padding: 16px 20px;
-            border-top: 1px solid var(--bdr);
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-        .modal-btn {
-            padding: 10px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+        .modal-footer { padding: 16px 20px; border-top: 1px solid var(--bdr); display: flex; gap: 10px; justify-content: flex-end; }
+        .modal-btn { padding: 10px 18px; border-radius: 10px; cursor: pointer; font-size: 14px; }
         .modal-btn.cancel { border: 1px solid var(--bdr); background: var(--card); color: var(--txt); }
         .modal-btn.primary { background: var(--inc); color: #fff; font-weight: 600; }
         .modal-btn.danger { background: var(--exp); color: #fff; font-weight: 600; }
 
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--card);
-            border: 1px solid var(--bdr);
-            border-radius: 12px;
-            padding: 12px 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-            display: none;
-            align-items: center;
-            gap: 10px;
-            z-index: 2000;
-        }
+        .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--card); border: 1px solid var(--bdr); border-radius: 12px; padding: 12px 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); display: none; align-items: center; gap: 10px; z-index: 2000; }
         .toast.active { display: flex; }
         .toast .icon { font-size: 18px; }
         .toast .msg { font-size: 14px; }
     </style>
 </head>
 <body>
-    <!-- Device Selection -->
     <div id="deviceSelect" class="device-select">
         <div class="device-box">
             <div class="device-header">
@@ -509,7 +262,6 @@
         </div>
     </div>
 
-    <!-- Main App -->
     <div id="app" class="app">
         <header>
             <div class="header-inner">
@@ -522,7 +274,7 @@
                 </div>
                 <div class="header-actions">
                     <span class="saving" id="savingIndicator" style="display:none;">저장중...</span>
-                    <button class="icon-btn" id="darkModeBtn" title="다크모드">🌙</button>
+                    <button class="icon-btn" id="darkModeBtn">🌙</button>
                     <button class="text-btn" id="changeDeviceBtn">기기변경</button>
                 </div>
             </div>
@@ -539,43 +291,24 @@
         <main>
             <section id="dashboard" class="section active">
                 <div class="summary-grid" id="summaryCards"></div>
-                <div class="card">
-                    <h3 class="card-title">카테고리별 지출</h3>
-                    <div id="categoryChart"></div>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">최근 거래</h3>
-                    <div id="recentTransactions"></div>
-                </div>
+                <div class="card"><h3 class="card-title">카테고리별 지출</h3><div id="categoryChart"></div></div>
+                <div class="card"><h3 class="card-title">최근 거래</h3><div id="recentTransactions"></div></div>
             </section>
 
             <section id="add" class="section">
                 <div class="card" style="max-width:440px;margin:0 auto;">
                     <h3 class="card-title">새 거래 추가</h3>
                     <form id="addForm">
-                        <div class="form-group">
-                            <label class="form-label">유형</label>
+                        <div class="form-group"><label class="form-label">유형</label>
                             <div class="type-toggle">
                                 <button type="button" class="type-btn income" data-type="income">수입</button>
                                 <button type="button" class="type-btn expense active" data-type="expense">지출</button>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">날짜</label>
-                            <input type="date" id="formDate" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">카테고리</label>
-                            <select id="formCategory" class="form-select" required></select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">금액</label>
-                            <input type="text" id="formAmount" class="form-input" inputmode="numeric" placeholder="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">메모 (선택)</label>
-                            <input type="text" id="formMemo" class="form-input" placeholder="메모 입력" maxlength="100">
-                        </div>
+                        <div class="form-group"><label class="form-label">날짜</label><input type="date" id="formDate" class="form-input" required></div>
+                        <div class="form-group"><label class="form-label">카테고리</label><select id="formCategory" class="form-select" required></select></div>
+                        <div class="form-group"><label class="form-label">금액</label><input type="text" id="formAmount" class="form-input" inputmode="numeric" placeholder="0" required></div>
+                        <div class="form-group"><label class="form-label">메모 (선택)</label><input type="text" id="formMemo" class="form-input" placeholder="메모 입력" maxlength="100"></div>
                         <button type="submit" class="submit-btn">추가하기</button>
                     </form>
                 </div>
@@ -605,53 +338,27 @@
 
         <nav class="bottom-nav">
             <div class="bottom-nav-inner">
-                <button class="nav-btn active" data-tab="dashboard">
-                    <span class="icon">📊</span>
-                    <span class="label">대시보드</span>
-                </button>
-                <button class="nav-btn" data-tab="add">
-                    <span class="icon">➕</span>
-                    <span class="label">추가</span>
-                </button>
-                <button class="nav-btn" data-tab="list">
-                    <span class="icon">📋</span>
-                    <span class="label">내역</span>
-                </button>
+                <button class="nav-btn active" data-tab="dashboard"><span class="icon">📊</span><span class="label">대시보드</span></button>
+                <button class="nav-btn" data-tab="add"><span class="icon">➕</span><span class="label">추가</span></button>
+                <button class="nav-btn" data-tab="list"><span class="icon">📋</span><span class="label">내역</span></button>
             </div>
         </nav>
     </div>
 
-    <!-- Edit Modal -->
     <div class="modal-overlay" id="editModal">
         <div class="modal">
-            <div class="modal-header">
-                <h3 class="modal-title">거래 수정</h3>
-                <button class="modal-close" onclick="closeModal('editModal')">✕</button>
-            </div>
+            <div class="modal-header"><h3 class="modal-title">거래 수정</h3><button class="modal-close" onclick="closeModal('editModal')">✕</button></div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">유형</label>
+                <div class="form-group"><label class="form-label">유형</label>
                     <div class="type-toggle" id="editTypeToggle">
                         <button type="button" class="type-btn income" data-type="income">수입</button>
                         <button type="button" class="type-btn expense" data-type="expense">지출</button>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">날짜</label>
-                    <input type="date" id="editDate" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">카테고리</label>
-                    <select id="editCategory" class="form-select"></select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">금액</label>
-                    <input type="text" id="editAmount" class="form-input" inputmode="numeric">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">메모</label>
-                    <input type="text" id="editMemo" class="form-input" maxlength="100">
-                </div>
+                <div class="form-group"><label class="form-label">날짜</label><input type="date" id="editDate" class="form-input"></div>
+                <div class="form-group"><label class="form-label">카테고리</label><select id="editCategory" class="form-select"></select></div>
+                <div class="form-group"><label class="form-label">금액</label><input type="text" id="editAmount" class="form-input" inputmode="numeric"></div>
+                <div class="form-group"><label class="form-label">메모</label><input type="text" id="editMemo" class="form-input" maxlength="100"></div>
             </div>
             <div class="modal-footer">
                 <button class="modal-btn cancel" onclick="closeModal('editModal')">취소</button>
@@ -660,16 +367,10 @@
         </div>
     </div>
 
-    <!-- Delete Modal -->
     <div class="modal-overlay" id="deleteModal">
         <div class="modal" style="max-width:340px;">
-            <div class="modal-header">
-                <h3 class="modal-title">거래 삭제</h3>
-                <button class="modal-close" onclick="closeModal('deleteModal')">✕</button>
-            </div>
-            <div class="modal-body">
-                <p>이 거래를 삭제할까요?</p>
-            </div>
+            <div class="modal-header"><h3 class="modal-title">거래 삭제</h3><button class="modal-close" onclick="closeModal('deleteModal')">✕</button></div>
+            <div class="modal-body"><p>이 거래를 삭제할까요?</p></div>
             <div class="modal-footer">
                 <button class="modal-btn cancel" onclick="closeModal('deleteModal')">취소</button>
                 <button class="modal-btn danger" onclick="confirmDelete()">삭제</button>
@@ -677,11 +378,7 @@
         </div>
     </div>
 
-    <!-- Toast -->
-    <div class="toast" id="toast">
-        <span class="icon" id="toastIcon">✅</span>
-        <span class="msg" id="toastMsg"></span>
-    </div>
+    <div class="toast" id="toast"><span class="icon" id="toastIcon">✅</span><span class="msg" id="toastMsg"></span></div>
 
     <script>
         const CATEGORIES = {
@@ -720,45 +417,24 @@
 
         const COLORS = ['#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899', '#6366F1', '#14B8A6', '#F97316', '#84CC16', '#06B6D4', '#A855F7', '#F43F5E', '#22C55E'];
 
-        let state = {
-            deviceId: null,
-            transactions: [],
-            darkMode: false,
-            currentTab: 'dashboard',
-            formType: 'expense',
-            typeFilter: 'all',
-            searchTerm: '',
-            sortBy: 'dateDesc',
-            currentPage: 1,
-            editingId: null,
-            deletingId: null
-        };
-
+        let state = { deviceId: null, transactions: [], darkMode: false, currentTab: 'dashboard', formType: 'expense', typeFilter: 'all', searchTerm: '', sortBy: 'dateDesc', currentPage: 1, editingId: null, deletingId: null };
         const ITEMS_PER_PAGE = 10;
 
-        document.addEventListener('DOMContentLoaded', init);
-
-        function init() {
+        document.addEventListener('DOMContentLoaded', () => {
             renderDeviceList();
             setupEventListeners();
             document.getElementById('formDate').value = new Date().toISOString().split('T')[0];
             updateCategoryOptions('expense', 'formCategory');
-        }
+        });
 
         function renderDeviceList() {
-            document.getElementById('deviceList').innerHTML = DEVICES.map(d => `
-                <button class="device-btn" onclick="selectDevice('${d.id}')">
-                    <span class="icon">${d.icon}</span>
-                    <span class="name">${d.name}</span>
-                </button>
-            `).join('');
+            document.getElementById('deviceList').innerHTML = DEVICES.map(d => `<button class="device-btn" onclick="selectDevice('${d.id}')"><span class="icon">${d.icon}</span><span class="name">${d.name}</span></button>`).join('');
         }
 
         function selectDevice(id) {
             state.deviceId = id;
             loadData();
-            const device = DEVICES.find(d => d.id === id);
-            document.getElementById('deviceInfo').innerHTML = `${device.icon} ${device.name}`;
+            document.getElementById('deviceInfo').innerHTML = `${DEVICES.find(d=>d.id===id).icon} ${DEVICES.find(d=>d.id===id).name}`;
             document.getElementById('deviceSelect').style.display = 'none';
             document.getElementById('app').classList.add('active');
             renderAll();
@@ -773,128 +449,73 @@
         function loadData() {
             try {
                 const data = localStorage.getItem(`budget_${state.deviceId}`);
-                if (data) {
-                    const parsed = JSON.parse(data);
-                    state.transactions = parsed.transactions || [];
-                    state.darkMode = parsed.darkMode || false;
-                    applyDarkMode();
-                }
-            } catch (e) { console.error('Load error:', e); }
+                if (data) { const p = JSON.parse(data); state.transactions = p.transactions || []; state.darkMode = p.darkMode || false; applyDarkMode(); }
+            } catch (e) {}
         }
 
         function saveData() {
             document.getElementById('savingIndicator').style.display = 'inline';
-            try {
-                localStorage.setItem(`budget_${state.deviceId}`, JSON.stringify({
-                    transactions: state.transactions,
-                    darkMode: state.darkMode,
-                    lastUpdated: new Date().toISOString()
-                }));
-            } catch (e) { showToast('저장 오류', 'error'); }
-            setTimeout(() => { document.getElementById('savingIndicator').style.display = 'none'; }, 500);
+            try { localStorage.setItem(`budget_${state.deviceId}`, JSON.stringify({ transactions: state.transactions, darkMode: state.darkMode })); } catch (e) { showToast('저장 오류', 'error'); }
+            setTimeout(() => document.getElementById('savingIndicator').style.display = 'none', 500);
         }
 
         function setupEventListeners() {
-            document.querySelectorAll('.tab-btn, .nav-btn').forEach(btn => {
-                btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-            });
+            document.querySelectorAll('.tab-btn, .nav-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
             document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
             document.getElementById('changeDeviceBtn').addEventListener('click', changeDevice);
-            document.querySelectorAll('#addForm .type-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    state.formType = btn.dataset.type;
-                    document.querySelectorAll('#addForm .type-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    updateCategoryOptions(state.formType, 'formCategory');
-                });
-            });
+            document.querySelectorAll('#addForm .type-btn').forEach(b => b.addEventListener('click', () => {
+                state.formType = b.dataset.type;
+                document.querySelectorAll('#addForm .type-btn').forEach(x => x.classList.remove('active'));
+                b.classList.add('active');
+                updateCategoryOptions(state.formType, 'formCategory');
+            }));
             document.getElementById('addForm').addEventListener('submit', handleSubmit);
-            document.getElementById('formAmount').addEventListener('input', e => { e.target.value = formatAmountInput(e.target.value); });
-            document.getElementById('editAmount').addEventListener('input', e => { e.target.value = formatAmountInput(e.target.value); });
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    state.typeFilter = btn.dataset.filter;
-                    state.currentPage = 1;
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    renderTransactionList();
-                });
-            });
-            document.getElementById('searchInput').addEventListener('input', e => {
-                state.searchTerm = e.target.value;
-                state.currentPage = 1;
-                renderTransactionList();
-            });
-            document.getElementById('sortSelect').addEventListener('change', e => {
-                state.sortBy = e.target.value;
-                renderTransactionList();
-            });
-            document.querySelectorAll('#editTypeToggle .type-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('#editTypeToggle .type-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    updateCategoryOptions(btn.dataset.type, 'editCategory');
-                });
-            });
+            document.getElementById('formAmount').addEventListener('input', e => e.target.value = formatAmountInput(e.target.value));
+            document.getElementById('editAmount').addEventListener('input', e => e.target.value = formatAmountInput(e.target.value));
+            document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', () => {
+                state.typeFilter = b.dataset.filter; state.currentPage = 1;
+                document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
+                b.classList.add('active'); renderTransactionList();
+            }));
+            document.getElementById('searchInput').addEventListener('input', e => { state.searchTerm = e.target.value; state.currentPage = 1; renderTransactionList(); });
+            document.getElementById('sortSelect').addEventListener('change', e => { state.sortBy = e.target.value; renderTransactionList(); });
+            document.querySelectorAll('#editTypeToggle .type-btn').forEach(b => b.addEventListener('click', () => {
+                document.querySelectorAll('#editTypeToggle .type-btn').forEach(x => x.classList.remove('active'));
+                b.classList.add('active'); updateCategoryOptions(b.dataset.type, 'editCategory');
+            }));
         }
 
         function switchTab(tab) {
-            state.currentTab = tab;
-            state.currentPage = 1;
+            state.currentTab = tab; state.currentPage = 1;
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById(tab).classList.add('active');
-            document.querySelectorAll('.tab-btn, .nav-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.tab === tab);
-            });
+            document.querySelectorAll('.tab-btn, .nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
             if (tab === 'dashboard') renderDashboard();
             if (tab === 'list') renderTransactionList();
         }
 
-        function toggleDarkMode() {
-            state.darkMode = !state.darkMode;
-            applyDarkMode();
-            saveData();
-        }
+        function toggleDarkMode() { state.darkMode = !state.darkMode; applyDarkMode(); saveData(); }
+        function applyDarkMode() { document.body.classList.toggle('dark', state.darkMode); document.getElementById('darkModeBtn').textContent = state.darkMode ? '☀️' : '🌙'; }
 
-        function applyDarkMode() {
-            document.body.classList.toggle('dark', state.darkMode);
-            document.getElementById('darkModeBtn').textContent = state.darkMode ? '☀️' : '🌙';
-        }
-
-        function formatCurrency(amount) { return Math.abs(amount).toLocaleString('ko-KR') + '원'; }
-        function formatAmountInput(value) { const num = value.replace(/\D/g, ''); return num ? parseInt(num).toLocaleString('ko-KR') : ''; }
-        function parseAmount(value) { return parseInt(value.replace(/\D/g, '')) || 0; }
-        function getCategoryInfo(type, id) { const cats = CATEGORIES[type]; return cats.find(c => c.id === id) || cats[cats.length - 1]; }
-        function updateCategoryOptions(type, selectId) {
-            document.getElementById(selectId).innerHTML = CATEGORIES[type].map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`).join('');
-        }
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastIcon').textContent = type === 'error' ? '❌' : '✅';
-            document.getElementById('toastMsg').textContent = msg;
-            toast.classList.add('active');
-            setTimeout(() => toast.classList.remove('active'), 2500);
-        }
+        function formatCurrency(n) { return Math.abs(n).toLocaleString('ko-KR') + '원'; }
+        function formatAmountInput(v) { const n = v.replace(/\D/g, ''); return n ? parseInt(n).toLocaleString('ko-KR') : ''; }
+        function parseAmount(v) { return parseInt(v.replace(/\D/g, '')) || 0; }
+        function getCategoryInfo(type, id) { return CATEGORIES[type].find(c => c.id === id) || CATEGORIES[type].slice(-1)[0]; }
+        function updateCategoryOptions(type, id) { document.getElementById(id).innerHTML = CATEGORIES[type].map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`).join(''); }
+        function showToast(msg, type = 'success') { const t = document.getElementById('toast'); document.getElementById('toastIcon').textContent = type === 'error' ? '❌' : '✅'; document.getElementById('toastMsg').textContent = msg; t.classList.add('active'); setTimeout(() => t.classList.remove('active'), 2500); }
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-        function formatDateKR(dateStr) {
-            const date = new Date(dateStr);
-            const days = ['일', '월', '화', '수', '목', '금', '토'];
-            return `${date.getMonth() + 1}월 ${date.getDate()}일 (${days[date.getDay()]})`;
+
+        function formatDateKR(d) {
+            const date = new Date(d), days = ['일','월','화','수','목','금','토'];
+            return { y: date.getFullYear(), m: date.getMonth()+1, d: date.getDate(), day: days[date.getDay()] };
         }
 
         function handleSubmit(e) {
             e.preventDefault();
-            const amount = parseAmount(document.getElementById('formAmount').value);
-            if (!amount) { showToast('금액을 입력하세요', 'error'); return; }
-            state.transactions.push({
-                id: Date.now().toString(36) + Math.random().toString(36).substr(2),
-                type: state.formType,
-                date: document.getElementById('formDate').value,
-                category: document.getElementById('formCategory').value,
-                amount,
-                memo: document.getElementById('formMemo').value.trim()
-            });
+            const amt = parseAmount(document.getElementById('formAmount').value);
+            if (!amt) { showToast('금액을 입력하세요', 'error'); return; }
+            state.transactions.push({ id: Date.now().toString(36)+Math.random().toString(36).substr(2), type: state.formType, date: document.getElementById('formDate').value, category: document.getElementById('formCategory').value, amount: amt, memo: document.getElementById('formMemo').value.trim() });
             saveData();
             document.getElementById('formAmount').value = '';
             document.getElementById('formMemo').value = '';
@@ -906,9 +527,7 @@
             const tx = state.transactions.find(t => t.id === id);
             if (!tx) return;
             state.editingId = id;
-            document.querySelectorAll('#editTypeToggle .type-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.type === tx.type);
-            });
+            document.querySelectorAll('#editTypeToggle .type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === tx.type));
             updateCategoryOptions(tx.type, 'editCategory');
             document.getElementById('editDate').value = tx.date;
             document.getElementById('editCategory').value = tx.category;
@@ -918,74 +537,49 @@
         }
 
         function saveEdit() {
-            const amount = parseAmount(document.getElementById('editAmount').value);
-            if (!amount) { showToast('금액을 입력하세요', 'error'); return; }
+            const amt = parseAmount(document.getElementById('editAmount').value);
+            if (!amt) { showToast('금액을 입력하세요', 'error'); return; }
             const type = document.querySelector('#editTypeToggle .type-btn.active').dataset.type;
-            state.transactions = state.transactions.map(t => t.id === state.editingId ? {
-                ...t, type,
-                date: document.getElementById('editDate').value,
-                category: document.getElementById('editCategory').value,
-                amount,
-                memo: document.getElementById('editMemo').value.trim()
-            } : t);
-            saveData();
-            closeModal('editModal');
-            showToast('수정되었습니다');
-            renderAll();
+            state.transactions = state.transactions.map(t => t.id === state.editingId ? { ...t, type, date: document.getElementById('editDate').value, category: document.getElementById('editCategory').value, amount: amt, memo: document.getElementById('editMemo').value.trim() } : t);
+            saveData(); closeModal('editModal'); showToast('수정되었습니다'); renderAll();
         }
 
         function openDelete(id) { state.deletingId = id; openModal('deleteModal'); }
-        function confirmDelete() {
-            state.transactions = state.transactions.filter(t => t.id !== state.deletingId);
-            saveData();
-            closeModal('deleteModal');
-            showToast('삭제되었습니다');
-            renderAll();
-        }
+        function confirmDelete() { state.transactions = state.transactions.filter(t => t.id !== state.deletingId); saveData(); closeModal('deleteModal'); showToast('삭제되었습니다'); renderAll(); }
 
         function renderAll() { renderDashboard(); renderTransactionList(); }
 
         function renderDashboard() {
             const now = new Date();
-            const monthTx = state.transactions.filter(t => {
-                const d = new Date(t.date);
-                return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-            });
-            const income = monthTx.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
-            const expense = monthTx.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+            const monthTx = state.transactions.filter(t => { const d = new Date(t.date); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); });
+            const income = monthTx.filter(t => t.type === 'income').reduce((s,t) => s+t.amount, 0);
+            const expense = monthTx.filter(t => t.type === 'expense').reduce((s,t) => s+t.amount, 0);
             const balance = income - expense;
 
             document.getElementById('summaryCards').innerHTML = `
                 <div class="summary-card income"><div class="summary-label">이번 달 수입</div><div class="summary-amount">+${formatCurrency(income)}</div></div>
                 <div class="summary-card expense"><div class="summary-label">이번 달 지출</div><div class="summary-amount">-${formatCurrency(expense)}</div></div>
-                <div class="summary-card balance ${balance < 0 ? 'negative' : ''}"><div class="summary-label">잔액</div><div class="summary-amount">${balance >= 0 ? '+' : ''}${formatCurrency(balance)}</div></div>
-            `;
+                <div class="summary-card balance ${balance<0?'negative':''}"><div class="summary-label">잔액</div><div class="summary-amount">${balance>=0?'+':''}${formatCurrency(balance)}</div></div>`;
 
             const catData = {};
-            monthTx.filter(t => t.type === 'expense').forEach(t => {
-                const cat = getCategoryInfo('expense', t.category);
-                const key = `${cat.icon} ${cat.name}`;
-                catData[key] = (catData[key] || 0) + t.amount;
-            });
+            monthTx.filter(t => t.type === 'expense').forEach(t => { const c = getCategoryInfo('expense', t.category); catData[`${c.icon} ${c.name}`] = (catData[`${c.icon} ${c.name}`]||0) + t.amount; });
 
-            const catChart = document.getElementById('categoryChart');
-            if (Object.keys(catData).length === 0) {
-                catChart.innerHTML = '<div class="empty"><div class="icon">📊</div><p>이번 달 지출이 없습니다</p></div>';
-            } else {
-                const total = Object.values(catData).reduce((s, v) => s + v, 0);
-                catChart.innerHTML = Object.entries(catData).sort((a, b) => b[1] - a[1]).map(([cat, amount], i) => {
-                    const pct = ((amount / total) * 100).toFixed(1);
-                    return `<div class="cat-item"><div class="cat-header"><span>${cat}</span><span class="amount">${formatCurrency(amount)} (${pct}%)</span></div><div class="cat-bar"><div class="cat-bar-fill" style="width:${pct}%;background:${COLORS[i % COLORS.length]}"></div></div></div>`;
+            const cc = document.getElementById('categoryChart');
+            if (!Object.keys(catData).length) { cc.innerHTML = '<div class="empty"><div class="icon">📊</div><p>이번 달 지출이 없습니다</p></div>'; }
+            else {
+                const total = Object.values(catData).reduce((s,v) => s+v, 0);
+                cc.innerHTML = Object.entries(catData).sort((a,b) => b[1]-a[1]).map(([c,a],i) => {
+                    const pct = ((a/total)*100).toFixed(1);
+                    return `<div class="cat-item"><div class="cat-header"><span>${c}</span><span class="amount">${formatCurrency(a)} (${pct}%)</span></div><div class="cat-bar"><div class="cat-bar-fill" style="width:${pct}%;background:${COLORS[i%COLORS.length]}"></div></div></div>`;
                 }).join('');
             }
 
-            const recent = document.getElementById('recentTransactions');
-            if (state.transactions.length === 0) {
-                recent.innerHTML = '<div class="empty"><div class="icon">📝</div><p>거래 내역이 없습니다</p></div>';
-            } else {
-                recent.innerHTML = [...state.transactions].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5).map(t => {
-                    const cat = getCategoryInfo(t.type, t.category);
-                    return `<div class="tx-item ${t.type}"><div class="tx-icon">${cat.icon}</div><div class="tx-details"><div class="tx-category">${cat.name}</div><div class="tx-meta">${new Date(t.date).toLocaleDateString('ko-KR')}</div></div><div class="tx-amount">${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}</div></div>`;
+            const rt = document.getElementById('recentTransactions');
+            if (!state.transactions.length) { rt.innerHTML = '<div class="empty"><div class="icon">📝</div><p>거래 내역이 없습니다</p></div>'; }
+            else {
+                rt.innerHTML = [...state.transactions].sort((a,b) => new Date(b.date)-new Date(a.date)).slice(0,5).map(t => {
+                    const c = getCategoryInfo(t.type, t.category);
+                    return `<div class="tx-item ${t.type}"><div class="tx-icon">${c.icon}</div><div class="tx-details"><div class="tx-category">${c.name}</div><div class="tx-meta">${new Date(t.date).toLocaleDateString('ko-KR')}</div></div><div class="tx-amount">${t.type==='income'?'+':'-'}${formatCurrency(t.amount)}</div></div>`;
                 }).join('');
             }
         }
@@ -994,59 +588,72 @@
             let filtered = [...state.transactions];
             if (state.typeFilter !== 'all') filtered = filtered.filter(t => t.type === state.typeFilter);
             if (state.searchTerm) filtered = filtered.filter(t => t.memo?.toLowerCase().includes(state.searchTerm.toLowerCase()));
-
-            filtered.sort((a, b) => {
-                switch (state.sortBy) {
-                    case 'dateAsc': return new Date(a.date) - new Date(b.date);
-                    case 'amountDesc': return b.amount - a.amount;
-                    case 'amountAsc': return a.amount - b.amount;
-                    default: return new Date(b.date) - new Date(a.date);
-                }
+            filtered.sort((a,b) => {
+                if (state.sortBy === 'dateAsc') return new Date(a.date) - new Date(b.date);
+                if (state.sortBy === 'amountDesc') return b.amount - a.amount;
+                if (state.sortBy === 'amountAsc') return a.amount - b.amount;
+                return new Date(b.date) - new Date(a.date);
             });
 
             const list = document.getElementById('transactionList');
-            if (filtered.length === 0) {
-                list.innerHTML = '<div class="empty"><div class="icon">📝</div><p>거래 내역이 없습니다</p></div>';
-                document.getElementById('pagination').innerHTML = '';
-                return;
-            }
+            if (!filtered.length) { list.innerHTML = '<div class="empty"><div class="icon">📝</div><p>거래 내역이 없습니다</p></div>'; document.getElementById('pagination').innerHTML = ''; return; }
 
-            // 날짜별 그룹화
             const grouped = {};
             filtered.forEach(t => { if (!grouped[t.date]) grouped[t.date] = []; grouped[t.date].push(t); });
 
-            const sortedDates = Object.keys(grouped).sort((a, b) => state.sortBy === 'dateAsc' ? new Date(a) - new Date(b) : new Date(b) - new Date(a));
+            const sortedDates = Object.keys(grouped).sort((a,b) => state.sortBy === 'dateAsc' ? new Date(a)-new Date(b) : new Date(b)-new Date(a));
             const totalPages = Math.ceil(sortedDates.length / ITEMS_PER_PAGE);
-            const paginatedDates = sortedDates.slice((state.currentPage - 1) * ITEMS_PER_PAGE, state.currentPage * ITEMS_PER_PAGE);
+            const paginatedDates = sortedDates.slice((state.currentPage-1)*ITEMS_PER_PAGE, state.currentPage*ITEMS_PER_PAGE);
 
             let html = '';
             paginatedDates.forEach(date => {
                 const dayTx = grouped[date];
-                const dayIncome = dayTx.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
-                const dayExpense = dayTx.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+                const dayIncome = dayTx.filter(t => t.type === 'income').reduce((s,t) => s+t.amount, 0);
+                const dayExpense = dayTx.filter(t => t.type === 'expense').reduce((s,t) => s+t.amount, 0);
+                const dayBalance = dayIncome - dayExpense;
+                const di = formatDateKR(date);
 
-                html += `<div class="daily-group"><div class="daily-header"><div class="daily-date">📅 ${formatDateKR(date)}</div><div class="daily-totals">`;
-                if (dayIncome > 0) html += `<span class="income">+${formatCurrency(dayIncome)}</span>`;
-                if (dayExpense > 0) html += `<span class="expense">-${formatCurrency(dayExpense)}</span>`;
-                html += `</div></div>`;
+                html += `
+                <div class="daily-group">
+                    <div class="daily-header">
+                        <div class="daily-date-row">
+                            <div class="daily-date">
+                                <div class="day-number">${di.d}</div>
+                                <div class="day-text">${di.m}월 ${di.d}일 (${di.day})<small>${di.y}년</small></div>
+                            </div>
+                            <div class="daily-count">${dayTx.length}건</div>
+                        </div>
+                        <div class="daily-totals">
+                            <div class="daily-total-box income">
+                                <div class="daily-total-label">수입</div>
+                                <div class="daily-total-amount">+${formatCurrency(dayIncome)}</div>
+                            </div>
+                            <div class="daily-total-box expense">
+                                <div class="daily-total-label">지출</div>
+                                <div class="daily-total-amount">-${formatCurrency(dayExpense)}</div>
+                            </div>
+                            <div class="daily-total-box balance ${dayBalance>=0?'':'negative'}">
+                                <div class="daily-total-label">순합계</div>
+                                <div class="daily-total-amount">${dayBalance>=0?'+':''}${formatCurrency(dayBalance)}</div>
+                            </div>
+                        </div>
+                    </div>`;
 
                 dayTx.forEach(t => {
-                    const cat = getCategoryInfo(t.type, t.category);
-                    html += `<div class="tx-item ${t.type}"><div class="tx-icon">${cat.icon}</div><div class="tx-details"><div class="tx-category">${cat.name}</div><div class="tx-meta">${t.memo || ''}</div></div><div class="tx-amount">${t.type === 'income' ? '+' : '-'}${formatCurrency(t.amount)}</div><div class="tx-actions"><button onclick="openEdit('${t.id}')">✏️</button><button class="delete-btn" onclick="openDelete('${t.id}')">🗑️</button></div></div>`;
+                    const c = getCategoryInfo(t.type, t.category);
+                    html += `<div class="tx-item ${t.type}"><div class="tx-icon">${c.icon}</div><div class="tx-details"><div class="tx-category">${c.name}</div><div class="tx-meta">${t.memo||''}</div></div><div class="tx-amount">${t.type==='income'?'+':'-'}${formatCurrency(t.amount)}</div><div class="tx-actions"><button onclick="openEdit('${t.id}')">✏️</button><button class="delete-btn" onclick="openDelete('${t.id}')">🗑️</button></div></div>`;
                 });
                 html += '</div>';
             });
             list.innerHTML = html;
 
-            const pagination = document.getElementById('pagination');
-            pagination.innerHTML = totalPages > 1 ? `
-                <button class="page-btn" onclick="goToPage(${state.currentPage - 1})" ${state.currentPage === 1 ? 'disabled' : ''}>◀</button>
+            document.getElementById('pagination').innerHTML = totalPages > 1 ? `
+                <button class="page-btn" onclick="goToPage(${state.currentPage-1})" ${state.currentPage===1?'disabled':''}>◀</button>
                 <span class="page-info">${state.currentPage} / ${totalPages}</span>
-                <button class="page-btn" onclick="goToPage(${state.currentPage + 1})" ${state.currentPage === totalPages ? 'disabled' : ''}>▶</button>
-            ` : '';
+                <button class="page-btn" onclick="goToPage(${state.currentPage+1})" ${state.currentPage===totalPages?'disabled':''}>▶</button>` : '';
         }
 
-        function goToPage(page) { state.currentPage = page; renderTransactionList(); }
+        function goToPage(p) { state.currentPage = p; renderTransactionList(); }
     </script>
 </body>
 </html>
