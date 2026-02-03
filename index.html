@@ -24,16 +24,6 @@
 
         .device-select { min-height: 100vh; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; padding: 20px; }
         .device-box { background: #fff; border-radius: 24px; padding: 40px 28px; max-width: 380px; width: 100%; box-shadow: 0 25px 50px rgba(0,0,0,0.25); }
-        .device-header { text-align: center; margin-bottom: 28px; }
-        .device-header .icon { font-size: 56px; margin-bottom: 12px; }
-        .device-header h1 { font-size: 26px; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
-        .device-header p { color: #64748b; font-size: 14px; }
-        .device-header small { color: #94a3b8; font-size: 12px; }
-        .device-list { display: flex; flex-direction: column; gap: 10px; }
-        .device-btn { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 14px; cursor: pointer; transition: all 0.2s; width: 100%; }
-        .device-btn:hover { border-color: #667eea; background: #f1f5f9; }
-        .device-btn .icon { font-size: 28px; }
-        .device-btn .name { font-size: 15px; font-weight: 600; color: #334155; }
 
         .app { display: none; min-height: 100vh; padding-bottom: 70px; }
         .app.active { display: block; }
@@ -47,7 +37,7 @@
         .header-actions { display: flex; gap: 8px; align-items: center; }
         .header-actions .saving { font-size: 11px; color: var(--txt2); }
         .icon-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--bdr); background: var(--card); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
-        .text-btn { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--bdr); background: var(--card); cursor: pointer; font-size: 12px; color: var(--txt); }
+        .lang-btn { width: auto; padding: 0 10px; border-radius: 18px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
 
         .tab-nav { background: var(--card); border-bottom: 1px solid var(--bdr); padding: 0 16px; overflow-x: auto; }
         .tab-nav::-webkit-scrollbar { display: none; }
@@ -87,108 +77,28 @@
         .cat-bar { height: 8px; background: var(--bdr); border-radius: 4px; overflow: hidden; }
         .cat-bar-fill { height: 100%; border-radius: 4px; }
 
-        /* ========== 날짜별 일일 합계 - 크고 명확하게 ========== */
         .daily-group { margin-bottom: 28px; }
-        
-        .daily-header {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 12px;
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.35);
-            color: white;
-        }
-        
-        .daily-date-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        
-        .daily-date {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .daily-date .day-number {
-            width: 50px;
-            height: 50px;
-            background: rgba(255,255,255,0.25);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 800;
-        }
-        
-        .daily-date .day-text {
-            font-size: 15px;
-            font-weight: 600;
-            opacity: 0.95;
-        }
-        
-        .daily-date .day-text small {
-            display: block;
-            font-size: 12px;
-            font-weight: 400;
-            opacity: 0.8;
-        }
-        
-        .daily-count {
-            background: rgba(255,255,255,0.2);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        
-        .daily-totals {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-        
-        .daily-total-box {
-            background: rgba(255,255,255,0.15);
-            border-radius: 14px;
-            padding: 14px 10px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-        }
-        
-        .daily-total-box.income { background: rgba(59, 130, 246, 0.35); }
-        .daily-total-box.expense { background: rgba(239, 68, 68, 0.35); }
-        .daily-total-box.balance { background: rgba(16, 185, 129, 0.35); }
-        .daily-total-box.balance.negative { background: rgba(239, 68, 68, 0.35); }
-        
-        .daily-total-label {
-            font-size: 12px;
-            font-weight: 500;
-            opacity: 0.9;
-            margin-bottom: 6px;
-        }
-        
-        .daily-total-amount {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-        
+        .daily-header { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 20px; padding: 20px; margin-bottom: 12px; box-shadow: 0 8px 20px rgba(102,126,234,0.35); color: white; }
+        .daily-date-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .daily-date { display: flex; align-items: center; gap: 12px; }
+        .daily-date .day-number { width: 50px; height: 50px; background: rgba(255,255,255,0.25); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; }
+        .daily-date .day-text { font-size: 15px; font-weight: 600; opacity: 0.95; }
+        .daily-date .day-text small { display: block; font-size: 12px; font-weight: 400; opacity: 0.8; }
+        .daily-count { background: rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+        .daily-totals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .daily-total-box { background: rgba(255,255,255,0.15); border-radius: 14px; padding: 14px 10px; text-align: center; }
+        .daily-total-box.income { background: rgba(59,130,246,0.35); }
+        .daily-total-box.expense { background: rgba(239,68,68,0.35); }
+        .daily-total-box.balance { background: rgba(16,185,129,0.35); }
+        .daily-total-box.balance.negative { background: rgba(239,68,68,0.35); }
+        .daily-total-label { font-size: 12px; font-weight: 500; opacity: 0.9; margin-bottom: 6px; }
+        .daily-total-amount { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
         @media (max-width: 400px) {
             .daily-total-amount { font-size: 16px; }
             .daily-date .day-number { width: 42px; height: 42px; font-size: 20px; }
         }
 
-        /* ========== 거래 내역 아이템 ========== */
-        .tx-item {
-            display: flex; align-items: center; padding: 14px;
-            background: var(--card); border-radius: 14px; margin-bottom: 10px;
-            border-left: 5px solid var(--bdr); gap: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-        }
+        .tx-item { display: flex; align-items: center; padding: 14px; background: var(--card); border-radius: 14px; margin-bottom: 10px; border-left: 5px solid var(--bdr); gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
         .tx-item.income { border-left-color: var(--inc); }
         .tx-item.expense { border-left-color: var(--exp); }
         .tx-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
@@ -207,6 +117,11 @@
         .form-group { margin-bottom: 16px; }
         .form-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--txt2); }
         .form-input, .form-select { width: 100%; padding: 14px; border: 1px solid var(--bdr); border-radius: 10px; font-size: 15px; background: var(--bg); color: var(--txt); }
+        input[type="date"] { -webkit-appearance: none; appearance: none; min-height: 52px; padding: 14px 16px; font-size: 16px; color: var(--txt); background: var(--bg); border: 1px solid var(--bdr); border-radius: 12px; width: 100%; position: relative; }
+        input[type="date"]::-webkit-date-and-time-value { text-align: left; }
+        input[type="date"]::-webkit-calendar-picker-indicator { background: transparent; color: transparent; cursor: pointer; position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; }
+        .date-wrapper { position: relative; }
+        .date-wrapper::after { content: '📅'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 18px; pointer-events: none; }
         .type-toggle { display: flex; background: var(--bg); border-radius: 10px; padding: 4px; gap: 4px; }
         .type-btn { flex: 1; padding: 12px; border-radius: 8px; background: transparent; color: var(--txt2); font-weight: 600; cursor: pointer; font-size: 14px; }
         .type-btn.income.active { background: var(--inc-bg); color: var(--inc); }
@@ -258,29 +173,31 @@
 <body>
     <div id="deviceSelect" class="device-select">
         <div class="device-box">
-            <div class="device-header" style="margin-bottom:32px;">
-                <div class="icon" style="font-size:72px;margin-bottom:16px;">💰</div>
-                <h1 style="font-size:32px;margin-bottom:10px;">나의 가계부</h1>
-                <p style="font-size:15px;line-height:1.6;">수입과 지출을 한눈에!<br>간편하고 똑똑한 가계부</p>
+            <div style="text-align:center;margin-bottom:32px;">
+                <div style="font-size:72px;margin-bottom:16px;">💰</div>
+                <h1 id="splashTitle" style="font-size:32px;font-weight:700;color:#1e293b;margin-bottom:10px;">나의 가계부</h1>
+                <p id="splashDesc" style="font-size:15px;line-height:1.6;color:#64748b;">수입과 지출을 한눈에!<br>간편하고 똑똑한 가계부</p>
             </div>
             <div style="display:flex;justify-content:center;gap:24px;margin-bottom:32px;">
                 <div style="text-align:center;">
                     <div style="width:52px;height:52px;background:#dbeafe;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 8px;">📊</div>
-                    <div style="font-size:12px;color:#64748b;font-weight:500;">통계분석</div>
+                    <div id="splashFeat1" style="font-size:12px;color:#64748b;font-weight:500;">통계분석</div>
                 </div>
                 <div style="text-align:center;">
                     <div style="width:52px;height:52px;background:#fee2e2;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 8px;">📅</div>
-                    <div style="font-size:12px;color:#64748b;font-weight:500;">일일합계</div>
+                    <div id="splashFeat2" style="font-size:12px;color:#64748b;font-weight:500;">일일합계</div>
                 </div>
                 <div style="text-align:center;">
                     <div style="width:52px;height:52px;background:#d1fae5;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 8px;">🌙</div>
-                    <div style="font-size:12px;color:#64748b;font-weight:500;">다크모드</div>
+                    <div id="splashFeat3" style="font-size:12px;color:#64748b;font-weight:500;">다크모드</div>
                 </div>
             </div>
-            <button onclick="autoDetectDevice()" style="width:100%;padding:18px;border-radius:16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:18px;font-weight:700;cursor:pointer;border:none;font-family:inherit;box-shadow:0 8px 20px rgba(102,126,234,0.4);transition:transform 0.2s;" onmousedown="this.style.transform='scale(0.97)'" onmouseup="this.style.transform='scale(1)'" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform='scale(1)'">
+            <button onclick="autoDetectDevice()" style="width:100%;padding:18px;border-radius:16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:18px;font-weight:700;cursor:pointer;border:none;font-family:inherit;box-shadow:0 8px 20px rgba(102,126,234,0.4);" id="splashStartBtn">
                 시작하기 →
             </button>
-            <p style="text-align:center;margin-top:16px;font-size:11px;color:#94a3b8;">기기를 자동 인식하여 데이터가 독립 저장됩니다</p>
+            <div style="display:flex;justify-content:center;margin-top:16px;">
+                <button onclick="toggleLang()" id="splashLangBtn" style="background:none;border:1px solid #e2e8f0;border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:#64748b;cursor:pointer;font-family:inherit;">🌐 English</button>
+            </div>
         </div>
     </div>
 
@@ -290,12 +207,13 @@
                 <div class="logo">
                     <span class="icon">💰</span>
                     <div>
-                        <h1>나의 가계부</h1>
+                        <h1 id="appTitle">나의 가계부</h1>
                         <div class="device-info" id="deviceInfo"></div>
                     </div>
                 </div>
                 <div class="header-actions">
-                    <span class="saving" id="savingIndicator" style="display:none;">저장중...</span>
+                    <span class="saving" id="savingIndicator" style="display:none;"></span>
+                    <button class="icon-btn lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
                     <button class="icon-btn" id="darkModeBtn">🌙</button>
                 </div>
             </div>
@@ -303,34 +221,34 @@
 
         <nav class="tab-nav">
             <div class="tab-nav-inner">
-                <button class="tab-btn active" data-tab="dashboard">📊 대시보드</button>
-                <button class="tab-btn" data-tab="add">➕ 추가</button>
-                <button class="tab-btn" data-tab="list">📋 내역</button>
+                <button class="tab-btn active" data-tab="dashboard" id="tabDashboard">📊 대시보드</button>
+                <button class="tab-btn" data-tab="add" id="tabAdd">➕ 추가</button>
+                <button class="tab-btn" data-tab="list" id="tabList">📋 내역</button>
             </div>
         </nav>
 
         <main>
             <section id="dashboard" class="section active">
                 <div class="summary-grid" id="summaryCards"></div>
-                <div class="card"><h3 class="card-title">카테고리별 지출</h3><div id="categoryChart"></div></div>
-                <div class="card"><h3 class="card-title">최근 거래</h3><div id="recentTransactions"></div></div>
+                <div class="card"><h3 class="card-title" id="catTitle">카테고리별 지출</h3><div id="categoryChart"></div></div>
+                <div class="card"><h3 class="card-title" id="recentTitle">최근 거래</h3><div id="recentTransactions"></div></div>
             </section>
 
             <section id="add" class="section">
                 <div class="card" style="max-width:440px;margin:0 auto;">
-                    <h3 class="card-title">새 거래 추가</h3>
+                    <h3 class="card-title" id="addTitle">새 거래 추가</h3>
                     <form id="addForm">
-                        <div class="form-group"><label class="form-label">유형</label>
+                        <div class="form-group"><label class="form-label" id="labelType">유형</label>
                             <div class="type-toggle">
-                                <button type="button" class="type-btn income" data-type="income">수입</button>
-                                <button type="button" class="type-btn expense active" data-type="expense">지출</button>
+                                <button type="button" class="type-btn income" data-type="income" id="btnIncome">수입</button>
+                                <button type="button" class="type-btn expense active" data-type="expense" id="btnExpense">지출</button>
                             </div>
                         </div>
-                        <div class="form-group"><label class="form-label">날짜</label><input type="date" id="formDate" class="form-input" required></div>
-                        <div class="form-group"><label class="form-label">카테고리</label><select id="formCategory" class="form-select" required></select></div>
-                        <div class="form-group"><label class="form-label">금액</label><input type="text" id="formAmount" class="form-input" inputmode="numeric" placeholder="0" required></div>
-                        <div class="form-group"><label class="form-label">메모 (선택)</label><input type="text" id="formMemo" class="form-input" placeholder="메모 입력" maxlength="100"></div>
-                        <button type="submit" class="submit-btn">추가하기</button>
+                        <div class="form-group"><label class="form-label" id="labelDate">날짜</label><div class="date-wrapper"><input type="date" id="formDate" class="form-input" required></div></div>
+                        <div class="form-group"><label class="form-label" id="labelCategory">카테고리</label><select id="formCategory" class="form-select" required></select></div>
+                        <div class="form-group"><label class="form-label" id="labelAmount">금액</label><input type="text" id="formAmount" class="form-input" inputmode="numeric" placeholder="0" required></div>
+                        <div class="form-group"><label class="form-label" id="labelMemo">메모 (선택)</label><input type="text" id="formMemo" class="form-input" maxlength="100"></div>
+                        <button type="submit" class="submit-btn" id="submitBtn">추가하기</button>
                     </form>
                 </div>
             </section>
@@ -339,14 +257,14 @@
                 <div class="card">
                     <div class="filters">
                         <div class="filter-group">
-                            <button class="filter-btn active" data-filter="all">전체</button>
-                            <button class="filter-btn" data-filter="income">수입</button>
-                            <button class="filter-btn" data-filter="expense">지출</button>
+                            <button class="filter-btn active" data-filter="all" id="filterAll">전체</button>
+                            <button class="filter-btn" data-filter="income" id="filterIncome">수입</button>
+                            <button class="filter-btn" data-filter="expense" id="filterExpense">지출</button>
                         </div>
-                        <input type="text" class="search-input" id="searchInput" placeholder="메모 검색">
+                        <input type="text" class="search-input" id="searchInput">
                         <select class="sort-select" id="sortSelect">
-                            <option value="dateDesc">최신순</option>
-                            <option value="dateAsc">오래된순</option>
+                            <option value="dateDesc" id="sortNewest">최신순</option>
+                            <option value="dateAsc" id="sortOldest">오래된순</option>
                             <option value="amountDesc">금액↓</option>
                             <option value="amountAsc">금액↑</option>
                         </select>
@@ -359,42 +277,42 @@
 
         <nav class="bottom-nav">
             <div class="bottom-nav-inner">
-                <button class="nav-btn active" data-tab="dashboard"><span class="icon">📊</span><span class="label">대시보드</span></button>
-                <button class="nav-btn" data-tab="add"><span class="icon">➕</span><span class="label">추가</span></button>
-                <button class="nav-btn" data-tab="list"><span class="icon">📋</span><span class="label">내역</span></button>
+                <button class="nav-btn active" data-tab="dashboard"><span class="icon">📊</span><span class="label" id="navDashboard">대시보드</span></button>
+                <button class="nav-btn" data-tab="add"><span class="icon">➕</span><span class="label" id="navAdd">추가</span></button>
+                <button class="nav-btn" data-tab="list"><span class="icon">📋</span><span class="label" id="navList">내역</span></button>
             </div>
         </nav>
     </div>
 
     <div class="modal-overlay" id="editModal">
         <div class="modal">
-            <div class="modal-header"><h3 class="modal-title">거래 수정</h3><button class="modal-close" onclick="closeModal('editModal')">✕</button></div>
+            <div class="modal-header"><h3 class="modal-title" id="editModalTitle">거래 수정</h3><button class="modal-close" onclick="closeModal('editModal')">✕</button></div>
             <div class="modal-body">
-                <div class="form-group"><label class="form-label">유형</label>
+                <div class="form-group"><label class="form-label" id="editLabelType">유형</label>
                     <div class="type-toggle" id="editTypeToggle">
-                        <button type="button" class="type-btn income" data-type="income">수입</button>
-                        <button type="button" class="type-btn expense" data-type="expense">지출</button>
+                        <button type="button" class="type-btn income" data-type="income" id="editBtnIncome">수입</button>
+                        <button type="button" class="type-btn expense" data-type="expense" id="editBtnExpense">지출</button>
                     </div>
                 </div>
-                <div class="form-group"><label class="form-label">날짜</label><input type="date" id="editDate" class="form-input"></div>
-                <div class="form-group"><label class="form-label">카테고리</label><select id="editCategory" class="form-select"></select></div>
-                <div class="form-group"><label class="form-label">금액</label><input type="text" id="editAmount" class="form-input" inputmode="numeric"></div>
-                <div class="form-group"><label class="form-label">메모</label><input type="text" id="editMemo" class="form-input" maxlength="100"></div>
+                <div class="form-group"><label class="form-label" id="editLabelDate">날짜</label><div class="date-wrapper"><input type="date" id="editDate" class="form-input"></div></div>
+                <div class="form-group"><label class="form-label" id="editLabelCategory">카테고리</label><select id="editCategory" class="form-select"></select></div>
+                <div class="form-group"><label class="form-label" id="editLabelAmount">금액</label><input type="text" id="editAmount" class="form-input" inputmode="numeric"></div>
+                <div class="form-group"><label class="form-label" id="editLabelMemo">메모</label><input type="text" id="editMemo" class="form-input" maxlength="100"></div>
             </div>
             <div class="modal-footer">
-                <button class="modal-btn cancel" onclick="closeModal('editModal')">취소</button>
-                <button class="modal-btn primary" onclick="saveEdit()">저장</button>
+                <button class="modal-btn cancel" onclick="closeModal('editModal')" id="editCancelBtn">취소</button>
+                <button class="modal-btn primary" onclick="saveEdit()" id="editSaveBtn">저장</button>
             </div>
         </div>
     </div>
 
     <div class="modal-overlay" id="deleteModal">
         <div class="modal" style="max-width:340px;">
-            <div class="modal-header"><h3 class="modal-title">거래 삭제</h3><button class="modal-close" onclick="closeModal('deleteModal')">✕</button></div>
-            <div class="modal-body"><p>이 거래를 삭제할까요?</p></div>
+            <div class="modal-header"><h3 class="modal-title" id="deleteModalTitle">거래 삭제</h3><button class="modal-close" onclick="closeModal('deleteModal')">✕</button></div>
+            <div class="modal-body"><p id="deleteMsg">이 거래를 삭제할까요?</p></div>
             <div class="modal-footer">
-                <button class="modal-btn cancel" onclick="closeModal('deleteModal')">취소</button>
-                <button class="modal-btn danger" onclick="confirmDelete()">삭제</button>
+                <button class="modal-btn cancel" onclick="closeModal('deleteModal')" id="deleteCancelBtn">취소</button>
+                <button class="modal-btn danger" onclick="confirmDelete()" id="deleteConfirmBtn">삭제</button>
             </div>
         </div>
     </div>
@@ -402,69 +320,216 @@
     <div class="toast" id="toast"><span class="icon" id="toastIcon">✅</span><span class="msg" id="toastMsg"></span></div>
 
     <script>
-        const CATEGORIES = {
-            income: [
-                { id: 'salary', name: '급여', icon: '💼' },
-                { id: 'sideIncome', name: '부수입', icon: '💰' },
-                { id: 'allowance', name: '용돈', icon: '🎁' },
-                { id: 'investment', name: '투자수익', icon: '📈' },
-                { id: 'other', name: '기타', icon: '➕' }
-            ],
-            expense: [
-                { id: 'food', name: '식비', icon: '🍔' },
-                { id: 'transport', name: '교통비', icon: '🚌' },
-                { id: 'phone', name: '통신비', icon: '📱' },
-                { id: 'housing', name: '주거비', icon: '🏠' },
-                { id: 'medical', name: '의료비', icon: '💊' },
-                { id: 'shopping', name: '쇼핑', icon: '🛍️' },
-                { id: 'culture', name: '문화생활', icon: '🎬' },
-                { id: 'education', name: '교육비', icon: '📚' },
-                { id: 'living', name: '생활용품', icon: '🧴' },
-                { id: 'events', name: '경조사비', icon: '💐' },
-                { id: 'clothing', name: '의류비', icon: '👕' },
-                { id: 'pocketmoney', name: '용돈', icon: '💸' },
-                { id: 'tax', name: '세금공과금', icon: '🏛️' },
-                { id: 'other', name: '기타', icon: '➕' }
-            ]
+        // ==================== 다국어 시스템 ====================
+        const LANG = {
+            ko: {
+                appTitle: '나의 가계부',
+                splashTitle: '나의 가계부',
+                splashDesc: '수입과 지출을 한눈에!<br>간편하고 똑똑한 가계부',
+                splashFeat1: '통계분석', splashFeat2: '일일합계', splashFeat3: '다크모드',
+                splashStartBtn: '시작하기 →',
+                splashLangBtn: '🌐 English',
+                langBtn: 'EN',
+                saving: '저장중...',
+                tabDashboard: '📊 대시보드', tabAdd: '➕ 추가', tabList: '📋 내역',
+                navDashboard: '대시보드', navAdd: '추가', navList: '내역',
+                monthIncome: '이번 달 수입', monthExpense: '이번 달 지출', balance: '잔액',
+                catTitle: '카테고리별 지출', recentTitle: '최근 거래',
+                noExpense: '이번 달 지출이 없습니다', noTransaction: '거래 내역이 없습니다',
+                addTitle: '새 거래 추가',
+                labelType: '유형', labelDate: '날짜', labelCategory: '카테고리',
+                labelAmount: '금액', labelMemo: '메모 (선택)',
+                income: '수입', expense: '지출',
+                submitBtn: '추가하기', memoPlaceholder: '메모 입력',
+                filterAll: '전체', filterIncome: '수입', filterExpense: '지출',
+                searchPlaceholder: '메모 검색',
+                sortNewest: '최신순', sortOldest: '오래된순',
+                editModalTitle: '거래 수정', editLabelMemo: '메모',
+                editCancelBtn: '취소', editSaveBtn: '저장',
+                deleteModalTitle: '거래 삭제', deleteMsg: '이 거래를 삭제할까요?',
+                deleteCancelBtn: '취소', deleteConfirmBtn: '삭제',
+                toastAdded: '추가되었습니다', toastEdited: '수정되었습니다',
+                toastDeleted: '삭제되었습니다', toastAmountError: '금액을 입력하세요',
+                toastSaveError: '저장 오류',
+                dailyIncome: '수입', dailyExpense: '지출', dailyNet: '순합계',
+                txCount: '건', currency: '원',
+                days: ['일','월','화','수','목','금','토'],
+                dateFmt: (y,m,d,day) => `${m}월 ${d}일 (${day})`,
+                dateSmall: (y) => `${y}년`,
+                catIncome: [
+                    { id:'salary', name:'급여', icon:'💼' }, { id:'sideIncome', name:'부수입', icon:'💰' },
+                    { id:'allowance', name:'용돈', icon:'🎁' }, { id:'investment', name:'투자수익', icon:'📈' },
+                    { id:'other', name:'기타', icon:'➕' }
+                ],
+                catExpense: [
+                    { id:'food', name:'식비', icon:'🍔' }, { id:'transport', name:'교통비', icon:'🚌' },
+                    { id:'fixed', name:'고정지출', icon:'🏠' }, { id:'medical', name:'의료비', icon:'💊' },
+                    { id:'living', name:'생활/쇼핑', icon:'🛒' }, { id:'selfdev', name:'자기계발', icon:'📖' },
+                    { id:'social', name:'경조/용돈', icon:'🎀' }, { id:'other', name:'기타', icon:'➕' }
+                ]
+            },
+            en: {
+                appTitle: 'My Budget',
+                splashTitle: 'My Budget',
+                splashDesc: 'Track income & expenses at a glance!<br>Simple & smart budgeting',
+                splashFeat1: 'Analytics', splashFeat2: 'Daily Total', splashFeat3: 'Dark Mode',
+                splashStartBtn: 'Get Started →',
+                splashLangBtn: '🌐 한국어',
+                langBtn: 'KO',
+                saving: 'Saving...',
+                tabDashboard: '📊 Dashboard', tabAdd: '➕ Add', tabList: '📋 History',
+                navDashboard: 'Dashboard', navAdd: 'Add', navList: 'History',
+                monthIncome: 'Monthly Income', monthExpense: 'Monthly Expense', balance: 'Balance',
+                catTitle: 'Expenses by Category', recentTitle: 'Recent Transactions',
+                noExpense: 'No expenses this month', noTransaction: 'No transactions',
+                addTitle: 'Add New Transaction',
+                labelType: 'Type', labelDate: 'Date', labelCategory: 'Category',
+                labelAmount: 'Amount', labelMemo: 'Memo (optional)',
+                income: 'Income', expense: 'Expense',
+                submitBtn: 'Add', memoPlaceholder: 'Enter memo',
+                filterAll: 'All', filterIncome: 'Income', filterExpense: 'Expense',
+                searchPlaceholder: 'Search memo',
+                sortNewest: 'Newest', sortOldest: 'Oldest',
+                editModalTitle: 'Edit Transaction', editLabelMemo: 'Memo',
+                editCancelBtn: 'Cancel', editSaveBtn: 'Save',
+                deleteModalTitle: 'Delete Transaction', deleteMsg: 'Delete this transaction?',
+                deleteCancelBtn: 'Cancel', deleteConfirmBtn: 'Delete',
+                toastAdded: 'Added', toastEdited: 'Updated',
+                toastDeleted: 'Deleted', toastAmountError: 'Enter an amount',
+                toastSaveError: 'Save error',
+                dailyIncome: 'Income', dailyExpense: 'Expense', dailyNet: 'Net',
+                txCount: '', currency: '',
+                days: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+                dateFmt: (y,m,d,day) => `${day}, ${m}/${d}`,
+                dateSmall: (y) => `${y}`,
+                catIncome: [
+                    { id:'salary', name:'Salary', icon:'💼' }, { id:'sideIncome', name:'Side Income', icon:'💰' },
+                    { id:'allowance', name:'Allowance', icon:'🎁' }, { id:'investment', name:'Investment', icon:'📈' },
+                    { id:'other', name:'Other', icon:'➕' }
+                ],
+                catExpense: [
+                    { id:'food', name:'Food', icon:'🍔' }, { id:'transport', name:'Transport', icon:'🚌' },
+                    { id:'fixed', name:'Fixed Costs', icon:'🏠' }, { id:'medical', name:'Medical', icon:'💊' },
+                    { id:'living', name:'Living/Shopping', icon:'🛒' }, { id:'selfdev', name:'Self-dev', icon:'📖' },
+                    { id:'social', name:'Social/Gifts', icon:'🎀' }, { id:'other', name:'Other', icon:'➕' }
+                ]
+            }
         };
 
         const DEVICES = [
-            { id: 'pc', name: 'PC / 노트북', icon: '💻' },
-            { id: 'android', name: '안드로이드', icon: '📱' },
-            { id: 'ios', name: 'iOS (아이폰/아이패드)', icon: '🍎' },
-            { id: 'tablet', name: '태블릿', icon: '📟' },
-            { id: 'other', name: '기타 기기', icon: '🖥️' }
+            { id:'pc', name:{ ko:'PC / 노트북', en:'PC / Laptop' }, icon:'💻' },
+            { id:'android', name:{ ko:'안드로이드', en:'Android' }, icon:'📱' },
+            { id:'ios', name:{ ko:'iOS (아이폰/아이패드)', en:'iOS (iPhone/iPad)' }, icon:'🍎' },
+            { id:'tablet', name:{ ko:'태블릿', en:'Tablet' }, icon:'📟' },
+            { id:'other', name:{ ko:'기타 기기', en:'Other' }, icon:'🖥️' }
         ];
 
-        const COLORS = ['#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899', '#6366F1', '#14B8A6', '#F97316', '#84CC16', '#06B6D4', '#A855F7', '#F43F5E', '#22C55E'];
+        const COLORS = ['#EF4444','#F59E0B','#10B981','#3B82F6','#8B5CF6','#EC4899','#6366F1','#14B8A6','#F97316','#84CC16','#06B6D4','#A855F7','#F43F5E','#22C55E'];
 
-        let state = { deviceId: null, transactions: [], darkMode: false, currentTab: 'dashboard', formType: 'expense', typeFilter: 'all', searchTerm: '', sortBy: 'dateDesc', currentPage: 1, editingId: null, deletingId: null };
+        let state = { deviceId:null, transactions:[], darkMode:false, lang:'ko', currentTab:'dashboard', formType:'expense', typeFilter:'all', searchTerm:'', sortBy:'dateDesc', currentPage:1, editingId:null, deletingId:null };
         const ITEMS_PER_PAGE = 10;
 
+        function t(key) { return LANG[state.lang][key]; }
+        function cats(type) { return type === 'income' ? t('catIncome') : t('catExpense'); }
+        function getCatInfo(type, id) { const c = cats(type); return c.find(x => x.id === id) || c[c.length-1]; }
+
+        function formatCurrency(n) {
+            const abs = Math.abs(n).toLocaleString('ko-KR');
+            return state.lang === 'ko' ? abs + '원' : '$' + abs;
+        }
+        function formatAmountInput(v) { const n = v.replace(/\D/g,''); return n ? parseInt(n).toLocaleString('ko-KR') : ''; }
+        function parseAmount(v) { return parseInt(v.replace(/\D/g,'')) || 0; }
+
+        function applyLang() {
+            const L = state.lang;
+            // Splash
+            document.getElementById('splashTitle').textContent = t('splashTitle');
+            document.getElementById('splashDesc').innerHTML = t('splashDesc');
+            document.getElementById('splashFeat1').textContent = t('splashFeat1');
+            document.getElementById('splashFeat2').textContent = t('splashFeat2');
+            document.getElementById('splashFeat3').textContent = t('splashFeat3');
+            document.getElementById('splashStartBtn').textContent = t('splashStartBtn');
+            document.getElementById('splashLangBtn').textContent = t('splashLangBtn');
+            // Header
+            document.getElementById('appTitle').textContent = t('appTitle');
+            document.getElementById('langBtn').textContent = t('langBtn');
+            document.title = t('appTitle');
+            // Tabs
+            document.getElementById('tabDashboard').textContent = t('tabDashboard');
+            document.getElementById('tabAdd').textContent = t('tabAdd');
+            document.getElementById('tabList').textContent = t('tabList');
+            document.getElementById('navDashboard').textContent = t('navDashboard');
+            document.getElementById('navAdd').textContent = t('navAdd');
+            document.getElementById('navList').textContent = t('navList');
+            // Dashboard titles
+            document.getElementById('catTitle').textContent = t('catTitle');
+            document.getElementById('recentTitle').textContent = t('recentTitle');
+            // Add form
+            document.getElementById('addTitle').textContent = t('addTitle');
+            document.getElementById('labelType').textContent = t('labelType');
+            document.getElementById('labelDate').textContent = t('labelDate');
+            document.getElementById('labelCategory').textContent = t('labelCategory');
+            document.getElementById('labelAmount').textContent = t('labelAmount');
+            document.getElementById('labelMemo').textContent = t('labelMemo');
+            document.getElementById('btnIncome').textContent = t('income');
+            document.getElementById('btnExpense').textContent = t('expense');
+            document.getElementById('submitBtn').textContent = t('submitBtn');
+            document.getElementById('formMemo').placeholder = t('memoPlaceholder');
+            // Filters
+            document.getElementById('filterAll').textContent = t('filterAll');
+            document.getElementById('filterIncome').textContent = t('income');
+            document.getElementById('filterExpense').textContent = t('expense');
+            document.getElementById('searchInput').placeholder = t('searchPlaceholder');
+            document.getElementById('sortNewest').textContent = t('sortNewest');
+            document.getElementById('sortOldest').textContent = t('sortOldest');
+            // Edit modal
+            document.getElementById('editModalTitle').textContent = t('editModalTitle');
+            document.getElementById('editLabelType').textContent = t('labelType');
+            document.getElementById('editLabelDate').textContent = t('labelDate');
+            document.getElementById('editLabelCategory').textContent = t('labelCategory');
+            document.getElementById('editLabelAmount').textContent = t('labelAmount');
+            document.getElementById('editLabelMemo').textContent = t('editLabelMemo');
+            document.getElementById('editBtnIncome').textContent = t('income');
+            document.getElementById('editBtnExpense').textContent = t('expense');
+            document.getElementById('editCancelBtn').textContent = t('editCancelBtn');
+            document.getElementById('editSaveBtn').textContent = t('editSaveBtn');
+            // Delete modal
+            document.getElementById('deleteModalTitle').textContent = t('deleteModalTitle');
+            document.getElementById('deleteMsg').textContent = t('deleteMsg');
+            document.getElementById('deleteCancelBtn').textContent = t('deleteCancelBtn');
+            document.getElementById('deleteConfirmBtn').textContent = t('deleteConfirmBtn');
+            // Update device info
+            if (state.deviceId) {
+                const dev = DEVICES.find(d => d.id === state.deviceId);
+                document.getElementById('deviceInfo').innerHTML = `${dev.icon} ${dev.name[L]}`;
+            }
+            // Update category dropdowns
+            updateCategoryOptions(state.formType, 'formCategory');
+            // Re-render
+            if (state.deviceId) renderAll();
+        }
+
+        function toggleLang() {
+            state.lang = state.lang === 'ko' ? 'en' : 'ko';
+            applyLang();
+            if (state.deviceId) saveData();
+        }
+
+        // ==================== 앱 로직 ====================
         document.addEventListener('DOMContentLoaded', () => {
             setupEventListeners();
             document.getElementById('formDate').value = new Date().toISOString().split('T')[0];
             updateCategoryOptions('expense', 'formCategory');
+            applyLang();
         });
 
         function detectDeviceType() {
             const ua = navigator.userAgent || '';
-            const platform = navigator.platform || '';
-            const maxTouch = navigator.maxTouchPoints || 0;
-
-            // iPad: iOS 13+ reports as Mac but has touch
-            const isIPad = /iPad/.test(ua) || (/Macintosh/.test(ua) && maxTouch > 1);
-            const isIPhone = /iPhone/.test(ua);
-            const isAndroid = /Android/.test(ua);
-            const isAndroidTablet = isAndroid && !/Mobile/.test(ua);
-            const isAndroidPhone = isAndroid && /Mobile/.test(ua);
-
-            if (isIPad || isAndroidTablet) return 'tablet';
-            if (isIPhone) return 'ios';
-            if (isAndroidPhone) return 'android';
-            if (isAndroid) return 'android';
-
-            // Desktop fallback
+            const mt = navigator.maxTouchPoints || 0;
+            if (/iPad/.test(ua) || (/Macintosh/.test(ua) && mt > 1)) return 'tablet';
+            if (/iPhone/.test(ua)) return 'ios';
+            if (/Android/.test(ua) && !/Mobile/.test(ua)) return 'tablet';
+            if (/Android/.test(ua)) return 'android';
             return 'pc';
         }
 
@@ -472,43 +537,31 @@
             const id = detectDeviceType();
             state.deviceId = id;
             loadData();
-            const device = DEVICES.find(d => d.id === id);
-            document.getElementById('deviceInfo').innerHTML = `${device.icon} ${device.name}`;
+            const dev = DEVICES.find(d => d.id === id);
+            document.getElementById('deviceInfo').innerHTML = `${dev.icon} ${dev.name[state.lang]}`;
             document.getElementById('deviceSelect').style.display = 'none';
             document.getElementById('app').classList.add('active');
-            renderAll();
-        }
-
-        function renderDeviceList() {
-            document.getElementById('deviceList').innerHTML = DEVICES.map(d => `<button class="device-btn" onclick="selectDevice('${d.id}')"><span class="icon">${d.icon}</span><span class="name">${d.name}</span></button>`).join('');
-        }
-
-        function selectDevice(id) {
-            state.deviceId = id;
-            loadData();
-            document.getElementById('deviceInfo').innerHTML = `${DEVICES.find(d=>d.id===id).icon} ${DEVICES.find(d=>d.id===id).name}`;
-            document.getElementById('deviceSelect').style.display = 'none';
-            document.getElementById('app').classList.add('active');
-            renderAll();
-        }
-
-        function changeDevice() {
-            renderDeviceList();
-            document.getElementById('app').classList.remove('active');
-            document.getElementById('deviceSelect').style.display = 'flex';
-            state.deviceId = null;
+            applyLang();
         }
 
         function loadData() {
             try {
                 const data = localStorage.getItem(`budget_${state.deviceId}`);
-                if (data) { const p = JSON.parse(data); state.transactions = p.transactions || []; state.darkMode = p.darkMode || false; applyDarkMode(); }
-            } catch (e) {}
+                if (data) {
+                    const p = JSON.parse(data);
+                    state.transactions = p.transactions || [];
+                    state.darkMode = p.darkMode || false;
+                    if (p.lang) state.lang = p.lang;
+                    applyDarkMode();
+                }
+            } catch(e) {}
         }
 
         function saveData() {
             document.getElementById('savingIndicator').style.display = 'inline';
-            try { localStorage.setItem(`budget_${state.deviceId}`, JSON.stringify({ transactions: state.transactions, darkMode: state.darkMode })); } catch (e) { showToast('저장 오류', 'error'); }
+            document.getElementById('savingIndicator').textContent = t('saving');
+            try { localStorage.setItem(`budget_${state.deviceId}`, JSON.stringify({ transactions: state.transactions, darkMode: state.darkMode, lang: state.lang })); }
+            catch(e) { showToast(t('toastSaveError'), 'error'); }
             setTimeout(() => document.getElementById('savingIndicator').style.display = 'none', 500);
         }
 
@@ -549,34 +602,40 @@
         function toggleDarkMode() { state.darkMode = !state.darkMode; applyDarkMode(); saveData(); }
         function applyDarkMode() { document.body.classList.toggle('dark', state.darkMode); document.getElementById('darkModeBtn').textContent = state.darkMode ? '☀️' : '🌙'; }
 
-        function formatCurrency(n) { return Math.abs(n).toLocaleString('ko-KR') + '원'; }
-        function formatAmountInput(v) { const n = v.replace(/\D/g, ''); return n ? parseInt(n).toLocaleString('ko-KR') : ''; }
-        function parseAmount(v) { return parseInt(v.replace(/\D/g, '')) || 0; }
-        function getCategoryInfo(type, id) { return CATEGORIES[type].find(c => c.id === id) || CATEGORIES[type].slice(-1)[0]; }
-        function updateCategoryOptions(type, id) { document.getElementById(id).innerHTML = CATEGORIES[type].map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`).join(''); }
-        function showToast(msg, type = 'success') { const t = document.getElementById('toast'); document.getElementById('toastIcon').textContent = type === 'error' ? '❌' : '✅'; document.getElementById('toastMsg').textContent = msg; t.classList.add('active'); setTimeout(() => t.classList.remove('active'), 2500); }
+        function updateCategoryOptions(type, id) {
+            document.getElementById(id).innerHTML = cats(type).map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`).join('');
+        }
+
+        function showToast(msg, type='success') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastIcon').textContent = type === 'error' ? '❌' : '✅';
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.add('active');
+            setTimeout(() => toast.classList.remove('active'), 2500);
+        }
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-        function formatDateKR(d) {
-            const date = new Date(d), days = ['일','월','화','수','목','금','토'];
-            return { y: date.getFullYear(), m: date.getMonth()+1, d: date.getDate(), day: days[date.getDay()] };
+        function formatDateLocal(dateStr) {
+            const d = new Date(dateStr);
+            const days = t('days');
+            return { y: d.getFullYear(), m: d.getMonth()+1, d: d.getDate(), day: days[d.getDay()] };
         }
 
         function handleSubmit(e) {
             e.preventDefault();
             const amt = parseAmount(document.getElementById('formAmount').value);
-            if (!amt) { showToast('금액을 입력하세요', 'error'); return; }
+            if (!amt) { showToast(t('toastAmountError'), 'error'); return; }
             state.transactions.push({ id: Date.now().toString(36)+Math.random().toString(36).substr(2), type: state.formType, date: document.getElementById('formDate').value, category: document.getElementById('formCategory').value, amount: amt, memo: document.getElementById('formMemo').value.trim() });
             saveData();
             document.getElementById('formAmount').value = '';
             document.getElementById('formMemo').value = '';
-            showToast('추가되었습니다');
+            showToast(t('toastAdded'));
             renderAll();
         }
 
         function openEdit(id) {
-            const tx = state.transactions.find(t => t.id === id);
+            const tx = state.transactions.find(x => x.id === id);
             if (!tx) return;
             state.editingId = id;
             document.querySelectorAll('#editTypeToggle .type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === tx.type));
@@ -590,34 +649,34 @@
 
         function saveEdit() {
             const amt = parseAmount(document.getElementById('editAmount').value);
-            if (!amt) { showToast('금액을 입력하세요', 'error'); return; }
+            if (!amt) { showToast(t('toastAmountError'), 'error'); return; }
             const type = document.querySelector('#editTypeToggle .type-btn.active').dataset.type;
-            state.transactions = state.transactions.map(t => t.id === state.editingId ? { ...t, type, date: document.getElementById('editDate').value, category: document.getElementById('editCategory').value, amount: amt, memo: document.getElementById('editMemo').value.trim() } : t);
-            saveData(); closeModal('editModal'); showToast('수정되었습니다'); renderAll();
+            state.transactions = state.transactions.map(x => x.id === state.editingId ? { ...x, type, date: document.getElementById('editDate').value, category: document.getElementById('editCategory').value, amount: amt, memo: document.getElementById('editMemo').value.trim() } : x);
+            saveData(); closeModal('editModal'); showToast(t('toastEdited')); renderAll();
         }
 
         function openDelete(id) { state.deletingId = id; openModal('deleteModal'); }
-        function confirmDelete() { state.transactions = state.transactions.filter(t => t.id !== state.deletingId); saveData(); closeModal('deleteModal'); showToast('삭제되었습니다'); renderAll(); }
+        function confirmDelete() { state.transactions = state.transactions.filter(x => x.id !== state.deletingId); saveData(); closeModal('deleteModal'); showToast(t('toastDeleted')); renderAll(); }
 
         function renderAll() { renderDashboard(); renderTransactionList(); }
 
         function renderDashboard() {
             const now = new Date();
-            const monthTx = state.transactions.filter(t => { const d = new Date(t.date); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); });
-            const income = monthTx.filter(t => t.type === 'income').reduce((s,t) => s+t.amount, 0);
-            const expense = monthTx.filter(t => t.type === 'expense').reduce((s,t) => s+t.amount, 0);
-            const balance = income - expense;
+            const monthTx = state.transactions.filter(x => { const d = new Date(x.date); return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear(); });
+            const inc = monthTx.filter(x => x.type==='income').reduce((s,x) => s+x.amount, 0);
+            const exp = monthTx.filter(x => x.type==='expense').reduce((s,x) => s+x.amount, 0);
+            const bal = inc - exp;
 
             document.getElementById('summaryCards').innerHTML = `
-                <div class="summary-card income"><div class="summary-label">이번 달 수입</div><div class="summary-amount">+${formatCurrency(income)}</div></div>
-                <div class="summary-card expense"><div class="summary-label">이번 달 지출</div><div class="summary-amount">-${formatCurrency(expense)}</div></div>
-                <div class="summary-card balance ${balance<0?'negative':''}"><div class="summary-label">잔액</div><div class="summary-amount">${balance>=0?'+':'-'}${formatCurrency(balance)}</div></div>`;
+                <div class="summary-card income"><div class="summary-label">${t('monthIncome')}</div><div class="summary-amount">+${formatCurrency(inc)}</div></div>
+                <div class="summary-card expense"><div class="summary-label">${t('monthExpense')}</div><div class="summary-amount">-${formatCurrency(exp)}</div></div>
+                <div class="summary-card balance ${bal<0?'negative':''}"><div class="summary-label">${t('balance')}</div><div class="summary-amount">${bal>=0?'+':'-'}${formatCurrency(bal)}</div></div>`;
 
             const catData = {};
-            monthTx.filter(t => t.type === 'expense').forEach(t => { const c = getCategoryInfo('expense', t.category); catData[`${c.icon} ${c.name}`] = (catData[`${c.icon} ${c.name}`]||0) + t.amount; });
+            monthTx.filter(x => x.type==='expense').forEach(x => { const c = getCatInfo('expense', x.category); const k = `${c.icon} ${c.name}`; catData[k] = (catData[k]||0) + x.amount; });
 
             const cc = document.getElementById('categoryChart');
-            if (!Object.keys(catData).length) { cc.innerHTML = '<div class="empty"><div class="icon">📊</div><p>이번 달 지출이 없습니다</p></div>'; }
+            if (!Object.keys(catData).length) { cc.innerHTML = `<div class="empty"><div class="icon">📊</div><p>${t('noExpense')}</p></div>`; }
             else {
                 const total = Object.values(catData).reduce((s,v) => s+v, 0);
                 cc.innerHTML = Object.entries(catData).sort((a,b) => b[1]-a[1]).map(([c,a],i) => {
@@ -627,43 +686,45 @@
             }
 
             const rt = document.getElementById('recentTransactions');
-            if (!state.transactions.length) { rt.innerHTML = '<div class="empty"><div class="icon">📝</div><p>거래 내역이 없습니다</p></div>'; }
+            if (!state.transactions.length) { rt.innerHTML = `<div class="empty"><div class="icon">📝</div><p>${t('noTransaction')}</p></div>`; }
             else {
-                rt.innerHTML = [...state.transactions].sort((a,b) => new Date(b.date)-new Date(a.date)).slice(0,5).map(t => {
-                    const c = getCategoryInfo(t.type, t.category);
-                    return `<div class="tx-item ${t.type}"><div class="tx-icon">${c.icon}</div><div class="tx-details"><div class="tx-category">${c.name}</div><div class="tx-meta">${new Date(t.date).toLocaleDateString('ko-KR')}</div></div><div class="tx-amount">${t.type==='income'?'+':'-'}${formatCurrency(t.amount)}</div></div>`;
+                rt.innerHTML = [...state.transactions].sort((a,b) => new Date(b.date)-new Date(a.date)).slice(0,5).map(x => {
+                    const c = getCatInfo(x.type, x.category);
+                    return `<div class="tx-item ${x.type}"><div class="tx-icon">${c.icon}</div><div class="tx-details"><div class="tx-category">${c.name}</div><div class="tx-meta">${new Date(x.date).toLocaleDateString(state.lang==='ko'?'ko-KR':'en-US')}</div></div><div class="tx-amount">${x.type==='income'?'+':'-'}${formatCurrency(x.amount)}</div></div>`;
                 }).join('');
             }
         }
 
         function renderTransactionList() {
             let filtered = [...state.transactions];
-            if (state.typeFilter !== 'all') filtered = filtered.filter(t => t.type === state.typeFilter);
-            if (state.searchTerm) filtered = filtered.filter(t => t.memo?.toLowerCase().includes(state.searchTerm.toLowerCase()));
+            if (state.typeFilter !== 'all') filtered = filtered.filter(x => x.type === state.typeFilter);
+            if (state.searchTerm) filtered = filtered.filter(x => x.memo?.toLowerCase().includes(state.searchTerm.toLowerCase()));
             filtered.sort((a,b) => {
-                if (state.sortBy === 'dateAsc') return new Date(a.date) - new Date(b.date);
-                if (state.sortBy === 'amountDesc') return b.amount - a.amount;
-                if (state.sortBy === 'amountAsc') return a.amount - b.amount;
-                return new Date(b.date) - new Date(a.date);
+                if (state.sortBy==='dateAsc') return new Date(a.date)-new Date(b.date);
+                if (state.sortBy==='amountDesc') return b.amount-a.amount;
+                if (state.sortBy==='amountAsc') return a.amount-b.amount;
+                return new Date(b.date)-new Date(a.date);
             });
 
             const list = document.getElementById('transactionList');
-            if (!filtered.length) { list.innerHTML = '<div class="empty"><div class="icon">📝</div><p>거래 내역이 없습니다</p></div>'; document.getElementById('pagination').innerHTML = ''; return; }
+            if (!filtered.length) { list.innerHTML = `<div class="empty"><div class="icon">📝</div><p>${t('noTransaction')}</p></div>`; document.getElementById('pagination').innerHTML=''; return; }
 
             const grouped = {};
-            filtered.forEach(t => { if (!grouped[t.date]) grouped[t.date] = []; grouped[t.date].push(t); });
+            filtered.forEach(x => { if(!grouped[x.date]) grouped[x.date]=[]; grouped[x.date].push(x); });
 
-            const sortedDates = Object.keys(grouped).sort((a,b) => state.sortBy === 'dateAsc' ? new Date(a)-new Date(b) : new Date(b)-new Date(a));
+            const sortedDates = Object.keys(grouped).sort((a,b) => state.sortBy==='dateAsc' ? new Date(a)-new Date(b) : new Date(b)-new Date(a));
             const totalPages = Math.ceil(sortedDates.length / ITEMS_PER_PAGE);
-            const paginatedDates = sortedDates.slice((state.currentPage-1)*ITEMS_PER_PAGE, state.currentPage*ITEMS_PER_PAGE);
+            const pageDates = sortedDates.slice((state.currentPage-1)*ITEMS_PER_PAGE, state.currentPage*ITEMS_PER_PAGE);
 
             let html = '';
-            paginatedDates.forEach(date => {
+            pageDates.forEach(date => {
                 const dayTx = grouped[date];
-                const dayIncome = dayTx.filter(t => t.type === 'income').reduce((s,t) => s+t.amount, 0);
-                const dayExpense = dayTx.filter(t => t.type === 'expense').reduce((s,t) => s+t.amount, 0);
-                const dayBalance = dayIncome - dayExpense;
-                const di = formatDateKR(date);
+                const dInc = dayTx.filter(x => x.type==='income').reduce((s,x) => s+x.amount, 0);
+                const dExp = dayTx.filter(x => x.type==='expense').reduce((s,x) => s+x.amount, 0);
+                const dBal = dInc - dExp;
+                const di = formatDateLocal(date);
+                const dateFmt = t('dateFmt');
+                const countUnit = state.lang === 'ko' ? `${dayTx.length}건` : `${dayTx.length}`;
 
                 html += `
                 <div class="daily-group">
@@ -671,29 +732,29 @@
                         <div class="daily-date-row">
                             <div class="daily-date">
                                 <div class="day-number">${di.d}</div>
-                                <div class="day-text">${di.m}월 ${di.d}일 (${di.day})<small>${di.y}년</small></div>
+                                <div class="day-text">${dateFmt(di.y, di.m, di.d, di.day)}<small>${t('dateSmall')(di.y)}</small></div>
                             </div>
-                            <div class="daily-count">${dayTx.length}건</div>
+                            <div class="daily-count">${countUnit}</div>
                         </div>
                         <div class="daily-totals">
                             <div class="daily-total-box income">
-                                <div class="daily-total-label">수입</div>
-                                <div class="daily-total-amount">+${formatCurrency(dayIncome)}</div>
+                                <div class="daily-total-label">${t('dailyIncome')}</div>
+                                <div class="daily-total-amount">+${formatCurrency(dInc)}</div>
                             </div>
                             <div class="daily-total-box expense">
-                                <div class="daily-total-label">지출</div>
-                                <div class="daily-total-amount">-${formatCurrency(dayExpense)}</div>
+                                <div class="daily-total-label">${t('dailyExpense')}</div>
+                                <div class="daily-total-amount">-${formatCurrency(dExp)}</div>
                             </div>
-                            <div class="daily-total-box balance ${dayBalance>=0?'':'negative'}">
-                                <div class="daily-total-label">순합계</div>
-                                <div class="daily-total-amount">${dayBalance>=0?'+':'-'}${formatCurrency(dayBalance)}</div>
+                            <div class="daily-total-box balance ${dBal>=0?'':'negative'}">
+                                <div class="daily-total-label">${t('dailyNet')}</div>
+                                <div class="daily-total-amount">${dBal>=0?'+':'-'}${formatCurrency(dBal)}</div>
                             </div>
                         </div>
                     </div>`;
 
-                dayTx.forEach(t => {
-                    const c = getCategoryInfo(t.type, t.category);
-                    html += `<div class="tx-item ${t.type}"><div class="tx-icon">${c.icon}</div><div class="tx-details"><div class="tx-category">${c.name}</div><div class="tx-meta">${t.memo||''}</div></div><div class="tx-amount">${t.type==='income'?'+':'-'}${formatCurrency(t.amount)}</div><div class="tx-actions"><button onclick="openEdit('${t.id}')">✏️</button><button class="delete-btn" onclick="openDelete('${t.id}')">🗑️</button></div></div>`;
+                dayTx.forEach(x => {
+                    const c = getCatInfo(x.type, x.category);
+                    html += `<div class="tx-item ${x.type}"><div class="tx-icon">${c.icon}</div><div class="tx-details"><div class="tx-category">${c.name}</div><div class="tx-meta">${x.memo||''}</div></div><div class="tx-amount">${x.type==='income'?'+':'-'}${formatCurrency(x.amount)}</div><div class="tx-actions"><button onclick="openEdit('${x.id}')">✏️</button><button class="delete-btn" onclick="openDelete('${x.id}')">🗑️</button></div></div>`;
                 });
                 html += '</div>';
             });
