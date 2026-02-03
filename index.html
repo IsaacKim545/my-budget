@@ -143,6 +143,66 @@
         .empty { text-align: center; padding: 40px 20px; color: var(--txt2); }
         .empty .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
 
+        .stats-range { margin-bottom: 20px; }
+        .stats-sub-tabs { display: flex; gap: 0; max-width: 500px; margin: 0 auto 16px; background: var(--bg); border-radius: 14px; padding: 4px; border: 1px solid var(--bdr); }
+        .stats-sub-tab { flex: 1; padding: 12px 8px; border-radius: 10px; background: transparent; color: var(--txt2); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; border: none; transition: all 0.2s; }
+        .stats-sub-tab.active { background: var(--card); color: var(--inc); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .stats-panel { display: none; }
+        .stats-panel.active { display: block; }
+        .stats-range-row { display: flex; align-items: flex-end; gap: 8px; margin-bottom: 12px; }
+        .stats-date-group { flex: 1; }
+        .stats-tilde { font-size: 20px; font-weight: 700; color: var(--txt2); padding-bottom: 14px; }
+        .stats-quick-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+        .stats-quick-btn { padding: 8px 14px; border-radius: 20px; border: 1px solid var(--bdr); background: var(--bg); color: var(--txt2); font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+        .stats-quick-btn.active { background: var(--inc); color: #fff; border-color: var(--inc); }
+        .stats-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .stats-summary-box { border-radius: 14px; padding: 16px 12px; text-align: center; }
+        .stats-summary-box.income { background: var(--inc-bg); }
+        .stats-summary-box.expense { background: var(--exp-bg); }
+        .stats-summary-box.balance { background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(59,130,246,0.1)); }
+        .stats-summary-box.balance.negative { background: var(--exp-bg); }
+        .stats-summary-label { font-size: 12px; color: var(--txt2); margin-bottom: 4px; }
+        .stats-summary-amount { font-size: 18px; font-weight: 800; }
+        .stats-summary-box.income .stats-summary-amount { color: var(--inc); }
+        .stats-summary-box.expense .stats-summary-amount { color: var(--exp); }
+        .stats-summary-box.balance .stats-summary-amount { color: var(--success); }
+        .stats-summary-box.balance.negative .stats-summary-amount { color: var(--exp); }
+        @media (max-width: 400px) {
+            .stats-summary { grid-template-columns: 1fr; }
+            .stats-summary-box { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; }
+            .stats-summary-label { margin-bottom: 0; }
+        }
+        .stats-cat-section { margin-bottom: 20px; }
+        .stats-cat-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--bdr); display: flex; align-items: center; gap: 6px; }
+        .stats-cat-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--bdr); gap: 10px; }
+        .stats-cat-row:last-child { border-bottom: none; }
+        .stats-cat-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .stats-cat-row.income .stats-cat-icon { background: var(--inc-bg); }
+        .stats-cat-row.expense .stats-cat-icon { background: var(--exp-bg); }
+        .stats-cat-name { flex: 1; font-size: 14px; font-weight: 500; }
+        .stats-cat-info { text-align: right; }
+        .stats-cat-amount { font-size: 15px; font-weight: 700; }
+        .stats-cat-row.income .stats-cat-amount { color: var(--inc); }
+        .stats-cat-row.expense .stats-cat-amount { color: var(--exp); }
+        .stats-cat-pct { font-size: 11px; color: var(--txt2); }
+        .stats-cat-bar { width: 100%; height: 6px; background: var(--bdr); border-radius: 3px; margin-top: 4px; overflow: hidden; }
+        .stats-cat-bar-fill { height: 100%; border-radius: 3px; }
+        .stats-total-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; margin-top: 4px; border-top: 2px solid var(--bdr); font-weight: 700; font-size: 15px; }
+        .stats-month-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--bdr); gap: 12px; }
+        .stats-month-row:last-child { border-bottom: none; }
+        .stats-month-label { width: 70px; font-size: 14px; font-weight: 600; flex-shrink: 0; }
+        .stats-month-bar-wrap { flex: 1; }
+        .stats-month-bar { height: 24px; border-radius: 6px; display: flex; align-items: center; padding: 0 8px; min-width: 2px; transition: width 0.3s; }
+        .stats-month-bar.expense { background: linear-gradient(90deg, var(--exp), #f97316); }
+        .stats-month-bar.income { background: linear-gradient(90deg, var(--inc), #818cf8); }
+        .stats-month-bar span { font-size: 11px; font-weight: 700; color: #fff; white-space: nowrap; }
+        .stats-month-amount { width: 100px; text-align: right; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+        .stats-month-amount.expense { color: var(--exp); }
+        .stats-month-amount.income { color: var(--inc); }
+        .stats-detail-total { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; margin-top: 4px; border-top: 2px solid var(--bdr); }
+        .stats-detail-total-label { font-size: 14px; font-weight: 700; }
+        .stats-detail-total-amount { font-size: 18px; font-weight: 800; }
+
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1px solid var(--bdr); padding: 8px 0; z-index: 100; }
         .bottom-nav-inner { display: flex; justify-content: space-around; max-width: 400px; margin: 0 auto; }
         .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 16px; background: transparent; cursor: pointer; color: var(--txt2); }
@@ -223,6 +283,7 @@
                 <button class="tab-btn active" data-tab="dashboard" id="tabDashboard">📊 대시보드</button>
                 <button class="tab-btn" data-tab="add" id="tabAdd">➕ 추가</button>
                 <button class="tab-btn" data-tab="list" id="tabList">📋 내역</button>
+                <button class="tab-btn" data-tab="stats" id="tabStats">📈 통계</button>
             </div>
         </nav>
 
@@ -272,6 +333,75 @@
                     <div class="pagination" id="pagination"></div>
                 </div>
             </section>
+
+            <section id="stats" class="section">
+                <div class="stats-sub-tabs">
+                    <button class="stats-sub-tab active" onclick="switchStatsSub('period')" id="statsSubPeriod">📈 기간별 통계</button>
+                    <button class="stats-sub-tab" onclick="switchStatsSub('category')" id="statsSubCat">🔍 카테고리 통계</button>
+                </div>
+
+                <div id="statsPeriodPanel" class="stats-panel active">
+                    <div class="card" style="max-width:500px;margin:0 auto;">
+                        <div class="stats-range">
+                            <div class="stats-range-row">
+                                <div class="stats-date-group">
+                                    <label class="form-label" id="statsFromLabel">시작일</label>
+                                    <div class="date-wrapper"><input type="date" id="statsFrom" class="form-input"></div>
+                                </div>
+                                <span class="stats-tilde">~</span>
+                                <div class="stats-date-group">
+                                    <label class="form-label" id="statsToLabel">종료일</label>
+                                    <div class="date-wrapper"><input type="date" id="statsTo" class="form-input"></div>
+                                </div>
+                            </div>
+                            <div class="stats-quick-btns">
+                                <button type="button" class="stats-quick-btn" onclick="setStatsRange('week')" id="statsWeek">1주</button>
+                                <button type="button" class="stats-quick-btn active" onclick="setStatsRange('month')" id="statsMonth">1개월</button>
+                                <button type="button" class="stats-quick-btn" onclick="setStatsRange('3month')" id="stats3Month">3개월</button>
+                                <button type="button" class="stats-quick-btn" onclick="setStatsRange('6month')" id="stats6Month">6개월</button>
+                                <button type="button" class="stats-quick-btn" onclick="setStatsRange('year')" id="statsYear">1년</button>
+                                <button type="button" class="stats-quick-btn" onclick="setStatsRange('all')" id="statsAll">전체</button>
+                            </div>
+                        </div>
+                        <div class="stats-summary" id="statsSummary"></div>
+                        <div id="statsResult"></div>
+                    </div>
+                </div>
+
+                <div id="statsCatPanel" class="stats-panel">
+                    <div class="card" style="max-width:500px;margin:0 auto;">
+                        <div class="form-group">
+                            <div class="type-toggle" id="statsCatTypeToggle">
+                                <button type="button" class="type-btn expense active" data-type="expense" id="statsCatBtnExp">지출</button>
+                                <button type="button" class="type-btn income" data-type="income" id="statsCatBtnInc">수입</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <select id="statsCatSelect" class="form-select"></select>
+                        </div>
+                        <div class="stats-range">
+                            <div class="stats-range-row">
+                                <div class="stats-date-group">
+                                    <label class="form-label" id="statsCatFromLabel">시작일</label>
+                                    <div class="date-wrapper"><input type="date" id="statsCatFrom" class="form-input"></div>
+                                </div>
+                                <span class="stats-tilde">~</span>
+                                <div class="stats-date-group">
+                                    <label class="form-label" id="statsCatToLabel">종료일</label>
+                                    <div class="date-wrapper"><input type="date" id="statsCatTo" class="form-input"></div>
+                                </div>
+                            </div>
+                            <div class="stats-quick-btns" id="statsCatQuickBtns">
+                                <button type="button" class="stats-quick-btn" onclick="setStatsCatRange('3month')" id="statsCatQ3M">3개월</button>
+                                <button type="button" class="stats-quick-btn active" onclick="setStatsCatRange('6month')" id="statsCatQ6M">6개월</button>
+                                <button type="button" class="stats-quick-btn" onclick="setStatsCatRange('year')" id="statsCatQY">1년</button>
+                                <button type="button" class="stats-quick-btn" onclick="setStatsCatRange('all')" id="statsCatQAll">전체</button>
+                            </div>
+                        </div>
+                        <div id="statsCatResult"></div>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <nav class="bottom-nav">
@@ -279,6 +409,7 @@
                 <button class="nav-btn active" data-tab="dashboard"><span class="icon">📊</span><span class="label" id="navDashboard">대시보드</span></button>
                 <button class="nav-btn" data-tab="add"><span class="icon">➕</span><span class="label" id="navAdd">추가</span></button>
                 <button class="nav-btn" data-tab="list"><span class="icon">📋</span><span class="label" id="navList">내역</span></button>
+                <button class="nav-btn" data-tab="stats"><span class="icon">📈</span><span class="label" id="navStats">통계</span></button>
             </div>
         </nav>
     </div>
@@ -330,8 +461,8 @@
                 splashLangBtn: '🌐 English',
                 langBtn: 'EN',
                 saving: '저장중...',
-                tabDashboard: '📊 대시보드', tabAdd: '➕ 추가', tabList: '📋 내역',
-                navDashboard: '대시보드', navAdd: '추가', navList: '내역',
+                tabDashboard: '📊 대시보드', tabAdd: '➕ 추가', tabList: '📋 내역', tabStats: '📈 통계',
+                navDashboard: '대시보드', navAdd: '추가', navList: '내역', navStats: '통계',
                 monthIncome: '이번 달 수입', monthExpense: '이번 달 지출', balance: '잔액',
                 catTitle: '카테고리별 지출', recentTitle: '최근 거래',
                 noExpense: '이번 달 지출이 없습니다', noTransaction: '거래 내역이 없습니다',
@@ -351,6 +482,15 @@
                 toastDeleted: '삭제되었습니다', toastAmountError: '금액을 입력하세요',
                 toastSaveError: '저장 오류',
                 dailyIncome: '수입', dailyExpense: '지출', dailyNet: '순합계',
+                statsTitle: '📈 기간별 통계', statsFrom: '시작일', statsTo: '종료일',
+                statsWeek: '1주', statsMonth: '1개월', stats3Month: '3개월',
+                stats6Month: '6개월', statsYear: '1년', statsAll: '전체',
+                statsTotalIncome: '총 수입', statsTotalExpense: '총 지출', statsBalance: '순합계',
+                statsExpCat: '🔴 카테고리별 지출', statsIncCat: '🔵 카테고리별 수입',
+                statsTotal: '합계', statsNoData: '해당 기간에 데이터가 없습니다',
+                statsSubPeriod: '📈 기간별 통계', statsSubCat: '🔍 카테고리 통계',
+                statsCat3M: '3개월', statsCat6M: '6개월', statsCatY: '1년', statsCatAll: '전체',
+                statsCatNoData: '해당 카테고리의 데이터가 없습니다', statsCatTotal: '합계',
                 txCount: '건', currency: '원',
                 days: ['일','월','화','수','목','금','토'],
                 dateFmt: (y,m,d,day) => `${m}월 ${d}일 (${day})`,
@@ -376,8 +516,8 @@
                 splashLangBtn: '🌐 한국어',
                 langBtn: 'KO',
                 saving: 'Saving...',
-                tabDashboard: '📊 Dashboard', tabAdd: '➕ Add', tabList: '📋 History',
-                navDashboard: 'Dashboard', navAdd: 'Add', navList: 'History',
+                tabDashboard: '📊 Dashboard', tabAdd: '➕ Add', tabList: '📋 History', tabStats: '📈 Stats',
+                navDashboard: 'Dashboard', navAdd: 'Add', navList: 'History', navStats: 'Stats',
                 monthIncome: 'Monthly Income', monthExpense: 'Monthly Expense', balance: 'Balance',
                 catTitle: 'Expenses by Category', recentTitle: 'Recent Transactions',
                 noExpense: 'No expenses this month', noTransaction: 'No transactions',
@@ -397,6 +537,15 @@
                 toastDeleted: 'Deleted', toastAmountError: 'Enter an amount',
                 toastSaveError: 'Save error',
                 dailyIncome: 'Income', dailyExpense: 'Expense', dailyNet: 'Net',
+                statsTitle: '📈 Period Stats', statsFrom: 'From', statsTo: 'To',
+                statsWeek: '1W', statsMonth: '1M', stats3Month: '3M',
+                stats6Month: '6M', statsYear: '1Y', statsAll: 'All',
+                statsTotalIncome: 'Total Income', statsTotalExpense: 'Total Expense', statsBalance: 'Net',
+                statsExpCat: '🔴 Expenses by Category', statsIncCat: '🔵 Income by Category',
+                statsTotal: 'Total', statsNoData: 'No data for this period',
+                statsSubPeriod: '📈 Period Stats', statsSubCat: '🔍 Category Stats',
+                statsCat3M: '3M', statsCat6M: '6M', statsCatY: '1Y', statsCatAll: 'All',
+                statsCatNoData: 'No data for this category', statsCatTotal: 'Total',
                 txCount: '', currency: '',
                 days: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
                 dateFmt: (y,m,d,day) => `${day}, ${m}/${d}`,
@@ -463,6 +612,8 @@
             setText('navDashboard', t('navDashboard'));
             setText('navAdd', t('navAdd'));
             setText('navList', t('navList'));
+            setText('navStats', t('navStats'));
+            setText('tabStats', t('tabStats'));
             // Dashboard
             setText('catTitle', t('catTitle'));
             setText('recentTitle', t('recentTitle'));
@@ -502,6 +653,25 @@
             setText('deleteConfirmBtn', t('deleteConfirmBtn'));
             // Update category dropdowns
             updateCategoryOptions(state.formType, 'formCategory');
+            // Stats
+            setText('statsSubPeriod', t('statsSubPeriod'));
+            setText('statsSubCat', t('statsSubCat'));
+            setText('statsFromLabel', t('statsFrom'));
+            setText('statsToLabel', t('statsTo'));
+            setText('statsWeek', t('statsWeek'));
+            setText('statsMonth', t('statsMonth'));
+            setText('stats3Month', t('stats3Month'));
+            setText('stats6Month', t('stats6Month'));
+            setText('statsYear', t('statsYear'));
+            setText('statsAll', t('statsAll'));
+            setText('statsCatBtnExp', t('expense'));
+            setText('statsCatBtnInc', t('income'));
+            setText('statsCatFromLabel', t('statsFrom'));
+            setText('statsCatToLabel', t('statsTo'));
+            setText('statsCatQ3M', t('statsCat3M'));
+            setText('statsCatQ6M', t('statsCat6M'));
+            setText('statsCatQY', t('statsCatY'));
+            setText('statsCatQAll', t('statsCatAll'));
             // Re-render
             if (state.deviceId) renderAll();
         }
@@ -590,6 +760,18 @@
             }));
             document.getElementById('searchInput').addEventListener('input', e => { state.searchTerm = e.target.value; state.currentPage = 1; renderTransactionList(); });
             document.getElementById('sortSelect').addEventListener('change', e => { state.sortBy = e.target.value; renderTransactionList(); });
+            document.getElementById('statsFrom').addEventListener('change', () => { document.querySelectorAll('#statsPeriodPanel .stats-quick-btn').forEach(b => b.classList.remove('active')); renderStats(); });
+            document.getElementById('statsTo').addEventListener('change', () => { document.querySelectorAll('#statsPeriodPanel .stats-quick-btn').forEach(b => b.classList.remove('active')); renderStats(); });
+            document.getElementById('statsCatFrom').addEventListener('change', () => { document.querySelectorAll('#statsCatQuickBtns .stats-quick-btn').forEach(b => b.classList.remove('active')); renderStatsCat(); });
+            document.getElementById('statsCatTo').addEventListener('change', () => { document.querySelectorAll('#statsCatQuickBtns .stats-quick-btn').forEach(b => b.classList.remove('active')); renderStatsCat(); });
+            document.getElementById('statsCatSelect').addEventListener('change', renderStatsCat);
+            document.querySelectorAll('#statsCatTypeToggle .type-btn').forEach(b => b.addEventListener('click', () => {
+                document.querySelectorAll('#statsCatTypeToggle .type-btn').forEach(x => x.classList.remove('active'));
+                b.classList.add('active');
+                statsCatType = b.dataset.type;
+                updateStatsCatOptions();
+                renderStatsCat();
+            }));
             document.querySelectorAll('#editTypeToggle .type-btn').forEach(b => b.addEventListener('click', () => {
                 document.querySelectorAll('#editTypeToggle .type-btn').forEach(x => x.classList.remove('active'));
                 b.classList.add('active'); updateCategoryOptions(b.dataset.type, 'editCategory');
@@ -603,6 +785,7 @@
             document.querySelectorAll('.tab-btn, .nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
             if (tab === 'dashboard') renderDashboard();
             if (tab === 'list') renderTransactionList();
+            if (tab === 'stats') renderStats();
         }
 
         function toggleDarkMode() { state.darkMode = !state.darkMode; applyDarkMode(); saveData(); }
@@ -664,7 +847,7 @@
         function openDelete(id) { state.deletingId = id; openModal('deleteModal'); }
         function confirmDelete() { state.transactions = state.transactions.filter(x => x.id !== state.deletingId); saveData(); closeModal('deleteModal'); showToast(t('toastDeleted')); renderAll(); }
 
-        function renderAll() { renderDashboard(); renderTransactionList(); }
+        function renderAll() { renderDashboard(); renderTransactionList(); renderStats(); renderStatsCat(); }
 
         function renderDashboard() {
             const now = new Date();
@@ -773,6 +956,211 @@
         }
 
         function goToPage(p) { state.currentPage = p; renderTransactionList(); }
+
+        // ==================== 통계 ====================
+        let statsCatType = 'expense';
+
+        function switchStatsSub(panel) {
+            document.querySelectorAll('.stats-sub-tab').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.stats-panel').forEach(p => p.classList.remove('active'));
+            if (panel === 'period') {
+                document.getElementById('statsSubPeriod').classList.add('active');
+                document.getElementById('statsPeriodPanel').classList.add('active');
+                renderStats();
+            } else {
+                document.getElementById('statsSubCat').classList.add('active');
+                document.getElementById('statsCatPanel').classList.add('active');
+                updateStatsCatOptions();
+                initStatsCatDate();
+                renderStatsCat();
+            }
+        }
+
+        function initStatsDate() {
+            const now = new Date();
+            const from = new Date(now.getFullYear(), now.getMonth(), 1);
+            document.getElementById('statsFrom').value = from.toISOString().split('T')[0];
+            document.getElementById('statsTo').value = now.toISOString().split('T')[0];
+        }
+
+        function setStatsRange(range) {
+            document.querySelectorAll('#statsPeriodPanel .stats-quick-btn').forEach(b => b.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+            const now = new Date();
+            const to = now.toISOString().split('T')[0];
+            let from;
+            if (range === 'week') { const d = new Date(now); d.setDate(d.getDate()-7); from = d.toISOString().split('T')[0]; }
+            else if (range === 'month') { from = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]; }
+            else if (range === '3month') { const d = new Date(now); d.setMonth(d.getMonth()-3); from = d.toISOString().split('T')[0]; }
+            else if (range === '6month') { const d = new Date(now); d.setMonth(d.getMonth()-6); from = d.toISOString().split('T')[0]; }
+            else if (range === 'year') { from = new Date(now.getFullYear(), 0, 1).toISOString().split('T')[0]; }
+            else { from = state.transactions.length ? state.transactions.reduce((m,x) => x.date < m ? x.date : m, state.transactions[0].date) : to; }
+            document.getElementById('statsFrom').value = from;
+            document.getElementById('statsTo').value = to;
+            renderStats();
+        }
+
+        function initStatsCatDate() {
+            const fromEl = document.getElementById('statsCatFrom');
+            const toEl = document.getElementById('statsCatTo');
+            if (fromEl && !fromEl.value) {
+                const now = new Date();
+                const d = new Date(now); d.setMonth(d.getMonth()-6);
+                fromEl.value = d.toISOString().split('T')[0];
+                toEl.value = now.toISOString().split('T')[0];
+            }
+        }
+
+        function setStatsCatRange(range) {
+            document.querySelectorAll('#statsCatQuickBtns .stats-quick-btn').forEach(b => b.classList.remove('active'));
+            if (event && event.target) event.target.classList.add('active');
+            const now = new Date();
+            const to = now.toISOString().split('T')[0];
+            let from;
+            if (range === '3month') { const d = new Date(now); d.setMonth(d.getMonth()-3); from = d.toISOString().split('T')[0]; }
+            else if (range === '6month') { const d = new Date(now); d.setMonth(d.getMonth()-6); from = d.toISOString().split('T')[0]; }
+            else if (range === 'year') { from = new Date(now.getFullYear(), 0, 1).toISOString().split('T')[0]; }
+            else { from = state.transactions.length ? state.transactions.reduce((m,x) => x.date < m ? x.date : m, state.transactions[0].date) : to; }
+            document.getElementById('statsCatFrom').value = from;
+            document.getElementById('statsCatTo').value = to;
+            renderStatsCat();
+        }
+
+        function updateStatsCatOptions() {
+            const sel = document.getElementById('statsCatSelect');
+            if (!sel) return;
+            sel.innerHTML = cats(statsCatType).map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`).join('');
+        }
+
+        function renderStats() {
+            const fromEl = document.getElementById('statsFrom');
+            const toEl = document.getElementById('statsTo');
+            if (!fromEl || !toEl) return;
+            if (!fromEl.value || !toEl.value) initStatsDate();
+            const from = fromEl.value;
+            const to = toEl.value;
+
+            const filtered = state.transactions.filter(x => x.date >= from && x.date <= to);
+            const totalInc = filtered.filter(x => x.type==='income').reduce((s,x) => s+x.amount, 0);
+            const totalExp = filtered.filter(x => x.type==='expense').reduce((s,x) => s+x.amount, 0);
+            const bal = totalInc - totalExp;
+
+            // Summary boxes
+            document.getElementById('statsSummary').innerHTML = `
+                <div class="stats-summary-box income"><div class="stats-summary-label">${t('statsTotalIncome')}</div><div class="stats-summary-amount">+${formatCurrency(totalInc)}</div></div>
+                <div class="stats-summary-box expense"><div class="stats-summary-label">${t('statsTotalExpense')}</div><div class="stats-summary-amount">-${formatCurrency(totalExp)}</div></div>
+                <div class="stats-summary-box balance ${bal<0?'negative':''}"><div class="stats-summary-label">${t('statsBalance')}</div><div class="stats-summary-amount">${bal>=0?'+':'-'}${formatCurrency(bal)}</div></div>`;
+
+            const result = document.getElementById('statsResult');
+            if (!filtered.length) { result.innerHTML = `<div class="empty"><div class="icon">📈</div><p>${t('statsNoData')}</p></div>`; return; }
+
+            let html = '';
+
+            // Expense categories
+            const expData = {};
+            filtered.filter(x => x.type==='expense').forEach(x => {
+                const c = getCatInfo('expense', x.category);
+                const k = c.id;
+                if (!expData[k]) expData[k] = { name: c.name, icon: c.icon, amount: 0 };
+                expData[k].amount += x.amount;
+            });
+
+            if (Object.keys(expData).length) {
+                const expTotal = Object.values(expData).reduce((s,v) => s+v.amount, 0);
+                const expSorted = Object.values(expData).sort((a,b) => b.amount - a.amount);
+                html += `<div class="stats-cat-section"><div class="stats-cat-title">${t('statsExpCat')}</div>`;
+                expSorted.forEach((c,i) => {
+                    const pct = ((c.amount/expTotal)*100).toFixed(1);
+                    html += `<div class="stats-cat-row expense">
+                        <div class="stats-cat-icon">${c.icon}</div>
+                        <div class="stats-cat-name">${c.name}<div class="stats-cat-bar"><div class="stats-cat-bar-fill" style="width:${pct}%;background:${COLORS[i%COLORS.length]}"></div></div></div>
+                        <div class="stats-cat-info"><div class="stats-cat-amount">-${formatCurrency(c.amount)}</div><div class="stats-cat-pct">${pct}%</div></div>
+                    </div>`;
+                });
+                html += `<div class="stats-total-row"><span>${t('statsTotal')}</span><span style="color:var(--exp)">-${formatCurrency(expTotal)}</span></div></div>`;
+            }
+
+            // Income categories
+            const incData = {};
+            filtered.filter(x => x.type==='income').forEach(x => {
+                const c = getCatInfo('income', x.category);
+                const k = c.id;
+                if (!incData[k]) incData[k] = { name: c.name, icon: c.icon, amount: 0 };
+                incData[k].amount += x.amount;
+            });
+
+            if (Object.keys(incData).length) {
+                const incTotal = Object.values(incData).reduce((s,v) => s+v.amount, 0);
+                const incSorted = Object.values(incData).sort((a,b) => b.amount - a.amount);
+                html += `<div class="stats-cat-section"><div class="stats-cat-title">${t('statsIncCat')}</div>`;
+                incSorted.forEach((c,i) => {
+                    const pct = ((c.amount/incTotal)*100).toFixed(1);
+                    html += `<div class="stats-cat-row income">
+                        <div class="stats-cat-icon">${c.icon}</div>
+                        <div class="stats-cat-name">${c.name}<div class="stats-cat-bar"><div class="stats-cat-bar-fill" style="width:${pct}%;background:${COLORS[(i+4)%COLORS.length]}"></div></div></div>
+                        <div class="stats-cat-info"><div class="stats-cat-amount">+${formatCurrency(c.amount)}</div><div class="stats-cat-pct">${pct}%</div></div>
+                    </div>`;
+                });
+                html += `<div class="stats-total-row"><span>${t('statsTotal')}</span><span style="color:var(--inc)">+${formatCurrency(incTotal)}</span></div></div>`;
+            }
+
+            result.innerHTML = html;
+        }
+
+        function renderStatsCat() {
+            const fromEl = document.getElementById('statsCatFrom');
+            const toEl = document.getElementById('statsCatTo');
+            const sel = document.getElementById('statsCatSelect');
+            const result = document.getElementById('statsCatResult');
+            if (!fromEl || !toEl || !sel || !result) return;
+            if (!fromEl.value || !toEl.value) initStatsCatDate();
+
+            const from = fromEl.value;
+            const to = toEl.value;
+            const catId = sel.value;
+            const type = statsCatType;
+
+            const filtered = state.transactions.filter(x => x.type === type && x.category === catId && x.date >= from && x.date <= to);
+
+            if (!filtered.length) {
+                result.innerHTML = `<div class="empty"><div class="icon">🔍</div><p>${t('statsCatNoData')}</p></div>`;
+                return;
+            }
+
+            // Group by month
+            const monthly = {};
+            filtered.forEach(x => {
+                const key = x.date.substring(0, 7); // YYYY-MM
+                monthly[key] = (monthly[key] || 0) + x.amount;
+            });
+
+            const sortedMonths = Object.keys(monthly).sort();
+            const maxAmt = Math.max(...Object.values(monthly));
+            const total = Object.values(monthly).reduce((s,v) => s+v, 0);
+            const c = getCatInfo(type, catId);
+
+            let html = '';
+            sortedMonths.forEach(m => {
+                const [y, mo] = m.split('-');
+                const label = state.lang === 'ko' ? `${parseInt(y)}년 ${parseInt(mo)}월` : `${parseInt(mo)}/${y}`;
+                const pct = maxAmt > 0 ? ((monthly[m] / maxAmt) * 100).toFixed(0) : 0;
+                const sign = type === 'expense' ? '-' : '+';
+                html += `<div class="stats-month-row">
+                    <div class="stats-month-label">${label}</div>
+                    <div class="stats-month-bar-wrap"><div class="stats-month-bar ${type}" style="width:${Math.max(pct, 3)}%"><span>${pct}%</span></div></div>
+                    <div class="stats-month-amount ${type}">${sign}${formatCurrency(monthly[m])}</div>
+                </div>`;
+            });
+
+            const sign = type === 'expense' ? '-' : '+';
+            const color = type === 'expense' ? 'var(--exp)' : 'var(--inc)';
+            html += `<div class="stats-detail-total">
+                <div class="stats-detail-total-label">${c.icon} ${t('statsCatTotal')}</div>
+                <div class="stats-detail-total-amount" style="color:${color}">${sign}${formatCurrency(total)}</div>
+            </div>`;
+
+            result.innerHTML = html;
+        }
     </script>
 </body>
 </html>
