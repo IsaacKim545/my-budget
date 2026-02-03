@@ -258,14 +258,29 @@
 <body>
     <div id="deviceSelect" class="device-select">
         <div class="device-box">
-            <div class="device-header">
-                <div class="icon">💰</div>
-                <h1>나의 가계부</h1>
-                <p>간편하게 수입과 지출을 관리하세요</p>
+            <div class="device-header" style="margin-bottom:32px;">
+                <div class="icon" style="font-size:72px;margin-bottom:16px;">💰</div>
+                <h1 style="font-size:32px;margin-bottom:10px;">나의 가계부</h1>
+                <p style="font-size:15px;line-height:1.6;">수입과 지출을 한눈에!<br>간편하고 똑똑한 가계부</p>
             </div>
-            <button class="device-btn" onclick="autoDetectDevice()" style="justify-content:center;border-color:#667eea;background:linear-gradient(135deg,#667eea,#764ba2);padding:18px;">
-                <span class="name" style="color:#fff;font-size:18px;">🚀 시작하기</span>
+            <div style="display:flex;justify-content:center;gap:24px;margin-bottom:32px;">
+                <div style="text-align:center;">
+                    <div style="width:52px;height:52px;background:#dbeafe;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 8px;">📊</div>
+                    <div style="font-size:12px;color:#64748b;font-weight:500;">통계분석</div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="width:52px;height:52px;background:#fee2e2;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 8px;">📅</div>
+                    <div style="font-size:12px;color:#64748b;font-weight:500;">일일합계</div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="width:52px;height:52px;background:#d1fae5;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 8px;">🌙</div>
+                    <div style="font-size:12px;color:#64748b;font-weight:500;">다크모드</div>
+                </div>
+            </div>
+            <button onclick="autoDetectDevice()" style="width:100%;padding:18px;border-radius:16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:18px;font-weight:700;cursor:pointer;border:none;font-family:inherit;box-shadow:0 8px 20px rgba(102,126,234,0.4);transition:transform 0.2s;" onmousedown="this.style.transform='scale(0.97)'" onmouseup="this.style.transform='scale(1)'" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform='scale(1)'">
+                시작하기 →
             </button>
+            <p style="text-align:center;margin-top:16px;font-size:11px;color:#94a3b8;">기기를 자동 인식하여 데이터가 독립 저장됩니다</p>
         </div>
     </div>
 
@@ -430,7 +445,6 @@
             setupEventListeners();
             document.getElementById('formDate').value = new Date().toISOString().split('T')[0];
             updateCategoryOptions('expense', 'formCategory');
-            autoDetectDevice();
         });
 
         function detectDeviceType() {
