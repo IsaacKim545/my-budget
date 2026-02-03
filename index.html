@@ -192,11 +192,11 @@
                     <div id="splashFeat3" style="font-size:12px;color:#64748b;font-weight:500;">다크모드</div>
                 </div>
             </div>
-            <button onclick="autoDetectDevice()" style="width:100%;padding:18px;border-radius:16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:18px;font-weight:700;cursor:pointer;border:none;font-family:inherit;box-shadow:0 8px 20px rgba(102,126,234,0.4);" id="splashStartBtn">
+            <button id="splashStartBtn" style="width:100%;padding:18px;border-radius:16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:18px;font-weight:700;cursor:pointer;border:none;font-family:inherit;box-shadow:0 8px 20px rgba(102,126,234,0.4);position:relative;z-index:10;">
                 시작하기 →
             </button>
             <div style="display:flex;justify-content:center;margin-top:16px;">
-                <button onclick="toggleLang()" id="splashLangBtn" style="background:none;border:1px solid #e2e8f0;border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:#64748b;cursor:pointer;font-family:inherit;">🌐 English</button>
+                <button id="splashLangBtn" style="background:none;border:1px solid #e2e8f0;border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:#64748b;cursor:pointer;font-family:inherit;">🌐 English</button>
             </div>
         </div>
     </div>
@@ -497,11 +497,6 @@
             document.getElementById('deleteMsg').textContent = t('deleteMsg');
             document.getElementById('deleteCancelBtn').textContent = t('deleteCancelBtn');
             document.getElementById('deleteConfirmBtn').textContent = t('deleteConfirmBtn');
-            // Update device info
-            if (state.deviceId) {
-                const dev = DEVICES.find(d => d.id === state.deviceId);
-                document.getElementById('deviceInfo').innerHTML = `${dev.icon} ${dev.name[L]}`;
-            }
             // Update category dropdowns
             updateCategoryOptions(state.formType, 'formCategory');
             // Re-render
@@ -516,6 +511,8 @@
 
         // ==================== 앱 로직 ====================
         document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('splashStartBtn').addEventListener('click', autoDetectDevice);
+            document.getElementById('splashLangBtn').addEventListener('click', toggleLang);
             setupEventListeners();
             document.getElementById('formDate').value = new Date().toISOString().split('T')[0];
             updateCategoryOptions('expense', 'formCategory');
@@ -536,8 +533,6 @@
             const id = detectDeviceType();
             state.deviceId = id;
             loadData();
-            const dev = DEVICES.find(d => d.id === id);
-            document.getElementById('deviceInfo').innerHTML = `${dev.icon} ${dev.name[state.lang]}`;
             document.getElementById('deviceSelect').style.display = 'none';
             document.getElementById('app').classList.add('active');
             applyLang();
