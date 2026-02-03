@@ -192,11 +192,11 @@
                     <div id="splashFeat3" style="font-size:12px;color:#64748b;font-weight:500;">다크모드</div>
                 </div>
             </div>
-            <button id="splashStartBtn" type="button" style="width:100%;padding:18px;border-radius:16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:18px;font-weight:700;cursor:pointer;border:none;font-family:inherit;box-shadow:0 8px 20px rgba(102,126,234,0.4);position:relative;z-index:10;-webkit-appearance:none;appearance:none;touch-action:manipulation;">
+            <button id="splashStartBtn" type="button" onclick="autoDetectDevice()" style="width:100%;padding:18px;border-radius:16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:18px;font-weight:700;cursor:pointer;border:none;font-family:inherit;box-shadow:0 8px 20px rgba(102,126,234,0.4);position:relative;z-index:10;-webkit-appearance:none;appearance:none;touch-action:manipulation;">
                 시작하기 →
             </button>
             <div style="display:flex;justify-content:center;margin-top:16px;">
-                <button id="splashLangBtn" style="background:none;border:1px solid #e2e8f0;border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:#64748b;cursor:pointer;font-family:inherit;">🌐 English</button>
+                <button id="splashLangBtn" onclick="toggleLang()" style="background:none;border:1px solid #e2e8f0;border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:#64748b;cursor:pointer;font-family:inherit;">🌐 English</button>
             </div>
         </div>
     </div>
@@ -441,62 +441,65 @@
 
         function applyLang() {
             const L = state.lang;
+            const $ = (id) => document.getElementById(id);
+            const setText = (id, val) => { const el = $(id); if (el) el.textContent = val; };
+            const setHtml = (id, val) => { const el = $(id); if (el) el.innerHTML = val; };
             // Splash
-            document.getElementById('splashTitle').textContent = t('splashTitle');
-            document.getElementById('splashDesc').innerHTML = t('splashDesc');
-            document.getElementById('splashFeat1').textContent = t('splashFeat1');
-            document.getElementById('splashFeat2').textContent = t('splashFeat2');
-            document.getElementById('splashFeat3').textContent = t('splashFeat3');
-            document.getElementById('splashStartBtn').textContent = t('splashStartBtn');
-            document.getElementById('splashLangBtn').textContent = t('splashLangBtn');
+            setText('splashTitle', t('splashTitle'));
+            setHtml('splashDesc', t('splashDesc'));
+            setText('splashFeat1', t('splashFeat1'));
+            setText('splashFeat2', t('splashFeat2'));
+            setText('splashFeat3', t('splashFeat3'));
+            setText('splashStartBtn', t('splashStartBtn'));
+            setText('splashLangBtn', t('splashLangBtn'));
             // Header
-            document.getElementById('appTitle').textContent = t('appTitle');
-            document.getElementById('langBtn').textContent = t('langBtn');
+            setText('appTitle', t('appTitle'));
+            setText('langBtn', t('langBtn'));
             document.title = t('appTitle');
             // Tabs
-            document.getElementById('tabDashboard').textContent = t('tabDashboard');
-            document.getElementById('tabAdd').textContent = t('tabAdd');
-            document.getElementById('tabList').textContent = t('tabList');
-            document.getElementById('navDashboard').textContent = t('navDashboard');
-            document.getElementById('navAdd').textContent = t('navAdd');
-            document.getElementById('navList').textContent = t('navList');
-            // Dashboard titles
-            document.getElementById('catTitle').textContent = t('catTitle');
-            document.getElementById('recentTitle').textContent = t('recentTitle');
+            setText('tabDashboard', t('tabDashboard'));
+            setText('tabAdd', t('tabAdd'));
+            setText('tabList', t('tabList'));
+            setText('navDashboard', t('navDashboard'));
+            setText('navAdd', t('navAdd'));
+            setText('navList', t('navList'));
+            // Dashboard
+            setText('catTitle', t('catTitle'));
+            setText('recentTitle', t('recentTitle'));
             // Add form
-            document.getElementById('addTitle').textContent = t('addTitle');
-            document.getElementById('labelType').textContent = t('labelType');
-            document.getElementById('labelDate').textContent = t('labelDate');
-            document.getElementById('labelCategory').textContent = t('labelCategory');
-            document.getElementById('labelAmount').textContent = t('labelAmount');
-            document.getElementById('labelMemo').textContent = t('labelMemo');
-            document.getElementById('btnIncome').textContent = t('income');
-            document.getElementById('btnExpense').textContent = t('expense');
-            document.getElementById('submitBtn').textContent = t('submitBtn');
-            document.getElementById('formMemo').placeholder = t('memoPlaceholder');
+            setText('addTitle', t('addTitle'));
+            setText('labelType', t('labelType'));
+            setText('labelDate', t('labelDate'));
+            setText('labelCategory', t('labelCategory'));
+            setText('labelAmount', t('labelAmount'));
+            setText('labelMemo', t('labelMemo'));
+            setText('btnIncome', t('income'));
+            setText('btnExpense', t('expense'));
+            setText('submitBtn', t('submitBtn'));
+            const memo = $('formMemo'); if (memo) memo.placeholder = t('memoPlaceholder');
             // Filters
-            document.getElementById('filterAll').textContent = t('filterAll');
-            document.getElementById('filterIncome').textContent = t('income');
-            document.getElementById('filterExpense').textContent = t('expense');
-            document.getElementById('searchInput').placeholder = t('searchPlaceholder');
-            document.getElementById('sortNewest').textContent = t('sortNewest');
-            document.getElementById('sortOldest').textContent = t('sortOldest');
+            setText('filterAll', t('filterAll'));
+            setText('filterIncome', t('income'));
+            setText('filterExpense', t('expense'));
+            const search = $('searchInput'); if (search) search.placeholder = t('searchPlaceholder');
+            setText('sortNewest', t('sortNewest'));
+            setText('sortOldest', t('sortOldest'));
             // Edit modal
-            document.getElementById('editModalTitle').textContent = t('editModalTitle');
-            document.getElementById('editLabelType').textContent = t('labelType');
-            document.getElementById('editLabelDate').textContent = t('labelDate');
-            document.getElementById('editLabelCategory').textContent = t('labelCategory');
-            document.getElementById('editLabelAmount').textContent = t('labelAmount');
-            document.getElementById('editLabelMemo').textContent = t('editLabelMemo');
-            document.getElementById('editBtnIncome').textContent = t('income');
-            document.getElementById('editBtnExpense').textContent = t('expense');
-            document.getElementById('editCancelBtn').textContent = t('editCancelBtn');
-            document.getElementById('editSaveBtn').textContent = t('editSaveBtn');
+            setText('editModalTitle', t('editModalTitle'));
+            setText('editLabelType', t('labelType'));
+            setText('editLabelDate', t('labelDate'));
+            setText('editLabelCategory', t('labelCategory'));
+            setText('editLabelAmount', t('labelAmount'));
+            setText('editLabelMemo', t('editLabelMemo'));
+            setText('editBtnIncome', t('income'));
+            setText('editBtnExpense', t('expense'));
+            setText('editCancelBtn', t('editCancelBtn'));
+            setText('editSaveBtn', t('editSaveBtn'));
             // Delete modal
-            document.getElementById('deleteModalTitle').textContent = t('deleteModalTitle');
-            document.getElementById('deleteMsg').textContent = t('deleteMsg');
-            document.getElementById('deleteCancelBtn').textContent = t('deleteCancelBtn');
-            document.getElementById('deleteConfirmBtn').textContent = t('deleteConfirmBtn');
+            setText('deleteModalTitle', t('deleteModalTitle'));
+            setText('deleteMsg', t('deleteMsg'));
+            setText('deleteCancelBtn', t('deleteCancelBtn'));
+            setText('deleteConfirmBtn', t('deleteConfirmBtn'));
             // Update category dropdowns
             updateCategoryOptions(state.formType, 'formCategory');
             // Re-render
@@ -537,12 +540,14 @@
         }
 
         function autoDetectDevice() {
-            const id = detectDeviceType();
-            state.deviceId = id;
-            loadData();
-            document.getElementById('deviceSelect').style.display = 'none';
-            document.getElementById('app').classList.add('active');
-            applyLang();
+            try {
+                const id = detectDeviceType();
+                state.deviceId = id;
+                loadData();
+                document.getElementById('deviceSelect').style.display = 'none';
+                document.getElementById('app').classList.add('active');
+                applyLang();
+            } catch(e) { console.error('autoDetectDevice error:', e); }
         }
 
         function loadData() {
