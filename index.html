@@ -62,7 +62,13 @@
         .card { background: var(--card); border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .card-title { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
 
-        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+        @media (max-width: 520px) {
+            .summary-grid { grid-template-columns: 1fr; gap: 10px; }
+            .summary-card { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; }
+            .summary-label { margin-bottom: 0; font-size: 13px; }
+            .summary-amount { font-size: 18px; }
+        }
         .summary-card { background: var(--card); border-radius: 16px; padding: 18px; border-left: 4px solid var(--bdr); }
         .summary-card.income { border-left-color: var(--inc); }
         .summary-card.expense { border-left-color: var(--exp); }
@@ -421,11 +427,43 @@
         const ITEMS_PER_PAGE = 10;
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderDeviceList();
             setupEventListeners();
             document.getElementById('formDate').value = new Date().toISOString().split('T')[0];
             updateCategoryOptions('expense', 'formCategory');
+            autoDetectDevice();
         });
+
+        function detectDeviceType() {
+            const ua = navigator.userAgent || '';
+            const platform = navigator.platform || '';
+            const maxTouch = navigator.maxTouchPoints || 0;
+
+            // iPad: iOS 13+ reports as Mac but has touch
+            const isIPad = /iPad/.test(ua) || (/Macintosh/.test(ua) && maxTouch > 1);
+            const isIPhone = /iPhone/.test(ua);
+            const isAndroid = /Android/.test(ua);
+            const isAndroidTablet = isAndroid && !/Mobile/.test(ua);
+            const isAndroidPhone = isAndroid && /Mobile/.test(ua);
+
+            if (isIPad || isAndroidTablet) return 'tablet';
+            if (isIPhone) return 'ios';
+            if (isAndroidPhone) return 'android';
+            if (isAndroid) return 'android';
+
+            // Desktop fallback
+            return 'pc';
+        }
+
+        function autoDetectDevice() {
+            const id = detectDeviceType();
+            state.deviceId = id;
+            loadData();
+            const device = DEVICES.find(d => d.id === id);
+            document.getElementById('deviceInfo').innerHTML = `${device.icon} ${device.name}`;
+            document.getElementById('deviceSelect').style.display = 'none';
+            document.getElementById('app').classList.add('active');
+            renderAll();
+        }
 
         function renderDeviceList() {
             document.getElementById('deviceList').innerHTML = DEVICES.map(d => `<button class="device-btn" onclick="selectDevice('${d.id}')"><span class="icon">${d.icon}</span><span class="name">${d.name}</span></button>`).join('');
@@ -441,6 +479,7 @@
         }
 
         function changeDevice() {
+            renderDeviceList();
             document.getElementById('app').classList.remove('active');
             document.getElementById('deviceSelect').style.display = 'flex';
             state.deviceId = null;
