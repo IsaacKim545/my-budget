@@ -192,7 +192,7 @@
                     <div id="splashFeat3" style="font-size:12px;color:#64748b;font-weight:500;">다크모드</div>
                 </div>
             </div>
-            <button id="splashStartBtn" style="width:100%;padding:18px;border-radius:16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:18px;font-weight:700;cursor:pointer;border:none;font-family:inherit;box-shadow:0 8px 20px rgba(102,126,234,0.4);position:relative;z-index:10;">
+            <button id="splashStartBtn" type="button" style="width:100%;padding:18px;border-radius:16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:18px;font-weight:700;cursor:pointer;border:none;font-family:inherit;box-shadow:0 8px 20px rgba(102,126,234,0.4);position:relative;z-index:10;-webkit-appearance:none;appearance:none;touch-action:manipulation;">
                 시작하기 →
             </button>
             <div style="display:flex;justify-content:center;margin-top:16px;">
@@ -511,8 +511,15 @@
 
         // ==================== 앱 로직 ====================
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('splashStartBtn').addEventListener('click', autoDetectDevice);
-            document.getElementById('splashLangBtn').addEventListener('click', toggleLang);
+            const startBtn = document.getElementById('splashStartBtn');
+            const langSplashBtn = document.getElementById('splashLangBtn');
+            if (startBtn) {
+                startBtn.addEventListener('click', function(e) { e.preventDefault(); autoDetectDevice(); });
+                startBtn.addEventListener('touchend', function(e) { e.preventDefault(); autoDetectDevice(); });
+            }
+            if (langSplashBtn) {
+                langSplashBtn.addEventListener('click', function(e) { e.preventDefault(); toggleLang(); });
+            }
             setupEventListeners();
             document.getElementById('formDate').value = new Date().toISOString().split('T')[0];
             updateCategoryOptions('expense', 'formCategory');
