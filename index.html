@@ -261,10 +261,11 @@
             <div class="device-header">
                 <div class="icon">💰</div>
                 <h1>나의 가계부</h1>
-                <p>사용 중인 기기를 선택하세요</p>
-                <small>기기별로 독립적인 데이터가 저장됩니다</small>
+                <p>간편하게 수입과 지출을 관리하세요</p>
             </div>
-            <div class="device-list" id="deviceList"></div>
+            <button class="device-btn" onclick="autoDetectDevice()" style="justify-content:center;border-color:#667eea;background:linear-gradient(135deg,#667eea,#764ba2);padding:18px;">
+                <span class="name" style="color:#fff;font-size:18px;">🚀 시작하기</span>
+            </button>
         </div>
     </div>
 
@@ -281,7 +282,6 @@
                 <div class="header-actions">
                     <span class="saving" id="savingIndicator" style="display:none;">저장중...</span>
                     <button class="icon-btn" id="darkModeBtn">🌙</button>
-                    <button class="text-btn" id="changeDeviceBtn">기기변경</button>
                 </div>
             </div>
         </header>
@@ -501,7 +501,6 @@
         function setupEventListeners() {
             document.querySelectorAll('.tab-btn, .nav-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
             document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
-            document.getElementById('changeDeviceBtn').addEventListener('click', changeDevice);
             document.querySelectorAll('#addForm .type-btn').forEach(b => b.addEventListener('click', () => {
                 state.formType = b.dataset.type;
                 document.querySelectorAll('#addForm .type-btn').forEach(x => x.classList.remove('active'));
