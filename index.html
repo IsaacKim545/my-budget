@@ -190,6 +190,33 @@
         .stats-cat-bar { width: 100%; height: 6px; background: var(--bdr); border-radius: 3px; margin-top: 4px; overflow: hidden; }
         .stats-cat-bar-fill { height: 100%; border-radius: 3px; }
         .stats-total-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; margin-top: 4px; border-top: 2px solid var(--bdr); font-weight: 700; font-size: 15px; }
+        .stats-cat-row.expandable { cursor: pointer; transition: background 0.15s; border-radius: 8px; padding: 12px 8px; margin: 0 -8px; }
+        .stats-cat-row.expandable:hover { background: var(--bg); }
+        .stats-cat-toggle { font-size: 12px; color: var(--txt2); margin-left: 4px; transition: transform 0.2s; display: inline-block; }
+        .stats-cat-toggle.open { transform: rotate(90deg); }
+        .stats-sub-list { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
+        .stats-sub-list.open { max-height: 1000px; }
+        .stats-sub-row { display: flex; align-items: center; padding: 8px 0 8px 46px; gap: 10px; border-bottom: 1px dashed var(--bdr); font-size: 13px; }
+        .stats-sub-row:last-child { border-bottom: none; }
+        .stats-sub-name { flex: 1; color: var(--txt2); }
+        .stats-sub-bar { width: 60px; height: 4px; background: var(--bdr); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+        .stats-sub-bar-fill { height: 100%; border-radius: 2px; }
+        .stats-sub-info { text-align: right; min-width: 80px; }
+        .stats-sub-amount { font-weight: 600; font-size: 13px; }
+        .stats-sub-pct { font-size: 10px; color: var(--txt2); }
+        .stats-tx-list { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
+        .stats-tx-list.open { max-height: 5000px; }
+        .stats-tx-item { display: flex; align-items: center; padding: 10px 12px; margin: 4px 0; background: var(--bg); border-radius: 10px; gap: 10px; font-size: 13px; }
+        .stats-tx-item .tx-date { font-size: 12px; color: var(--txt2); min-width: 50px; flex-shrink: 0; }
+        .stats-tx-item .tx-sub { font-size: 11px; color: var(--txt2); background: var(--card); padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
+        .stats-tx-item .tx-memo { flex: 1; color: var(--txt2); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .stats-tx-item .tx-amt { font-weight: 700; white-space: nowrap; }
+        .stats-tx-item .tx-amt.expense { color: var(--exp); }
+        .stats-tx-item .tx-amt.income { color: var(--inc); }
+        .stats-sub-row.expandable, .stats-month-row.expandable { cursor: pointer; border-radius: 8px; padding: 8px; margin: 0 -8px; transition: background 0.15s; }
+        .stats-sub-row.expandable:hover, .stats-month-row.expandable:hover { background: var(--bg); }
+        .stats-detail-toggle { font-size: 11px; color: var(--txt2); transition: transform 0.2s; display: inline-block; margin-right: 4px; }
+        .stats-detail-toggle.open { transform: rotate(90deg); }
         .stats-month-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--bdr); gap: 12px; }
         .stats-month-row:last-child { border-bottom: none; }
         .stats-month-label { width: 70px; font-size: 14px; font-weight: 600; flex-shrink: 0; }
@@ -308,6 +335,7 @@
                         </div>
                         <div class="form-group"><label class="form-label" id="labelDate">날짜</label><div class="date-wrapper"><input type="date" id="formDate" class="form-input" required></div></div>
                         <div class="form-group"><label class="form-label" id="labelCategory">카테고리</label><select id="formCategory" class="form-select" required></select></div>
+                        <div class="form-group"><label class="form-label" id="labelSubCategory">세부항목</label><select id="formSubCategory" class="form-select"></select></div>
                         <div class="form-group"><label class="form-label" id="labelAmount">금액</label><input type="text" id="formAmount" class="form-input" inputmode="numeric" placeholder="0" required></div>
                         <div class="form-group"><label class="form-label" id="labelMemo">메모 (선택)</label><input type="text" id="formMemo" class="form-input" maxlength="100"></div>
                         <button type="submit" class="submit-btn" id="submitBtn">추가하기</button>
@@ -428,6 +456,7 @@
                 </div>
                 <div class="form-group"><label class="form-label" id="editLabelDate">날짜</label><div class="date-wrapper"><input type="date" id="editDate" class="form-input"></div></div>
                 <div class="form-group"><label class="form-label" id="editLabelCategory">카테고리</label><select id="editCategory" class="form-select"></select></div>
+                <div class="form-group"><label class="form-label" id="editLabelSubCategory">세부항목</label><select id="editSubCategory" class="form-select"></select></div>
                 <div class="form-group"><label class="form-label" id="editLabelAmount">금액</label><input type="text" id="editAmount" class="form-input" inputmode="numeric"></div>
                 <div class="form-group"><label class="form-label" id="editLabelMemo">메모</label><input type="text" id="editMemo" class="form-input" maxlength="100"></div>
             </div>
@@ -507,7 +536,25 @@
                     { id:'fixed', name:'고정지출', icon:'🏠' }, { id:'medical', name:'의료비', icon:'💊' },
                     { id:'living', name:'생활/쇼핑', icon:'🛒' }, { id:'selfdev', name:'자기계발', icon:'📖' },
                     { id:'social', name:'경조/용돈', icon:'🎀' }, { id:'other', name:'기타', icon:'➕' }
-                ]
+                ],
+                subCatExpense: {
+                    food: [ {id:'eating_out',name:'외식'}, {id:'delivery',name:'배달'}, {id:'grocery',name:'장보기'}, {id:'snack',name:'간식/음료'}, {id:'other',name:'기타'} ],
+                    transport: [ {id:'public',name:'대중교통'}, {id:'taxi',name:'택시'}, {id:'fuel',name:'주유'}, {id:'parking',name:'주차'}, {id:'other',name:'기타'} ],
+                    fixed: [ {id:'rent',name:'월세/관리비'}, {id:'telecom',name:'통신비'}, {id:'subscription',name:'구독료'}, {id:'insurance',name:'보험료'}, {id:'other',name:'기타'} ],
+                    medical: [ {id:'hospital',name:'병원'}, {id:'pharmacy',name:'약국'}, {id:'checkup',name:'건강검진'}, {id:'other',name:'기타'} ],
+                    living: [ {id:'clothing',name:'의류'}, {id:'supplies',name:'생활용품'}, {id:'electronics',name:'가전/가구'}, {id:'beauty',name:'미용'}, {id:'other',name:'기타'} ],
+                    selfdev: [ {id:'education',name:'교육/학원'}, {id:'books',name:'도서'}, {id:'exercise',name:'운동'}, {id:'other',name:'기타'} ],
+                    social: [ {id:'ceremony',name:'경조사'}, {id:'gift',name:'선물'}, {id:'gathering',name:'모임/회식'}, {id:'other',name:'기타'} ],
+                    other: [ {id:'other',name:'기타'} ]
+                },
+                subCatIncome: {
+                    salary: [ {id:'monthly',name:'월급'}, {id:'bonus',name:'상여금'}, {id:'other',name:'기타'} ],
+                    sideIncome: [ {id:'freelance',name:'프리랜서'}, {id:'parttime',name:'알바'}, {id:'other',name:'기타'} ],
+                    allowance: [ {id:'parents',name:'부모님'}, {id:'spouse',name:'배우자'}, {id:'other',name:'기타'} ],
+                    investment: [ {id:'stock',name:'주식'}, {id:'interest',name:'이자'}, {id:'dividend',name:'배당'}, {id:'other',name:'기타'} ],
+                    other: [ {id:'other',name:'기타'} ]
+                },
+                labelSubCategory: '세부항목'
             },
             en: {
                 appTitle: 'My Budget',
@@ -562,7 +609,25 @@
                     { id:'fixed', name:'Fixed Costs', icon:'🏠' }, { id:'medical', name:'Medical', icon:'💊' },
                     { id:'living', name:'Living/Shopping', icon:'🛒' }, { id:'selfdev', name:'Self-dev', icon:'📖' },
                     { id:'social', name:'Social/Gifts', icon:'🎀' }, { id:'other', name:'Other', icon:'➕' }
-                ]
+                ],
+                subCatExpense: {
+                    food: [ {id:'eating_out',name:'Eating Out'}, {id:'delivery',name:'Delivery'}, {id:'grocery',name:'Grocery'}, {id:'snack',name:'Snack/Drink'}, {id:'other',name:'Other'} ],
+                    transport: [ {id:'public',name:'Public Transit'}, {id:'taxi',name:'Taxi'}, {id:'fuel',name:'Fuel'}, {id:'parking',name:'Parking'}, {id:'other',name:'Other'} ],
+                    fixed: [ {id:'rent',name:'Rent/Maintenance'}, {id:'telecom',name:'Telecom'}, {id:'subscription',name:'Subscription'}, {id:'insurance',name:'Insurance'}, {id:'other',name:'Other'} ],
+                    medical: [ {id:'hospital',name:'Hospital'}, {id:'pharmacy',name:'Pharmacy'}, {id:'checkup',name:'Checkup'}, {id:'other',name:'Other'} ],
+                    living: [ {id:'clothing',name:'Clothing'}, {id:'supplies',name:'Supplies'}, {id:'electronics',name:'Electronics'}, {id:'beauty',name:'Beauty'}, {id:'other',name:'Other'} ],
+                    selfdev: [ {id:'education',name:'Education'}, {id:'books',name:'Books'}, {id:'exercise',name:'Exercise'}, {id:'other',name:'Other'} ],
+                    social: [ {id:'ceremony',name:'Ceremony'}, {id:'gift',name:'Gift'}, {id:'gathering',name:'Gathering'}, {id:'other',name:'Other'} ],
+                    other: [ {id:'other',name:'Other'} ]
+                },
+                subCatIncome: {
+                    salary: [ {id:'monthly',name:'Monthly'}, {id:'bonus',name:'Bonus'}, {id:'other',name:'Other'} ],
+                    sideIncome: [ {id:'freelance',name:'Freelance'}, {id:'parttime',name:'Part-time'}, {id:'other',name:'Other'} ],
+                    allowance: [ {id:'parents',name:'Parents'}, {id:'spouse',name:'Spouse'}, {id:'other',name:'Other'} ],
+                    investment: [ {id:'stock',name:'Stock'}, {id:'interest',name:'Interest'}, {id:'dividend',name:'Dividend'}, {id:'other',name:'Other'} ],
+                    other: [ {id:'other',name:'Other'} ]
+                },
+                labelSubCategory: 'Subcategory'
             }
         };
 
@@ -582,6 +647,8 @@
         function t(key) { return LANG[state.lang][key]; }
         function cats(type) { return type === 'income' ? t('catIncome') : t('catExpense'); }
         function getCatInfo(type, id) { const c = cats(type); return c.find(x => x.id === id) || c[c.length-1]; }
+        function subCats(type, catId) { const sc = type === 'income' ? t('subCatIncome') : t('subCatExpense'); return sc[catId] || [{id:'other', name: state.lang==='ko'?'기타':'Other'}]; }
+        function getSubCatInfo(type, catId, subId) { const sc = subCats(type, catId); return sc.find(x => x.id === subId) || sc[sc.length-1]; }
 
         function formatCurrency(n) {
             const abs = Math.abs(n).toLocaleString('ko-KR');
@@ -624,6 +691,7 @@
             setText('labelType', t('labelType'));
             setText('labelDate', t('labelDate'));
             setText('labelCategory', t('labelCategory'));
+            setText('labelSubCategory', t('labelSubCategory'));
             setText('labelAmount', t('labelAmount'));
             setText('labelMemo', t('labelMemo'));
             setText('btnIncome', t('income'));
@@ -642,6 +710,7 @@
             setText('editLabelType', t('labelType'));
             setText('editLabelDate', t('labelDate'));
             setText('editLabelCategory', t('labelCategory'));
+            setText('editLabelSubCategory', t('labelSubCategory'));
             setText('editLabelAmount', t('labelAmount'));
             setText('editLabelMemo', t('editLabelMemo'));
             setText('editBtnIncome', t('income'));
@@ -753,7 +822,16 @@
                 b.classList.add('active');
                 updateCategoryOptions(state.formType, 'formCategory');
             }));
+            document.querySelectorAll('#editTypeToggle .type-btn').forEach(b => b.addEventListener('click', () => {
+                document.querySelectorAll('#editTypeToggle .type-btn').forEach(x => x.classList.remove('active'));
+                b.classList.add('active'); updateCategoryOptions(b.dataset.type, 'editCategory');
+            }));
             document.getElementById('addForm').addEventListener('submit', handleSubmit);
+            document.getElementById('formCategory').addEventListener('change', e => updateSubCategoryOptions(state.formType, e.target.value, 'formSubCategory'));
+            document.getElementById('editCategory').addEventListener('change', e => {
+                const type = document.querySelector('#editTypeToggle .type-btn.active').dataset.type;
+                updateSubCategoryOptions(type, e.target.value, 'editSubCategory');
+            });
             document.getElementById('formAmount').addEventListener('input', e => e.target.value = formatAmountInput(e.target.value));
             document.getElementById('editAmount').addEventListener('input', e => e.target.value = formatAmountInput(e.target.value));
             document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', () => {
@@ -775,10 +853,6 @@
                 updateStatsCatOptions();
                 renderStatsCat();
             }));
-            document.querySelectorAll('#editTypeToggle .type-btn').forEach(b => b.addEventListener('click', () => {
-                document.querySelectorAll('#editTypeToggle .type-btn').forEach(x => x.classList.remove('active'));
-                b.classList.add('active'); updateCategoryOptions(b.dataset.type, 'editCategory');
-            }));
         }
 
         function switchTab(tab) {
@@ -796,6 +870,15 @@
 
         function updateCategoryOptions(type, id) {
             document.getElementById(id).innerHTML = cats(type).map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`).join('');
+            // 서브카테고리도 업데이트
+            const subId = id === 'formCategory' ? 'formSubCategory' : 'editSubCategory';
+            const firstCat = cats(type)[0];
+            if (firstCat) updateSubCategoryOptions(type, firstCat.id, subId);
+        }
+        function updateSubCategoryOptions(type, catId, subSelectId) {
+            const sel = document.getElementById(subSelectId);
+            if (!sel) return;
+            sel.innerHTML = subCats(type, catId).map(sc => `<option value="${sc.id}">${sc.name}</option>`).join('');
         }
 
         function showToast(msg, type='success') {
@@ -807,6 +890,35 @@
         }
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        function toggleSubList(id, rowEl) {
+            const el = document.getElementById(id);
+            const toggle = document.getElementById('toggle_' + id);
+            if (!el) return;
+            el.classList.toggle('open');
+            if (toggle) toggle.classList.toggle('open');
+        }
+        function toggleTxList(id) {
+            const el = document.getElementById(id);
+            const toggle = document.getElementById('toggle_' + id);
+            if (!el) return;
+            el.classList.toggle('open');
+            if (toggle) toggle.classList.toggle('open');
+        }
+        function renderTxItems(txs, type) {
+            return txs.sort((a,b) => new Date(b.date)-new Date(a.date)).map(x => {
+                const sc = x.subCategory ? getSubCatInfo(x.type, x.category, x.subCategory) : null;
+                const subLabel = sc && sc.id !== 'other' ? `<span class="tx-sub">${sc.name}</span>` : '';
+                const d = new Date(x.date);
+                const dateStr = state.lang==='ko' ? `${d.getMonth()+1}/${d.getDate()}` : `${d.getMonth()+1}/${d.getDate()}`;
+                const sign = type === 'expense' ? '-' : '+';
+                return `<div class="stats-tx-item">
+                    <span class="tx-date">${dateStr}</span>
+                    ${subLabel}
+                    <span class="tx-memo">${x.memo||''}</span>
+                    <span class="tx-amt ${type}">${sign}${formatCurrency(x.amount)}</span>
+                </div>`;
+            }).join('');
+        }
 
         function formatDateLocal(dateStr) {
             const d = new Date(dateStr);
@@ -818,7 +930,7 @@
             e.preventDefault();
             const amt = parseAmount(document.getElementById('formAmount').value);
             if (!amt) { showToast(t('toastAmountError'), 'error'); return; }
-            state.transactions.push({ id: Date.now().toString(36)+Math.random().toString(36).substr(2), type: state.formType, date: document.getElementById('formDate').value, category: document.getElementById('formCategory').value, amount: amt, memo: document.getElementById('formMemo').value.trim() });
+            state.transactions.push({ id: Date.now().toString(36)+Math.random().toString(36).substr(2), type: state.formType, date: document.getElementById('formDate').value, category: document.getElementById('formCategory').value, subCategory: document.getElementById('formSubCategory').value, amount: amt, memo: document.getElementById('formMemo').value.trim() });
             saveData();
             document.getElementById('formAmount').value = '';
             document.getElementById('formMemo').value = '';
@@ -834,6 +946,8 @@
             updateCategoryOptions(tx.type, 'editCategory');
             document.getElementById('editDate').value = tx.date;
             document.getElementById('editCategory').value = tx.category;
+            updateSubCategoryOptions(tx.type, tx.category, 'editSubCategory');
+            if (tx.subCategory) document.getElementById('editSubCategory').value = tx.subCategory;
             document.getElementById('editAmount').value = tx.amount.toLocaleString('ko-KR');
             document.getElementById('editMemo').value = tx.memo || '';
             openModal('editModal');
@@ -843,7 +957,7 @@
             const amt = parseAmount(document.getElementById('editAmount').value);
             if (!amt) { showToast(t('toastAmountError'), 'error'); return; }
             const type = document.querySelector('#editTypeToggle .type-btn.active').dataset.type;
-            state.transactions = state.transactions.map(x => x.id === state.editingId ? { ...x, type, date: document.getElementById('editDate').value, category: document.getElementById('editCategory').value, amount: amt, memo: document.getElementById('editMemo').value.trim() } : x);
+            state.transactions = state.transactions.map(x => x.id === state.editingId ? { ...x, type, date: document.getElementById('editDate').value, category: document.getElementById('editCategory').value, subCategory: document.getElementById('editSubCategory').value, amount: amt, memo: document.getElementById('editMemo').value.trim() } : x);
             saveData(); closeModal('editModal'); showToast(t('toastEdited')); renderAll();
         }
 
@@ -883,7 +997,9 @@
             else {
                 rt.innerHTML = [...state.transactions].sort((a,b) => new Date(b.date)-new Date(a.date)).slice(0,5).map(x => {
                     const c = getCatInfo(x.type, x.category);
-                    return `<div class="tx-item ${x.type}"><div class="tx-icon">${c.icon}</div><div class="tx-details"><div class="tx-category">${c.name}</div><div class="tx-meta">${new Date(x.date).toLocaleDateString(state.lang==='ko'?'ko-KR':'en-US')}</div></div><div class="tx-amount">${x.type==='income'?'+':'-'}${formatCurrency(x.amount)}</div></div>`;
+                    const sc = x.subCategory ? getSubCatInfo(x.type, x.category, x.subCategory) : null;
+                    const subLabel = sc && sc.id !== 'other' ? ` · ${sc.name}` : '';
+                    return `<div class="tx-item ${x.type}"><div class="tx-icon">${c.icon}</div><div class="tx-details"><div class="tx-category">${c.name}${subLabel}</div><div class="tx-meta">${new Date(x.date).toLocaleDateString(state.lang==='ko'?'ko-KR':'en-US')}</div></div><div class="tx-amount">${x.type==='income'?'+':'-'}${formatCurrency(x.amount)}</div></div>`;
                 }).join('');
             }
         }
@@ -947,7 +1063,9 @@
 
                 dayTx.forEach(x => {
                     const c = getCatInfo(x.type, x.category);
-                    html += `<div class="tx-item ${x.type}"><div class="tx-icon">${c.icon}</div><div class="tx-details"><div class="tx-category">${c.name}</div><div class="tx-meta">${x.memo||''}</div></div><div class="tx-amount">${x.type==='income'?'+':'-'}${formatCurrency(x.amount)}</div><div class="tx-actions"><button onclick="openEdit('${x.id}')">✏️</button><button class="delete-btn" onclick="openDelete('${x.id}')">🗑️</button></div></div>`;
+                    const sc = x.subCategory ? getSubCatInfo(x.type, x.category, x.subCategory) : null;
+                    const subLabel = sc && sc.id !== 'other' ? ` · ${sc.name}` : '';
+                    html += `<div class="tx-item ${x.type}"><div class="tx-icon">${c.icon}</div><div class="tx-details"><div class="tx-category">${c.name}${subLabel}</div><div class="tx-meta">${x.memo||''}</div></div><div class="tx-amount">${x.type==='income'?'+':'-'}${formatCurrency(x.amount)}</div><div class="tx-actions"><button onclick="openEdit('${x.id}')">✏️</button><button class="delete-btn" onclick="openDelete('${x.id}')">🗑️</button></div></div>`;
                 });
                 html += '</div>';
             });
@@ -1076,50 +1194,102 @@
 
             let html = '';
 
-            // Expense categories
+            // Expense categories with subcategories
             const expData = {};
             filtered.filter(x => x.type==='expense').forEach(x => {
                 const c = getCatInfo('expense', x.category);
                 const k = c.id;
-                if (!expData[k]) expData[k] = { name: c.name, icon: c.icon, amount: 0 };
+                if (!expData[k]) expData[k] = { name: c.name, icon: c.icon, amount: 0, subs: {}, txs: [] };
                 expData[k].amount += x.amount;
+                expData[k].txs.push(x);
+                const subId = x.subCategory || 'other';
+                const sc = getSubCatInfo('expense', x.category, subId);
+                if (!expData[k].subs[subId]) expData[k].subs[subId] = { name: sc.name, amount: 0, txs: [] };
+                expData[k].subs[subId].amount += x.amount;
+                expData[k].subs[subId].txs.push(x);
             });
 
             if (Object.keys(expData).length) {
                 const expTotal = Object.values(expData).reduce((s,v) => s+v.amount, 0);
-                const expSorted = Object.values(expData).sort((a,b) => b.amount - a.amount);
+                const expSorted = Object.entries(expData).sort((a,b) => b[1].amount - a[1].amount);
                 html += `<div class="stats-cat-section"><div class="stats-cat-title">${t('statsExpCat')}</div>`;
-                expSorted.forEach((c,i) => {
+                expSorted.forEach(([catId, c],i) => {
                     const pct = ((c.amount/expTotal)*100).toFixed(1);
-                    html += `<div class="stats-cat-row expense">
+                    const toggleId = `exp_sub_${catId}`;
+                    html += `<div class="stats-cat-row expense expandable" onclick="toggleSubList('${toggleId}', this)">
                         <div class="stats-cat-icon">${c.icon}</div>
-                        <div class="stats-cat-name">${c.name}<div class="stats-cat-bar"><div class="stats-cat-bar-fill" style="width:${pct}%;background:${COLORS[i%COLORS.length]}"></div></div></div>
+                        <div class="stats-cat-name">${c.name}<span class="stats-cat-toggle" id="toggle_${toggleId}">▶</span><div class="stats-cat-bar"><div class="stats-cat-bar-fill" style="width:${pct}%;background:${COLORS[i%COLORS.length]}"></div></div></div>
                         <div class="stats-cat-info"><div class="stats-cat-amount">-${formatCurrency(c.amount)}</div><div class="stats-cat-pct">${pct}%</div></div>
                     </div>`;
+                    const hasMultipleSubs = Object.keys(c.subs).length > 1;
+                    html += `<div class="stats-sub-list" id="${toggleId}">`;
+                    if (hasMultipleSubs) {
+                        const subsSorted = Object.entries(c.subs).sort((a,b) => b[1].amount - a[1].amount);
+                        subsSorted.forEach(([subId, sc], si) => {
+                            const subPct = ((sc.amount/c.amount)*100).toFixed(1);
+                            const txToggleId = `exp_tx_${catId}_${subId}`;
+                            html += `<div class="stats-sub-row expandable" onclick="event.stopPropagation();toggleTxList('${txToggleId}')">
+                                <span class="stats-detail-toggle" id="toggle_${txToggleId}">▶</span>
+                                <div class="stats-sub-name">${sc.name}</div>
+                                <div class="stats-sub-bar"><div class="stats-sub-bar-fill" style="width:${subPct}%;background:${COLORS[i%COLORS.length]}"></div></div>
+                                <div class="stats-sub-info"><div class="stats-sub-amount" style="color:var(--exp)">-${formatCurrency(sc.amount)}</div><div class="stats-sub-pct">${subPct}%</div></div>
+                            </div>`;
+                            html += `<div class="stats-tx-list" id="${txToggleId}">${renderTxItems(sc.txs, 'expense')}</div>`;
+                        });
+                    } else {
+                        html += renderTxItems(c.txs, 'expense');
+                    }
+                    html += `</div>`;
                 });
                 html += `<div class="stats-total-row"><span>${t('statsTotal')}</span><span style="color:var(--exp)">-${formatCurrency(expTotal)}</span></div></div>`;
             }
 
-            // Income categories
+            // Income categories with subcategories
             const incData = {};
             filtered.filter(x => x.type==='income').forEach(x => {
                 const c = getCatInfo('income', x.category);
                 const k = c.id;
-                if (!incData[k]) incData[k] = { name: c.name, icon: c.icon, amount: 0 };
+                if (!incData[k]) incData[k] = { name: c.name, icon: c.icon, amount: 0, subs: {}, txs: [] };
                 incData[k].amount += x.amount;
+                incData[k].txs.push(x);
+                const subId = x.subCategory || 'other';
+                const sc = getSubCatInfo('income', x.category, subId);
+                if (!incData[k].subs[subId]) incData[k].subs[subId] = { name: sc.name, amount: 0, txs: [] };
+                incData[k].subs[subId].amount += x.amount;
+                incData[k].subs[subId].txs.push(x);
             });
 
             if (Object.keys(incData).length) {
                 const incTotal = Object.values(incData).reduce((s,v) => s+v.amount, 0);
-                const incSorted = Object.values(incData).sort((a,b) => b.amount - a.amount);
+                const incSorted = Object.entries(incData).sort((a,b) => b[1].amount - a[1].amount);
                 html += `<div class="stats-cat-section"><div class="stats-cat-title">${t('statsIncCat')}</div>`;
-                incSorted.forEach((c,i) => {
+                incSorted.forEach(([catId, c],i) => {
                     const pct = ((c.amount/incTotal)*100).toFixed(1);
-                    html += `<div class="stats-cat-row income">
+                    const toggleId = `inc_sub_${catId}`;
+                    html += `<div class="stats-cat-row income expandable" onclick="toggleSubList('${toggleId}', this)">
                         <div class="stats-cat-icon">${c.icon}</div>
-                        <div class="stats-cat-name">${c.name}<div class="stats-cat-bar"><div class="stats-cat-bar-fill" style="width:${pct}%;background:${COLORS[(i+4)%COLORS.length]}"></div></div></div>
+                        <div class="stats-cat-name">${c.name}<span class="stats-cat-toggle" id="toggle_${toggleId}">▶</span><div class="stats-cat-bar"><div class="stats-cat-bar-fill" style="width:${pct}%;background:${COLORS[(i+4)%COLORS.length]}"></div></div></div>
                         <div class="stats-cat-info"><div class="stats-cat-amount">+${formatCurrency(c.amount)}</div><div class="stats-cat-pct">${pct}%</div></div>
                     </div>`;
+                    const hasMultipleSubs = Object.keys(c.subs).length > 1;
+                    html += `<div class="stats-sub-list" id="${toggleId}">`;
+                    if (hasMultipleSubs) {
+                        const subsSorted = Object.entries(c.subs).sort((a,b) => b[1].amount - a[1].amount);
+                        subsSorted.forEach(([subId, sc], si) => {
+                            const subPct = ((sc.amount/c.amount)*100).toFixed(1);
+                            const txToggleId = `inc_tx_${catId}_${subId}`;
+                            html += `<div class="stats-sub-row expandable" onclick="event.stopPropagation();toggleTxList('${txToggleId}')">
+                                <span class="stats-detail-toggle" id="toggle_${txToggleId}">▶</span>
+                                <div class="stats-sub-name">${sc.name}</div>
+                                <div class="stats-sub-bar"><div class="stats-sub-bar-fill" style="width:${subPct}%;background:${COLORS[(i+4)%COLORS.length]}"></div></div>
+                                <div class="stats-sub-info"><div class="stats-sub-amount" style="color:var(--inc)">+${formatCurrency(sc.amount)}</div><div class="stats-sub-pct">${subPct}%</div></div>
+                            </div>`;
+                            html += `<div class="stats-tx-list" id="${txToggleId}">${renderTxItems(sc.txs, 'income')}</div>`;
+                        });
+                    } else {
+                        html += renderTxItems(c.txs, 'income');
+                    }
+                    html += `</div>`;
                 });
                 html += `<div class="stats-total-row"><span>${t('statsTotal')}</span><span style="color:var(--inc)">+${formatCurrency(incTotal)}</span></div></div>`;
             }
@@ -1147,33 +1317,72 @@
                 return;
             }
 
-            // Group by month
+            // Group by month with transactions
             const monthly = {};
             filtered.forEach(x => {
-                const key = x.date.substring(0, 7); // YYYY-MM
-                monthly[key] = (monthly[key] || 0) + x.amount;
+                const key = x.date.substring(0, 7);
+                if (!monthly[key]) monthly[key] = { amount: 0, txs: [] };
+                monthly[key].amount += x.amount;
+                monthly[key].txs.push(x);
             });
 
             const sortedMonths = Object.keys(monthly).sort();
-            const maxAmt = Math.max(...Object.values(monthly));
-            const total = Object.values(monthly).reduce((s,v) => s+v, 0);
+            const maxAmt = Math.max(...Object.values(monthly).map(m => m.amount));
+            const total = Object.values(monthly).reduce((s,v) => s+v.amount, 0);
             const c = getCatInfo(type, catId);
-
-            let html = '';
-            sortedMonths.forEach(m => {
-                const [y, mo] = m.split('-');
-                const label = state.lang === 'ko' ? `${parseInt(y)}년 ${parseInt(mo)}월` : `${parseInt(mo)}/${y}`;
-                const pct = maxAmt > 0 ? ((monthly[m] / maxAmt) * 100).toFixed(0) : 0;
-                const sign = type === 'expense' ? '-' : '+';
-                html += `<div class="stats-month-row">
-                    <div class="stats-month-label">${label}</div>
-                    <div class="stats-month-bar-wrap"><div class="stats-month-bar ${type}" style="width:${Math.max(pct, 3)}%"><span>${pct}%</span></div></div>
-                    <div class="stats-month-amount ${type}">${sign}${formatCurrency(monthly[m])}</div>
-                </div>`;
-            });
-
             const sign = type === 'expense' ? '-' : '+';
             const color = type === 'expense' ? 'var(--exp)' : 'var(--inc)';
+
+            // Subcategory breakdown with transactions
+            const subData = {};
+            filtered.forEach(x => {
+                const subId = x.subCategory || 'other';
+                const sc = getSubCatInfo(type, catId, subId);
+                if (!subData[subId]) subData[subId] = { name: sc.name, amount: 0, txs: [] };
+                subData[subId].amount += x.amount;
+                subData[subId].txs.push(x);
+            });
+
+            let html = '';
+            if (Object.keys(subData).length > 1) {
+                const subSorted = Object.entries(subData).sort((a,b) => b[1].amount - a[1].amount);
+                const subLabel = state.lang === 'ko' ? '세부항목별' : 'By Subcategory';
+                html += `<div class="stats-cat-section" style="margin-bottom:24px;"><div class="stats-cat-title">${c.icon} ${subLabel}</div>`;
+                subSorted.forEach(([subId, sc], i) => {
+                    const subPct = ((sc.amount / total) * 100).toFixed(1);
+                    const txToggleId = `statcat_sub_${catId}_${subId}`;
+                    html += `<div class="stats-sub-row expandable" style="padding-left:0;" onclick="toggleTxList('${txToggleId}')">
+                        <span class="stats-detail-toggle" id="toggle_${txToggleId}">▶</span>
+                        <div class="stats-sub-name" style="color:var(--txt);font-weight:500;">${sc.name}</div>
+                        <div class="stats-sub-bar" style="width:80px;"><div class="stats-sub-bar-fill" style="width:${subPct}%;background:${COLORS[i%COLORS.length]}"></div></div>
+                        <div class="stats-sub-info"><div class="stats-sub-amount" style="color:${color}">${sign}${formatCurrency(sc.amount)}</div><div class="stats-sub-pct">${subPct}%</div></div>
+                    </div>`;
+                    html += `<div class="stats-tx-list" id="${txToggleId}">${renderTxItems(sc.txs, type)}</div>`;
+                });
+                html += `</div>`;
+            }
+
+            // Monthly title
+            const monthlyLabel = state.lang === 'ko' ? '📅 월별 추이' : '📅 Monthly Trend';
+            html += `<div class="stats-cat-section"><div class="stats-cat-title">${monthlyLabel}</div>`;
+
+            // Group by month
+            sortedMonths.forEach((m, mi) => {
+                const [y, mo] = m.split('-');
+                const label = state.lang === 'ko' ? `${parseInt(y)}년 ${parseInt(mo)}월` : `${parseInt(mo)}/${y}`;
+                const pct = maxAmt > 0 ? ((monthly[m].amount / maxAmt) * 100).toFixed(0) : 0;
+                const txToggleId = `statcat_month_${m.replace('-','_')}`;
+                html += `<div class="stats-month-row expandable" onclick="toggleTxList('${txToggleId}')" style="cursor:pointer;">
+                    <span class="stats-detail-toggle" id="toggle_${txToggleId}">▶</span>
+                    <div class="stats-month-label">${label}</div>
+                    <div class="stats-month-bar-wrap"><div class="stats-month-bar ${type}" style="width:${Math.max(pct, 3)}%"><span>${pct}%</span></div></div>
+                    <div class="stats-month-amount ${type}">${sign}${formatCurrency(monthly[m].amount)}</div>
+                </div>`;
+                html += `<div class="stats-tx-list" id="${txToggleId}">${renderTxItems(monthly[m].txs, type)}</div>`;
+            });
+
+            html += `</div>`;
+
             html += `<div class="stats-detail-total">
                 <div class="stats-detail-total-label">${c.icon} ${t('statsCatTotal')}</div>
                 <div class="stats-detail-total-amount" style="color:${color}">${sign}${formatCurrency(total)}</div>
